@@ -1,12 +1,12 @@
 # Validation Ideas (PoC)
 
-Dashboard for the nightly startup-research pipeline (scout 00:30 → analyst 03:00 → builder 04:30 → brief 07:30).
+Dashboard for a nightly idea scout (scout 00:30 → analyst 03:00 → builder 04:30 → brief 07:30).
 Next.js 15 (App Router) + TypeScript + Tailwind v4, static export.
 
-**100% mock data.** `lib/mock/*` is reshaped from real pipeline output (pains.json, us/*.jsonl, the briefs) but the app never
-reads the pipeline at build or run time. No real ads, payments, checkout or emails: "Start for $X/month" and "Join waitlist"
-are previews, the ad kit is copy-and-paste, and validation results are simulated. State lives in localStorage (`vi:*` keys);
-use "Reset demo" in the footer to clear it.
+**100% fictional mock data.** `lib/mock/*` holds the original mock set (InvoiceChaser, RestockRadar, NoShow Guard,
+StandupBot Lite, SubSnitch and their runner-ups across 5 scout runs). No real ads, payments, checkout or emails:
+"Start for €X/month" and "Join waitlist" are previews, the ad kit is copy-and-paste, and validation results are simulated.
+State lives in localStorage (`vi:*` keys); use "Reset demo" in the footer to clear it.
 
 ```bash
 npm install
@@ -16,10 +16,10 @@ npm start            # serves ./out on http://localhost:4180
 ```
 
 Routes:
-- `/` Ideas board: last-night card, stats, ideas **By night** (timeline, default) or **By outcome** (winner / near-miss / killed / below bar). Old Germany pains p-001–p-071 sit behind a filter.
-- `/idea/[painId]/` tabs `#evidence | #validate | #report` (`#scout` → `#evidence`, `#page` → Validate's landing preview). Validate/Report are for winners only; DinnerList (p-072) is a clearly labelled simulated winner.
-- `/nights/` night runs, week-over-week cluster growth, pitched ideas.
+- `/` Ideas board: last-night card, stats, ideas **By night** (timeline, default) or **By outcome** (winner / near-miss / killed / below bar).
+- `/idea/[id]/` tabs `#evidence | #validate | #report` (`#scout` → `#evidence`, `#page` → Validate's landing preview). Validate/Report exist only for each run's top pick.
+- `/nights/` scout runs, top picks and their tests, week-over-week signal growth.
 
-Rules (`lib/types.ts` `RULES`, `lib/verdict.ts`): score /25, bar 18, near-miss 15–17; verdict derived from score + gates + competitor veto
-(pains.json `status` is ignored). Fake-door verdict: < 100 visitors = not enough traffic, price-click rate > 3% strong, < 1% kill, else inconclusive.
-Product prices are USD; ad budgets EUR 30–50 per idea.
+Rules (`lib/types.ts` `RULES`, `lib/verdict.ts`): score /100, bar 75, near-miss 60–74; verdict derived from score + gates + competitor veto,
+and a finished test with a "Kill" result kills the idea. Fake-door verdict: < 100 visitors = not enough traffic, price-click rate > 3% strong,
+< 1% kill, else inconclusive. Prices and ad budgets are EUR.
