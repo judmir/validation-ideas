@@ -19,13 +19,17 @@ export default function Home() {
       line: `${n.scout.complaints} complaints + ${n.scout.provenModels} proven models · ${n.niches.join(" + ")}${n.builder.winnerPainId ? "" : " · no winner"}.`,
       pains: ordered.map((i, k) => ({
         id: i.painId, title: i.name ?? i.label ?? shortDesc(i.description), sub: i.pitch ?? i.who,
-        score: i.scores.total, verdict: i.verdict, veto: i.competitor_veto, demo: !!i.demo, rank: k + 1,
+        score: i.scores.total, verdict: i.verdict, veto: i.competitor_veto, demo: !!i.demo, rank: k + 1, linkable: true,
       })),
     };
   });
   const legacy: LegacyNight[] = LEGACY_NIGHTS.map((n) => ({
     date: n.date, label: n.label, note: n.note,
-    pains: LEGACY.filter((p) => p.night === n.date).sort((a, b) => b.scores.total - a.scores.total).map((p) => ({ id: p.painId, title: p.name ?? shortDesc(p.description), score: p.scores.total, verdict: p.verdict })),
+    // The pitched winner (Fristly) leads its night; then by score.
+    pains: LEGACY.filter((p) => p.night === n.date).sort((a, b) => Number(b.pitched) - Number(a.pitched) || b.scores.total - a.scores.total).map((p, k) => ({
+      id: p.painId, title: p.name ?? shortDesc(p.description), sub: p.who, score: p.scores.total, verdict: p.verdict,
+      veto: false, demo: false, rank: k + 1, linkable: false, pitched: p.pitched,
+    })),
   }));
   const dates = [...new Set([...NIGHTS.map((n) => n.date), ...LEGACY_NIGHTS.map((n) => n.date)])].sort();
   const chart = dates.map((d) => {

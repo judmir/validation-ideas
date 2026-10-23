@@ -285,12 +285,12 @@ export function StatusPill({ stage }: { stage: Stage }) {
   return <Badge color={s.color} pulse={s.pulse}>{s.label}</Badge>;
 }
 /** Three short pills (Scout · Test · Report); the live step glows warm. */
-export function StageMeter({ stage }: { stage: Stage }) {
+export function StageMeter({ stage, dim }: { stage: Stage; dim?: boolean }) {
   const done = { ready: 1, running: 1, report: 3 }[stage];
   return (
     <span className="flex shrink-0 gap-1" role="img" aria-label={`Step ${Math.min(done + 1, 3)} of 3`}>
       {[0, 1, 2].map((i) => (
-        <span key={i} className={`h-1.5 w-5 rounded-full ${i < done ? "bg-accent-light" : stage === "running" && i === 1 ? "animate-pulse bg-warm" : "bg-white/[0.12]"}`} />
+        <span key={i} className={`h-1.5 w-5 rounded-full ${i < done ? (dim ? "bg-zinc-500" : "bg-accent-light") : stage === "running" && i === 1 ? "animate-pulse bg-warm" : "bg-white/[0.12]"}`} />
       ))}
     </span>
   );

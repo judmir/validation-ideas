@@ -10,15 +10,14 @@ import { useSearch } from "./Search";
 import { StageMeter, StatCell, StatusPill } from "./ui";
 import { IconChevronRight } from "./icons";
 
-export type PainRow = { id: string; title: string; sub: string; score: number; verdict: PipelineVerdict; veto: boolean; demo: boolean; rank: number };
+export type PainRow = { id: string; title: string; sub: string; score: number; verdict: PipelineVerdict; veto: boolean; demo: boolean; rank: number; linkable: boolean; pitched?: boolean };
 export type NightMeta = { date: string; label: string | null; line: string; pains: PainRow[] };
-export type LegacyNight = { date: string; label: string; note: string; pains: { id: string; title: string; score: number; verdict: PipelineVerdict }[] };
+export type LegacyNight = { date: string; label: string; note: string; pains: PainRow[] };
 export type TestMeta = { id: string; initial: ValidationState; budgetEur: number };
 export type Stats = { pains: number; runs: number; sinceWinner: number; best: { score: number; id: string }; complaints: number; lastWinner: string };
 
 const localIso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 const signupsTxt = (n: number) => `${int(n)} signup${Math.round(n) === 1 ? "" : "s"}`;
-const VERDICT_TXT: Record<PipelineVerdict, string> = { winner: "Winner", "near-miss": "Near-miss", killed: "Killed", "below-bar": "Below bar" };
 
 /** Minimal home (d889d85 style) on the real pipeline data: stats strip, then the night timeline. */
 export default function ScoutTimeline({ nights, legacy, tests, stats, chart }: {
@@ -59,47 +58,27 @@ export default function ScoutTimeline({ nights, legacy, tests, stats, chart }: {
               const t = testOf(top.id);
               const live = loaded && t?.v.status === "running";
               const sub = n.date === today ? "Today" : weekday(n.date);
-              const rest = pains.filter((x) => x !== top);
               return (
                 <Node key={n.date} date={shortDate(n.date)} sub={live ? `${sub} · live` : n.label ? `${sub} · ${n.label}` : sub} accent={live || sub === "Today"} dot={live ? "running" : i === 0 && !query ? "latest" : "past"} last={i === shown.length - 1 && !legacyShown.length}>
-                  <div className="sm:pt-0.5">
-                    <div className="text-[13px] font-semibold text-zinc-200">Scored {n.pains.length} pains <span className="text-zinc-400">·</span> top <span className="tabular-nums text-zinc-50">{top.score}</span><span className="text-zinc-400">/{RULES.maxScore}</span></div>
-                    <p className="mt-0.5 line-clamp-2 text-[13px] leading-snug text-zinc-400">{n.line}</p>
-                  </div>
-                  <div className="mt-3 space-y-2">
-                    {pains.includes(top) && <TopCard row={top} t={t} loaded={loaded} />}
-                    {rest.length > 0 && (
-                      <ul className="divide-y divide-white/[0.06] overflow-hidden rounded-2xl border border-white/[0.07]">
-                        {rest.map((p) => <li key={p.id}><RunnerUp row={p} /></li>)}
-                      </ul>
-                    )}
-                  </div>
+                  <NightBlock line={n.line} all={n.pains} shown={pains} t={t} loaded={loaded} expandAll={!!query} />
                 </Node>
               );
             })}
             {legacyShown.length > 0 && (
               <Node date="19–22 Oct" sub="Germany" accent={false} dot="past" last>
-                <details className="group rounded-[20px] border border-white/[0.07]" open={!!query}>
+                <details className="group/de rounded-[20px] border border-white/[0.07]" open={!!query}>
                   <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-3.5">
                     <div className="min-w-0 flex-1">
                       <div className="text-[14px] font-semibold text-zinc-200">Earlier Germany runs</div>
                       <div className="text-[12px] text-zinc-400">{legacy.length} nights · {legacyCount} pains (p-001–p-071) · winner Fristly on 19 Oct, later killed</div>
                     </div>
-                    <IconChevronRight size={14} className="shrink-0 text-zinc-400 transition group-open:rotate-90" />
+                    <IconChevronRight size={14} className="shrink-0 text-zinc-400 transition group-open/de:rotate-90" />
                   </summary>
-                  <div className="space-y-4 border-t border-white/[0.06] px-4 py-4">
+                  <div className="space-y-7 border-t border-white/[0.06] px-4 py-5">
                     {legacyShown.map((n) => (
                       <div key={n.date}>
-                        <div className="text-[12px] text-zinc-400"><span className="font-semibold text-zinc-200">{shortDate(n.date)} · {n.label}</span> · {n.note}</div>
-                        <ul className="mt-2 divide-y divide-white/[0.05]">
-                          {n.pains.map((p) => (
-                            <li key={p.id} className="flex items-center gap-3 py-1.5 text-[13px]">
-                              <span className="w-11 shrink-0 text-[11px] font-semibold tabular-nums text-zinc-400">{p.id}</span>
-                              <span className="min-w-0 flex-1 truncate text-zinc-300">{p.title}</span>
-                              <span className="shrink-0 font-semibold tabular-nums text-zinc-300">{p.score}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        <div className="mb-2 text-[12px] font-semibold text-zinc-300">{shortDate(n.date)} <span className="font-medium text-zinc-400">· {n.label}</span></div>
+                        <NightBlock line={n.note} all={legacy.find((l) => l.date === n.date)!.pains} shown={n.pains} t={null} loaded={loaded} expandAll={!!query} />
                       </div>
                     ))}
                   </div>
@@ -149,22 +128,75 @@ function testLine(v: ValidationState, budget: number): ReactNode {
   return "Page ready · test not started";
 }
 
-/** Best pain of the night. Pills only for a winner or the DinnerList simulated demo. */
+/** Night body, same shape everywhere: header + summary, #1 as the TOP PICK card, #2 and #3 as quiet rows, the rest behind "+N more". */
+function NightBlock({ line, all, shown, t, loaded, expandAll }: { line: string; all: PainRow[]; shown: PainRow[]; t: { v: ValidationState; budget: number } | null; loaded: boolean; expandAll: boolean }) {
+  const top = all[0];
+  const rest = shown.filter((x) => x !== top);
+  const near = rest.filter((x) => x.rank <= 3);
+  const more = rest.filter((x) => x.rank > 3);
+  return (
+    <>
+      <div className="sm:pt-0.5">
+        <div className="text-[13px] font-semibold text-zinc-200">Scouted {all.length} pains <span className="text-zinc-400">·</span> top <span className="tabular-nums text-zinc-50">{top.score}</span><span className="text-zinc-400">/{RULES.maxScore}</span></div>
+        <p className="mt-0.5 line-clamp-2 text-[13px] leading-snug text-zinc-400">{line}</p>
+      </div>
+      <div className="mt-3 space-y-2">
+        {shown.includes(top) && <TopCard row={top} t={t} loaded={loaded} />}
+        {(near.length > 0 || more.length > 0) && (
+          <ul className="divide-y divide-white/[0.06] overflow-hidden rounded-2xl border border-white/[0.07]">
+            {near.map((p) => <li key={p.id}><RunnerUp row={p} /></li>)}
+            {more.length > 0 && (
+              <li>
+                <details className="group/more" open={expandAll}>
+                  <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-2.5 text-[12px] font-semibold text-zinc-400 transition-colors hover:bg-white/[0.04] hover:text-zinc-200">
+                    <span className="w-5 shrink-0" aria-hidden />
+                    <span className="min-w-0 flex-1"><span className="group-open/more:hidden">+{more.length} more</span><span className="hidden group-open/more:inline">Hide {more.length}</span></span>
+                    <IconChevronRight size={14} className="shrink-0 transition group-open/more:rotate-90" />
+                  </summary>
+                  <ul className="divide-y divide-white/[0.06] border-t border-white/[0.06]">{more.map((p) => <li key={p.id}><RunnerUp row={p} /></li>)}</ul>
+                </details>
+              </li>
+            )}
+          </ul>
+        )}
+      </div>
+    </>
+  );
+}
+
+const passed = (r: PainRow) => r.demo || r.verdict === "winner";
+function reasonOf(r: PainRow) {
+  if (r.verdict === "killed") return r.veto ? "Killed · competitor veto" : "Killed";
+  if (r.verdict === "near-miss") return `Near-miss · below bar ${RULES.passBar}`;
+  return `Below bar ${RULES.passBar}`;
+}
+
+/** #1 of the night. Passed (or the DinnerList simulated winner): status pill + step meter, Demo + Validation/Report.
+ *  Not passed: identical layout, a quiet reason chip in the pill slot and an Evidence pill. */
 function TopCard({ row, t, loaded }: { row: PainRow; t: { v: ValidationState; budget: number } | null; loaded: boolean }) {
   const href = `/idea/${row.id}/`;
-  const validates = row.verdict === "winner" || row.demo;
-  const stage = t ? stageOf(t.v) : null;
+  const ok = passed(row) && !!t;
+  const stage = ok && t ? stageOf(t.v) : null;
+  const title = row.linkable ? (
+    <Link href={href} className="after:absolute after:inset-0 after:rounded-[20px] focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-accent-light">{row.title}</Link>
+  ) : row.title;
   return (
-    <article className={`group relative rounded-[20px] bg-tile p-4 transition-colors hover:bg-[#2c2c31] sm:p-5 ${loaded && stage === "running" ? "ring-1 ring-inset ring-warm/30" : ""}`}>
+    <article className={`group relative rounded-[20px] bg-tile p-4 transition-colors sm:p-5 ${row.linkable ? "hover:bg-[#2c2c31]" : ""} ${loaded && stage === "running" ? "ring-1 ring-inset ring-warm/30" : ""}`}>
       <div className="flex items-start gap-4">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-accent-light">{row.demo ? "Simulated winner" : row.verdict === "winner" ? "Winner" : "Best of the night"}</span>
-            {validates && stage && (loaded ? <><StatusPill stage={stage} /><StageMeter stage={stage} /></> : <span className="h-5 w-16 animate-pulse rounded-full bg-white/[0.06]" />)}
+            <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-accent-light">Top pick</span>
+            {stage ? (
+              loaded ? <><StatusPill stage={stage} /><StageMeter stage={stage} /></> : <span className="h-5 w-16 animate-pulse rounded-full bg-white/[0.06]" />
+            ) : (
+              <>
+                {row.pitched && <span className="rounded-full bg-warm px-2.5 py-0.5 text-[11px] font-semibold text-[#431407]">Pitched</span>}
+                <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${row.verdict === "killed" ? "bg-[#f87171]/15 text-[#fca5a5]" : "bg-white/[0.09] text-zinc-300"}`}>{reasonOf(row)}</span>
+                <StageMeter stage="ready" dim />
+              </>
+            )}
           </div>
-          <h3 className="mt-2 text-[17px] font-semibold leading-tight tracking-tight text-zinc-50">
-            <Link href={href} className="after:absolute after:inset-0 after:rounded-[20px] focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-accent-light">{row.title}</Link>
-          </h3>
+          <h3 className="mt-2 text-[17px] font-semibold leading-tight tracking-tight text-zinc-50">{title}</h3>
           <p className="mt-1 line-clamp-2 text-[13px] leading-snug text-zinc-400">{row.sub}</p>
         </div>
         <div className="shrink-0 text-right">
@@ -174,12 +206,18 @@ function TopCard({ row, t, loaded }: { row: PainRow; t: { v: ValidationState; bu
       </div>
       <div className="mt-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-2.5 border-t border-white/[0.06] pt-3">
         <div className="min-w-0 text-[12px] text-zinc-400">
-          {validates && t ? (loaded ? testLine(t.v, t.budget) : "\u00a0") : <><span className={row.verdict === "killed" ? "font-semibold text-[#fca5a5]" : "font-semibold text-zinc-300"}>{row.veto ? "Killed by competitor veto" : VERDICT_TXT[row.verdict]}</span> · no winner this night</>}
+          {ok && t ? (loaded ? <>{testLine(t.v, t.budget)}</> : "\u00a0") : row.pitched ? "Pitched as the night's winner, later killed by its stress test" : `No demo · did not pass the bar (${RULES.passBar}, gates, veto)`}
         </div>
-        {validates && stage && (
+        {row.linkable && (
           <div className="flex shrink-0 gap-2">
-            <Link href={`${href}#page`} className={`${pill} bg-white/[0.08] text-zinc-100 hover:bg-white/[0.14]`}>Demo</Link>
-            <Link href={`${href}#${stage === "report" ? "report" : "validate"}`} className={`${pill} bg-accent-pale text-[#2a1f6b] hover:bg-white`}>{stage === "report" ? "Report" : "Validation"}</Link>
+            {stage ? (
+              <>
+                <Link href={`${href}#page`} className={`${pill} bg-white/[0.08] text-zinc-100 hover:bg-white/[0.14]`}>Demo</Link>
+                <Link href={`${href}#${stage === "report" ? "report" : "validate"}`} className={`${pill} bg-accent-pale text-[#2a1f6b] hover:bg-white`}>{stage === "report" ? "Report" : "Validation"}</Link>
+              </>
+            ) : (
+              <Link href={`${href}#evidence`} className={`${pill} bg-white/[0.08] text-zinc-100 hover:bg-white/[0.14]`}>Evidence</Link>
+            )}
           </div>
         )}
       </div>
@@ -188,14 +226,20 @@ function TopCard({ row, t, loaded }: { row: PainRow; t: { v: ValidationState; bu
 }
 
 function RunnerUp({ row }: { row: PainRow }) {
-  return (
-    <Link href={`/idea/${row.id}/`} className="group flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-white/[0.04] focus-visible:bg-white/[0.04] focus-visible:outline-none">
+  const inner = (
+    <>
       <span className="w-5 shrink-0 text-[12px] font-semibold tabular-nums text-zinc-400">#{row.rank}</span>
       <div className="min-w-0 flex-1">
         <div className="truncate text-[14px] font-semibold text-zinc-200">{row.title}</div>
         <div className="truncate text-[12px] text-zinc-400">{row.sub}</div>
       </div>
       <span className="shrink-0 text-[15px] font-semibold tabular-nums text-zinc-300">{row.score}</span>
+    </>
+  );
+  if (!row.linkable) return <div className="flex items-center gap-3 px-4 py-2.5">{inner}<span className="w-[14px] shrink-0" aria-hidden /></div>;
+  return (
+    <Link href={`/idea/${row.id}/`} className="group flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-white/[0.04] focus-visible:bg-white/[0.04] focus-visible:outline-none">
+      {inner}
       <IconChevronRight size={14} className="shrink-0 text-zinc-400 transition-colors group-hover:text-zinc-100" />
     </Link>
   );
