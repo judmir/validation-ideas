@@ -69,7 +69,7 @@ export default function ReportStage({ idea, v, setV, loaded, goValidate }: Props
 
       <div className="flex justify-end">
         <button
-          className="text-xs font-medium text-zinc-500 underline-offset-2 transition-colors hover:text-zinc-200 hover:underline"
+          className="text-xs font-medium text-zinc-400 underline-offset-2 transition-colors hover:text-zinc-200 hover:underline"
           onClick={() => { if (confirm("Discard these results and run the validation again?")) { setV({ status: "on_hold" }); goValidate(); } }}
         >
           Re-run validation

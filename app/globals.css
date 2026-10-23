@@ -17,7 +17,7 @@
 :root { color-scheme: dark; }
 body { @apply bg-bg text-[14px] text-zinc-100 antialiased; font-feature-settings: "cv11", "ss01", "tnum" 0; }
 ::selection { background: rgb(255 255 255 / 0.18); }
-.label { @apply text-[11px] font-medium uppercase tracking-[0.06em] text-zinc-500; }
+.label { @apply text-[11px] font-medium uppercase tracking-[0.06em] text-zinc-400; }
 summary::-webkit-details-marker { display: none; }
 
 @keyframes tick { 0% { background-color: rgb(255 255 255 / 0.07); } 100% { background-color: transparent; } }

@@ -68,10 +68,10 @@ export default function IdeaFlow({ id }: { id: string }) {
                 <button
                   onClick={() => go(s.key)}
                   className={`flex h-9 w-full items-center justify-center gap-2 rounded-lg px-2 text-[13px] font-medium transition-colors ${
-                    active ? "border border-line-strong bg-surface-3 text-zinc-50" : locked ? "text-zinc-600" : "text-zinc-400 hover:bg-white/[0.03] hover:text-zinc-200"
+                    active ? "border border-line-strong bg-surface-3 text-zinc-50" : locked ? "text-zinc-400" : "text-zinc-400 hover:bg-white/[0.03] hover:text-zinc-200"
                   }`}
                 >
-                  <span className={`grid h-[18px] w-[18px] place-items-center rounded-full text-[10px] font-semibold tabular-nums ${active ? "bg-white text-black" : done ? "bg-[#bbf7d0] text-[#14532d]" : "bg-surface-3 text-zinc-500"}`}>
+                  <span className={`grid h-[18px] w-[18px] place-items-center rounded-full text-[10px] font-semibold tabular-nums ${active ? "bg-white text-black" : done ? "bg-[#bbf7d0] text-[#14532d]" : "bg-surface-3 text-zinc-400"}`}>
                     {done ? <IconCheck size={11} strokeWidth={2.5} /> : locked ? <IconLock size={10} strokeWidth={2} /> : i + 1}
                   </span>
                   <span>{s.label}</span>

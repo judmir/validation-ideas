@@ -3,7 +3,7 @@ import { IconMore } from "./icons";
 
 export function ScorePill({ score, muted, top }: { score: number; muted?: boolean; top?: boolean }) {
   const color = muted
-    ? "border-line bg-transparent text-zinc-600"
+    ? "border-line-strong bg-transparent text-zinc-400"
     : top
       ? "border-white bg-white text-black"
       : score >= 65
@@ -14,8 +14,8 @@ export function ScorePill({ score, muted, top }: { score: number; muted?: boolea
 
 export function Bar({ label, value }: { label: string; value: number }) {
   return (
-    <div className="text-xs">
-      <div className="mb-1.5 flex justify-between gap-2 text-zinc-500"><span>{label}</span><span className="tabular-nums text-zinc-200">{value}</span></div>
+    <div className="min-w-0 text-xs">
+      <div className="mb-1.5 flex items-baseline justify-between gap-2 text-zinc-400"><span className="min-w-0 truncate" title={label}>{label}</span><span className="shrink-0 tabular-nums text-zinc-200">{value}</span></div>
       <div className="h-1 rounded-full bg-line-strong"><div className="h-1 rounded-full bg-zinc-200" style={{ width: `${value}%` }} /></div>
     </div>
   );
@@ -59,7 +59,7 @@ export function CardHeader({ title, sub, right }: { title: ReactNode; sub?: Reac
 export function Stat({ label, value, sub, highlight, tick }: { label: string; value: string; sub?: ReactNode; highlight?: boolean; tick?: boolean }) {
   return (
     <div key={tick ? value : undefined} className={`${tick ? "tick " : ""}rounded-lg border px-3.5 py-3 ${highlight ? "border-zinc-500/60 bg-surface-3" : "border-line bg-surface-2"}`}>
-      <div className="text-xs text-zinc-500">{label}</div>
+      <div className="text-xs text-zinc-400">{label}</div>
       <div className="mt-1 text-xl font-medium tabular-nums tracking-tight text-zinc-50">{value}</div>
       {sub && <div className="mt-0.5 text-[11px]">{sub}</div>}
     </div>
@@ -86,7 +86,7 @@ export function Spinner() {
 
 const base = "inline-flex h-10 items-center justify-center gap-2 rounded-lg px-3.5 text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 disabled:cursor-not-allowed disabled:opacity-50 sm:h-9";
 export const btn = {
-  primary: `${base} bg-zinc-100 text-zinc-950 hover:bg-white disabled:bg-surface-3 disabled:text-zinc-500 disabled:opacity-100`,
+  primary: `${base} bg-zinc-100 text-zinc-950 hover:bg-white disabled:bg-surface-3 disabled:text-zinc-400 disabled:opacity-100`,
   fb: `${base} bg-[#1877F2] text-white hover:bg-[#2d86f5]`,
   ghost: `${base} border border-line-strong bg-surface-2 text-zinc-200 hover:bg-surface-3 hover:text-white`,
 };

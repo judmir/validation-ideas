@@ -25,10 +25,10 @@ export default function RunList() {
               </details>
             </div>
 
-            <div className="mt-3 grid gap-3 lg:grid-cols-[1.4fr_1fr] lg:gap-4">
+            <div className="mt-3 grid gap-3 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-4">
               <TopCard idea={top} />
-              <div className="flex flex-col">
-                <div className="mb-2 hidden grid-cols-[1fr_auto] px-3 text-xs text-zinc-500 lg:grid"><span>Other ideas</span><span>Score</span></div>
+              <div className="flex min-w-0 flex-col">
+                <div className="mb-2 hidden grid-cols-[1fr_auto] px-3 text-xs text-zinc-400 lg:grid"><span>Other ideas</span><span>Score</span></div>
                 <div className="space-y-1.5">
                   {rest.map((idea, i) => <MutedRow key={idea.id} idea={idea} rank={i + 2} />)}
                 </div>
@@ -43,7 +43,7 @@ export default function RunList() {
 
 function TopCard({ idea }: { idea: Idea }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-zinc-600/70 bg-surface-2 shadow-[0_0_0_1px_rgb(255_255_255/0.03),0_10px_30px_-18px_rgb(255_255_255/0.25)]">
+    <div className="min-w-0 overflow-hidden rounded-xl border border-zinc-600/70 bg-surface-2 shadow-[0_0_0_1px_rgb(255_255_255/0.03),0_10px_30px_-18px_rgb(255_255_255/0.25)]">
       <Link href={`/idea/${idea.id}/`} className="block p-3.5 transition-colors hover:bg-white/[0.015] sm:p-4">
         <div className="flex items-start gap-3">
           <ScorePill score={idea.score} top />
@@ -56,7 +56,7 @@ function TopCard({ idea }: { idea: Idea }) {
             <p className="mt-0.5 text-[13px] text-zinc-400">{idea.pitch}</p>
           </div>
         </div>
-        <div className="mt-4 grid grid-cols-2 gap-x-5 gap-y-3 sm:grid-cols-4">
+        <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3">
           <Bar label="Demand" value={idea.subScores.demand} />
           <Bar label="Competition" value={idea.subScores.competition} />
           <Bar label="Build effort" value={idea.subScores.buildEffort} />
@@ -75,17 +75,17 @@ function TopCard({ idea }: { idea: Idea }) {
 function MutedRow({ idea, rank }: { idea: Idea; rank: number }) {
   const [q, , loaded] = useQueue(idea.id);
   return (
-    <Link href={`/idea/${idea.id}/create/`} className="group flex items-center gap-3 rounded-lg border border-transparent bg-surface-2/50 px-3 py-2.5 text-zinc-500 opacity-80 transition hover:border-line hover:opacity-100">
-      <span className="w-5 text-center text-xs tabular-nums text-zinc-600">#{rank}</span>
+    <Link href={`/idea/${idea.id}/create/`} className="group flex items-center gap-3 rounded-lg border border-transparent bg-surface-2/50 px-3 py-2.5 text-zinc-400 transition hover:border-line hover:bg-surface-2">
+      <span className="w-5 shrink-0 text-center text-xs tabular-nums text-zinc-400">#{rank}</span>
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-          <span className="text-[13px] text-zinc-400 group-hover:text-zinc-300">{idea.name}</span>
-          {loaded && q.status === "queued" ? <Badge color="blue"><IconClock size={10} /> Queued</Badge> : <span className="text-[11px] text-zinc-600">No demo or validation page yet</span>}
+          <span className="text-[13px] text-zinc-300 group-hover:text-zinc-100">{idea.name}</span>
+          {loaded && q.status === "queued" ? <Badge color="blue"><IconClock size={10} /> Queued</Badge> : <span className="text-[11px] text-zinc-400">No demo or validation page yet</span>}
         </div>
-        <p className="truncate text-xs text-zinc-600">{idea.pitch}</p>
+        <p className="truncate text-xs text-zinc-400">{idea.pitch}</p>
       </div>
       <ScorePill score={idea.score} muted />
-      <IconChevronRight size={14} className="text-zinc-700 transition-colors group-hover:text-zinc-400" />
+      <IconChevronRight size={14} className="shrink-0 text-zinc-500 transition-colors group-hover:text-zinc-300" />
     </Link>
   );
 }

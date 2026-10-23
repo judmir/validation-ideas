@@ -1,7 +1,7 @@
 # Validation Ideas (PoC)
 
 Scout → Validate → Report funnel for App Ideas bot output. Next.js 15 (App Router) + TypeScript + Tailwind v4.
-100% mock data and simulated async, no Facebook or AI calls. State is kept in localStorage (`vi:*` keys); use "Reset demo" in the footer to clear it.
+100% mock data and simulated async, no Facebook or AI calls. State is kept in localStorage (`vi:*` keys); use "Reset demo" to clear it (bottom of the sidebar on desktop, in the page footer on mobile).
 
 ```bash
 npm install

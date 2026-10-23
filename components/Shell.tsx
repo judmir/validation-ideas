@@ -24,8 +24,10 @@ function NavItem({ href, active, icon, children, count }: { href: string; active
 
 export function Sidebar() {
   const path = usePathname();
+  // Outer column stretches to full page height (carries bg + border); inner panel stays pinned to the viewport.
   return (
-    <aside className="sticky top-0 hidden h-screen self-start w-[248px] shrink-0 flex-col border-r border-line bg-bg lg:flex">
+    <div className="hidden w-[248px] shrink-0 border-r border-line bg-bg lg:block">
+    <aside className="sticky top-0 flex h-screen flex-col">
       <div className="flex h-16 items-center gap-2.5 border-b border-line px-5">
         <LogoMark />
         <Link href="/" className="text-[16px] font-medium tracking-tight text-zinc-50">Validation Ideas</Link>
@@ -52,6 +54,7 @@ export function Sidebar() {
         <IconCopyright size={14} /> 2026 Validation Ideas PoC
       </div>
     </aside>
+    </div>
   );
 }
 

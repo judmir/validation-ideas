@@ -223,5 +223,5 @@ const Row = ({ k, v }: { k: string; v: string }) => (
   <div className="flex gap-2"><span className="w-24 shrink-0 text-zinc-500">{k}</span><span className="text-zinc-200">{v}</span></div>
 );
 const Mini = ({ k, v }: { k: string; v: string }) => (
-  <div className="rounded-lg border border-line bg-surface-2 px-2 py-2"><div className="text-[11px] text-zinc-500">{k}</div><div className="mt-0.5 font-medium tabular-nums text-zinc-100">{v}</div></div>
+  <div className="rounded-lg border border-line bg-surface-2 px-2 py-2"><div className="text-[11px] text-zinc-400">{k}</div><div className="mt-0.5 font-medium tabular-nums text-zinc-100">{v}</div></div>
 );
