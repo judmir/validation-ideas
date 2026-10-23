@@ -1,6 +1,6 @@
 import type { Validation } from "@/lib/types";
 
-/** The one shared landing template: headline, subhead, "Start for $X/month" fake door + soft "Join waitlist" link. Preview only. */
+/** The one shared landing template: headline, subhead, "Start for €X/month" fake door + soft "Join waitlist" link. Preview only. */
 export default function LandingPreview({ landing, name }: { landing: Validation["landing"]; name: string }) {
   return (
     <div className="overflow-hidden rounded-2xl bg-paper text-ink">

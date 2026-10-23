@@ -14,8 +14,8 @@ const ALL: TrafficSource[] = ["meta", "google_search", "reddit"];
 
 export default function ValidateTab({ idea, v, setV, loaded, goReport }: Props) {
   const val = idea.validation!;
-  const name = idea.name ?? idea.painId;
-  const budget = val.adKit.budgetEur.max;
+  const name = idea.name;
+  const budget = val.adKit.budget.dailyEur * val.adKit.budget.days;
 
   useEffect(() => {
     if (v.status !== "running") return;
@@ -35,7 +35,7 @@ export default function ValidateTab({ idea, v, setV, loaded, goReport }: Props) 
   return (
     <div className="space-y-4">
       <Card>
-        <CardHeader title="Landing page" sub="One shared template for every winner. Prices in USD." right={<span className="rounded-md bg-white/[0.08] px-2 py-0.5 text-[11px] font-semibold text-zinc-300">Preview only</span>} />
+        <CardHeader title="Landing page" sub="One shared template for every top pick. Prices in EUR." right={<span className="rounded-md bg-white/[0.08] px-2 py-0.5 text-[11px] font-semibold text-zinc-300">Preview only</span>} />
         <div id="landing" className="mt-4 scroll-mt-24"><LandingPreview landing={val.landing} name={name} /></div>
       </Card>
 

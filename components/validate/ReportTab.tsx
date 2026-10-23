@@ -33,7 +33,7 @@ export default function ReportTab({ idea, v, loaded, goValidate }: { idea: Idea;
   const t = totals(rows);
   const { rate, call } = validationVerdict(t);
   const tone = TONE[call];
-  const name = idea.name ?? idea.painId;
+  const name = idea.name;
   return (
     <div className="space-y-4">
       <section className="rounded-[24px] bg-paper p-5 text-ink sm:p-7">

@@ -152,7 +152,7 @@ export const btn = {
 };
 export const linkCls = "text-zinc-50 underline decoration-accent-light/70 underline-offset-2 transition-colors hover:decoration-accent-light";
 
-/** x/25 with a 5-segment mini bar (5 points each) and a tick at the 18 bar. */
+/** Score /100 with a 5-segment mini bar and a tick at the pass bar. */
 export function ScoreMini({ score, verdict, size = "md" }: { score: number; verdict: PipelineVerdict; size?: "md" | "lg" }) {
   const fill = verdict === "winner" ? "bg-accent-light" : verdict === "near-miss" ? "bg-[#fbbf24]" : verdict === "killed" ? "bg-[#f87171]" : "bg-zinc-500";
   const big = size === "lg";
@@ -164,7 +164,8 @@ export function ScoreMini({ score, verdict, size = "md" }: { score: number; verd
       </div>
       <div className={`relative ml-auto mt-1.5 flex gap-[3px] ${big ? "w-[92px]" : "w-[64px]"}`}>
         {[0, 1, 2, 3, 4].map((i) => {
-          const part = Math.max(0, Math.min(1, (score - i * 5) / 5));
+          const seg = RULES.maxScore / 5;
+          const part = Math.max(0, Math.min(1, (score - i * seg) / seg));
           return (
             <span key={i} className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-white/[0.1]">
               <span className={`absolute inset-y-0 left-0 ${fill}`} style={{ width: `${part * 100}%` }} />
@@ -258,7 +259,7 @@ export function Callout({ tone, title, children, collapsible }: { tone: "amber" 
   );
 }
 
-export const Placeholder = ({ what = "Not written for this idea" }: { what?: string }) => <p className="text-[13px] italic text-zinc-400">{what}. The brief only writes this for the night&apos;s top ideas.</p>;
+export const Placeholder = ({ what = "Not written for this idea" }: { what?: string }) => <p className="text-[13px] italic text-zinc-400">{what}. Only a run&apos;s top pick gets this.</p>;
 
 /** Home stats tile: quiet label, big numeral, small unit. */
 export function StatCell({ label, value, unit }: { label: string; value: ReactNode; unit?: ReactNode }) {
@@ -270,5 +271,28 @@ export function StatCell({ label, value, unit }: { label: string; value: ReactNo
         {unit && <span className="truncate text-[12px] font-medium text-zinc-300">{unit}</span>}
       </div>
     </div>
+  );
+}
+
+/** The one status vocabulary for top picks: ready → running → report. */
+export type Stage = "ready" | "running" | "report";
+const STAGE_PILL: Record<Stage, { label: string; color: string; pulse?: boolean }> = {
+  ready: { label: "Ready", color: "violet" },
+  running: { label: "Running", color: "orange", pulse: true },
+  report: { label: "Report", color: "light" },
+};
+export function StatusPill({ stage }: { stage: Stage }) {
+  const s = STAGE_PILL[stage];
+  return <Badge color={s.color} pulse={s.pulse}>{s.label}</Badge>;
+}
+/** Three short pills (Scout · Test · Report); the live step glows warm. */
+export function StageMeter({ stage }: { stage: Stage }) {
+  const done = { ready: 1, running: 1, report: 3 }[stage];
+  return (
+    <span className="flex shrink-0 gap-1" role="img" aria-label={`Step ${Math.min(done + 1, 3)} of 3`}>
+      {[0, 1, 2].map((i) => (
+        <span key={i} className={`h-1.5 w-5 rounded-full ${i < done ? "bg-accent-light" : stage === "running" && i === 1 ? "animate-pulse bg-warm" : "bg-white/[0.12]"}`} />
+      ))}
+    </span>
   );
 }

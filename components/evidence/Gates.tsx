@@ -1,11 +1,11 @@
 import type { GateKey, GateResult, Idea } from "@/lib/types";
 
 const GATES: { k: GateKey; label: string; hint: string }[] = [
-  { k: "consumer_subscription", label: "Consumer subscription", hint: "Will consumers pay monthly?" },
+  { k: "subscription", label: "Subscription", hint: "Will people pay monthly?" },
   { k: "simplest_way", label: "Simplest way", hint: "Open the app, the job is done" },
-  { k: "us_entry", label: "US entry", hint: "Reach US users; charge in USD via Paddle / Polar / Lemon Squeezy" },
+  { k: "market_entry", label: "Market entry", hint: "Can we reach these users cheaply and charge them in EUR?" },
 ];
-export const GATE_SHORT: Record<GateKey, string> = { consumer_subscription: "Subscription", simplest_way: "Simplest way", us_entry: "US entry" };
+export const GATE_SHORT: Record<GateKey, string> = { subscription: "Subscription", simplest_way: "Simplest way", market_entry: "Market entry" };
 
 const RES: Record<GateResult["result"], { icon: string; label: string; cls: string }> = {
   pass: { icon: "✓", label: "Pass", cls: "bg-[#bbf7d0] text-[#14532d]" },

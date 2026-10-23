@@ -4,7 +4,7 @@ import IdeaPage from "@/components/IdeaPage";
 
 export const dynamicParams = false;
 export function generateStaticParams() {
-  return ALL_IDEAS.map((x) => ({ id: x.painId }));
+  return ALL_IDEAS.map((x) => ({ id: x.id }));
 }
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {

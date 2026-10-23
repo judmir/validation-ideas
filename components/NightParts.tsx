@@ -1,4 +1,4 @@
-import type { NightRun, SourceKey, StepKey, StepStatus } from "@/lib/types";
+import type { NightRun, StepKey, StepStatus } from "@/lib/types";
 import { STEP_ORDER, STEP_TIMES } from "@/lib/mock/nights";
 import { IconCheck, IconX } from "./icons";
 
@@ -34,26 +34,20 @@ export function StepPills({ steps }: { steps: NightRun["steps"] }) {
   );
 }
 
-const SOURCE_LABEL: Record<SourceKey, string> = { google_play: "Google Play", app_store: "App Store", reddit: "Reddit", x: "X", hn: "Hacker News", trustpilot: "Trustpilot", forums: "Forums" };
-const SOURCE_ORDER: SourceKey[] = ["google_play", "app_store", "reddit", "x", "hn", "trustpilot", "forums"];
-
-/** One bar per scout source (complaints kept). */
+/** One bar per scanned source (posts scanned). */
 export function SourceBars({ bySource }: { bySource: NightRun["scout"]["bySource"] }) {
-  const max = Math.max(1, ...Object.values(bySource));
+  const max = Math.max(1, ...bySource.map((b) => b.n));
   return (
     <ul className="space-y-1.5">
-      {SOURCE_ORDER.map((k) => {
-        const n = bySource[k];
-        return (
-          <li key={k} className="flex items-center gap-2.5 text-[12px]">
-            <span className={`w-[84px] shrink-0 truncate ${n ? "text-zinc-300" : "text-zinc-400"}`}>{SOURCE_LABEL[k]}</span>
-            <span className="h-2 min-w-0 flex-1 rounded-full bg-white/[0.06]">
-              {n > 0 && <span className="block h-2 rounded-full bg-accent-light" style={{ width: `${Math.max(4, (n / max) * 100)}%` }} />}
-            </span>
-            <span className={`w-6 shrink-0 text-right font-semibold tabular-nums ${n ? "text-zinc-100" : "text-zinc-400"}`}>{n}</span>
-          </li>
-        );
-      })}
+      {bySource.map(({ label, n }) => (
+        <li key={label} className="flex items-center gap-2.5 text-[12px]">
+          <span className="w-[112px] shrink-0 truncate text-zinc-300" title={label}>{label}</span>
+          <span className="h-2 min-w-0 flex-1 rounded-full bg-white/[0.06]">
+            {n > 0 && <span className="block h-2 rounded-full bg-accent-light" style={{ width: `${Math.max(4, (n / max) * 100)}%` }} />}
+          </span>
+          <span className="w-8 shrink-0 text-right font-semibold tabular-nums text-zinc-100">{n}</span>
+        </li>
+      ))}
     </ul>
   );
 }
