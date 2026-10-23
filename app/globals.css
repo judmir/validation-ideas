@@ -1,24 +1,25 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #0b0b0f;
-  --color-surface: #131318;
-  --color-surface-2: #18181e;
-  --color-line: rgb(255 255 255 / 0.07);
-  --color-line-strong: rgb(255 255 255 / 0.12);
-  --color-accent: #8b5cf6;
-  --color-accent-hover: #9d74f8;
-  --color-accent-soft: #c4b5fd;
-  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --color-bg: #0a0a0a;
+  --color-surface: #0f0f0f;
+  --color-surface-2: #151515;
+  --color-surface-3: #1b1b1b;
+  --color-line: #1f1f1f;
+  --color-line-strong: #2b2b2b;
+  --color-accent: #f4f4f5;
+  --color-accent-hover: #ffffff;
+  --color-accent-soft: #e4e4e7;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, monospace;
 }
 
 :root { color-scheme: dark; }
-body { @apply bg-bg text-zinc-100 antialiased; font-feature-settings: "cv11", "ss01"; }
-::selection { background: rgb(139 92 246 / 0.35); }
-.label { @apply text-[11px] font-medium uppercase tracking-[0.08em] text-zinc-500; }
+body { @apply bg-bg text-[14px] text-zinc-100 antialiased; font-feature-settings: "cv11", "ss01", "tnum" 0; }
+::selection { background: rgb(255 255 255 / 0.18); }
+.label { @apply text-[11px] font-medium uppercase tracking-[0.06em] text-zinc-500; }
 summary::-webkit-details-marker { display: none; }
 
-@keyframes tick { 0% { background-color: rgb(139 92 246 / 0.14); } 100% { background-color: transparent; } }
+@keyframes tick { 0% { background-color: rgb(255 255 255 / 0.07); } 100% { background-color: transparent; } }
 .tick { animation: tick 0.9s ease-out; }
 @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }

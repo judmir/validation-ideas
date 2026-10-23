@@ -8,6 +8,7 @@ import ScoutStage from "./stages/ScoutStage";
 import ValidateStage from "./stages/ValidateStage";
 import ReportStage from "./stages/ReportStage";
 import { btn } from "./ui";
+import { IconArrowLeft, IconCheck, IconLock } from "./icons";
 
 const STEPS = [
   { key: "scout", label: "Scout" },
@@ -46,18 +47,18 @@ export default function IdeaFlow({ id }: { id: string }) {
   return (
     <div className="space-y-5">
       <div>
-        <Link href="/" className="text-sm text-zinc-500 transition-colors hover:text-zinc-200">← Scout log</Link>
-        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5">
-          <h1 className="text-[26px] font-semibold tracking-tight text-zinc-50">{idea.name}</h1>
+        <Link href="/" className="inline-flex items-center gap-1.5 text-[13px] text-zinc-500 transition-colors hover:text-zinc-200 lg:hidden"><IconArrowLeft size={14} /> Scout log</Link>
+        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 lg:mt-0">
+          <h1 className="text-[22px] font-medium tracking-tight text-zinc-50">{idea.name}</h1>
           <StatusBadge idea={idea} />
         </div>
-        <p className="mt-1 text-sm text-zinc-400">{idea.pitch}</p>
+        <p className="mt-1 text-[13px] text-zinc-400">{idea.pitch}</p>
         <p className="mt-2 text-xs text-zinc-500">Top pick · scout run {formatDate(run.date)}</p>
       </div>
 
       {/* Stepper */}
-      <nav className="sticky top-14 z-10 -mx-4 bg-bg/85 px-4 py-2 backdrop-blur-md">
-        <ol className="grid grid-cols-3 gap-1 rounded-xl border border-line bg-surface p-1">
+      <nav className="sticky top-16 z-10 -mx-4 bg-bg/85 px-4 py-2 backdrop-blur-md sm:-mx-6 sm:px-6 lg:-mx-7 lg:px-7">
+        <ol className="grid grid-cols-3 gap-1 rounded-xl border border-line bg-surface p-1 sm:max-w-md">
           {STEPS.map((s, i) => {
             const active = s.key === step;
             const locked = s.key === "report" && reportLocked;
@@ -66,12 +67,12 @@ export default function IdeaFlow({ id }: { id: string }) {
               <li key={s.key}>
                 <button
                   onClick={() => go(s.key)}
-                  className={`flex w-full items-center justify-center gap-2 rounded-lg px-2 py-2 text-sm font-medium transition-colors ${
-                    active ? "bg-white/[0.07] text-zinc-50 ring-1 ring-inset ring-white/10" : locked ? "text-zinc-600" : "text-zinc-400 hover:bg-white/[0.04] hover:text-zinc-200"
+                  className={`flex h-9 w-full items-center justify-center gap-2 rounded-lg px-2 text-[13px] font-medium transition-colors ${
+                    active ? "border border-line-strong bg-surface-3 text-zinc-50" : locked ? "text-zinc-600" : "text-zinc-400 hover:bg-white/[0.03] hover:text-zinc-200"
                   }`}
                 >
-                  <span className={`grid h-5 w-5 place-items-center rounded-full text-[10px] font-semibold tabular-nums ${active ? "bg-accent text-white" : done ? "bg-emerald-400/15 text-emerald-300" : "bg-white/[0.06] text-zinc-500"}`}>
-                    {done ? "✓" : locked ? "🔒" : i + 1}
+                  <span className={`grid h-[18px] w-[18px] place-items-center rounded-full text-[10px] font-semibold tabular-nums ${active ? "bg-white text-black" : done ? "bg-[#bbf7d0] text-[#14532d]" : "bg-surface-3 text-zinc-500"}`}>
+                    {done ? <IconCheck size={11} strokeWidth={2.5} /> : locked ? <IconLock size={10} strokeWidth={2} /> : i + 1}
                   </span>
                   <span>{s.label}</span>
                 </button>

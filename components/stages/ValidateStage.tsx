@@ -4,7 +4,8 @@ import { eur, int, pct, type Idea } from "@/lib/data";
 import type { ValidationState } from "@/lib/store";
 import { emptyLive, simulateEnd, tick } from "@/lib/sim";
 import { verdict } from "@/lib/verdict";
-import { Badge, Card, Spinner, Stat, btn } from "../ui";
+import { Badge, Card, CardHeader, Spinner, Stat, btn, linkCls } from "../ui";
+import { IconChevronRight } from "../icons";
 
 type Props = { idea: Idea; v: ValidationState; setV: (v: ValidationState | ((p: ValidationState) => ValidationState)) => void; loaded: boolean; onFinished: () => void };
 
@@ -55,12 +56,12 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
       <Card>
         {preparing ? (
           <div className="flex flex-col items-center gap-4 py-10 text-center">
-            <div className="text-accent-soft"><Spinner /></div>
+            <div className="text-zinc-200"><Spinner /></div>
             <div>
               <p className="font-semibold text-zinc-100">Preparing Facebook validation…</p>
               <ol className="mt-3 space-y-1 text-sm">
                 {PREP_STEPS.map((s, i) => (
-                  <li key={s} className={i < prepStep ? "text-emerald-300" : i === prepStep ? "text-zinc-100" : "text-zinc-600"}>{i < prepStep ? "✓ " : ""}{s}</li>
+                  <li key={s} className={i < prepStep ? "text-[#86efac]" : i === prepStep ? "text-zinc-100" : "text-zinc-600"}>{i < prepStep ? "✓ " : ""}{s}</li>
                 ))}
               </ol>
             </div>
@@ -68,9 +69,9 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
         ) : (
           <div className="space-y-4 py-2 text-center">
             <Badge color="amber">On hold</Badge>
-            <h2 className="text-lg font-semibold tracking-tight text-zinc-50">Validation is on hold</h2>
-            <p className="mx-auto max-w-md text-sm leading-relaxed text-zinc-400">
-              The bot has built a <a className="text-accent-soft underline-offset-2 hover:text-white hover:underline" href={idea.validationUrl} target="_blank" rel="noreferrer">validation page</a> for {idea.name}. Purchase a small Facebook ad test to send real traffic to it and measure signups.
+            <h2 className="text-lg font-medium tracking-tight text-zinc-50">Validation is on hold</h2>
+            <p className="mx-auto max-w-md text-[13px] leading-relaxed text-zinc-400">
+              The bot has built a <a className={linkCls} href={idea.validationUrl} target="_blank" rel="noreferrer">validation page</a> for {idea.name}. Purchase a small Facebook ad test to send real traffic to it and measure signups.
             </p>
             <p className="text-xs text-zinc-500">Estimated test: {eur(idea.ad!.budget.daily)}/day × {idea.ad!.budget.days} days = <span className="font-semibold tabular-nums text-zinc-200">{eur(idea.ad!.budget.daily * idea.ad!.budget.days)}</span></p>
             <button onClick={purchase} className={btn.primary + " w-full sm:w-auto"}>Purchase / Run validation</button>
@@ -87,7 +88,7 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
         <AdSetup idea={idea} status={<Badge color="slate">Completed</Badge>} compact />
         <Card className="text-center">
           <Badge color={vd.winner ? "green" : "red"}>{vd.winner ? "✓ Winning idea" : "✕ Not a winner"}</Badge>
-          <p className="mt-2 text-sm text-zinc-400">Test finished {v.result.finishedAt}: {int(v.result.signups)} signups from {eur(v.result.spend)} spend.</p>
+          <p className="mt-2 text-[13px] text-zinc-400">Test finished {v.result.finishedAt}: {int(v.result.signups)} signups from {eur(v.result.spend)} spend.</p>
           <button onClick={onFinished} className={btn.primary + " mt-3"}>View report →</button>
         </Card>
       </div>
@@ -114,11 +115,8 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
   const ctr = l.impressions ? l.clicks / l.impressions : 0;
   return (
     <div className="space-y-4">
-      <Card className="border-emerald-400/25">
-        <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-zinc-100">Live campaign</h2>
-          <Badge color="green" pulse>Running</Badge>
-        </div>
+      <Card>
+        <CardHeader title="Live campaign" right={<Badge color="green" pulse>Running</Badge>} />
         <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-5">
           <Metric label="Spend" value={eur(l.spend)} />
           <Metric label="Impressions" value={int(l.impressions)} />
@@ -128,7 +126,7 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
         </div>
         <div className="mt-4">
           <div className="mb-1.5 flex justify-between text-xs text-zinc-400"><span>Budget used</span><span className="tabular-nums">{eur(l.spend)} / {eur(budget)}</span></div>
-          <div className="h-1.5 rounded-full bg-white/[0.07]"><div className="h-1.5 rounded-full bg-accent transition-all duration-700" style={{ width: `${Math.min(100, (l.spend / budget) * 100)}%` }} /></div>
+          <div className="h-1.5 rounded-full bg-line-strong"><div className="h-1.5 rounded-full bg-zinc-200 transition-all duration-700" style={{ width: `${Math.min(100, (l.spend / budget) * 100)}%` }} /></div>
         </div>
         <Sparkline points={l.ticks.map((t) => t.signups)} />
         <p className="mt-3 text-xs text-zinc-500">{l.spend >= budget ? "Budget fully spent — press “Simulate end of test” to see the report." : "Mock metrics update every ~1 s while this page is open."}</p>
@@ -149,13 +147,17 @@ function Metric({ label, value, highlight }: { label: string; value: string; hig
 
 function Sparkline({ points }: { points: number[] }) {
   const ref = useRef<SVGSVGElement>(null);
-  if (points.length < 2) return <div className="mt-4 h-12 rounded-lg border border-dashed border-line text-center text-xs leading-[3rem] text-zinc-500">Collecting data…</div>;
+  if (points.length < 2) return <div className="mt-4 h-16 rounded-lg border border-dashed border-line-strong text-center text-xs leading-[4rem] text-zinc-500">Collecting data…</div>;
   const max = Math.max(...points, 1);
   const d = points.map((p, i) => `${(i / (points.length - 1)) * 100},${40 - (p / max) * 36}`).join(" ");
   return (
-    <svg ref={ref} viewBox="0 0 100 40" preserveAspectRatio="none" className="mt-4 h-12 w-full">
-      <polyline points={`0,40 ${d} 100,40`} fill="rgb(139 92 246 / 0.14)" stroke="none" />
-      <polyline points={d} fill="none" stroke="rgb(167 139 250)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+    <svg ref={ref} viewBox="0 0 100 40" preserveAspectRatio="none" className="mt-4 h-16 w-full rounded-lg border border-line bg-surface-2">
+      <defs>
+        <linearGradient id="spark-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#fff" stopOpacity="0.16" /><stop offset="1" stopColor="#fff" stopOpacity="0" /></linearGradient>
+      </defs>
+      {[10, 20, 30].map((y) => <line key={y} x1="0" x2="100" y1={y} y2={y} stroke="#222" vectorEffect="non-scaling-stroke" />)}
+      <polyline points={`0,40 ${d} 100,40`} fill="url(#spark-fill)" stroke="none" />
+      <polyline points={d} fill="none" stroke="#f4f4f5" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
     </svg>
   );
 }
@@ -166,11 +168,11 @@ function AdSetup({ idea, status, compact }: { idea: Idea; status: React.ReactNod
   const body = (
     <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 [&>*]:min-w-0">
       {/* Mock FB ad preview */}
-      <div className="self-start rounded-xl border border-line bg-surface-2 p-2.5">
+      <div className="self-start rounded-lg border border-line bg-surface-2 p-2.5">
       <div className="label mb-2 px-0.5">Ad preview</div>
       <div className="overflow-hidden rounded-lg bg-white text-sm text-zinc-900">
         <div className="flex items-center gap-2 p-3">
-          <div className="grid h-8 w-8 place-items-center rounded-full bg-accent text-xs font-bold text-white">{idea.name[0]}</div>
+          <div className="grid h-8 w-8 place-items-center rounded-full bg-violet-600 text-xs font-bold text-white">{idea.name[0]}</div>
           <div><div className="font-semibold leading-tight">{idea.name}</div><div className="text-[11px] text-zinc-500">Sponsored</div></div>
         </div>
         <p className="px-3 pb-3 text-zinc-700">{ad.primaryText}</p>
@@ -190,7 +192,7 @@ function AdSetup({ idea, status, compact }: { idea: Idea; status: React.ReactNod
         <Section title="Suggested audience">
           <Row k="Location" v={ad.audience.location} />
           <Row k="Age" v={ad.audience.age} />
-          <div className="flex flex-wrap gap-1 pt-1">{ad.audience.interests.map((i) => <span key={i} className="rounded-full border border-line-strong bg-white/[0.03] px-2 py-0.5 text-xs text-zinc-300">{i}</span>)}</div>
+          <div className="flex flex-wrap gap-1 pt-1">{ad.audience.interests.map((i) => <span key={i} className="rounded-md border border-line-strong bg-surface-3 px-2 py-0.5 text-xs text-zinc-300">{i}</span>)}</div>
         </Section>
         <Section title="Estimated budget">
           <div className="grid grid-cols-3 gap-2 text-center">
@@ -204,13 +206,10 @@ function AdSetup({ idea, status, compact }: { idea: Idea; status: React.ReactNod
   );
   return (
     <Card>
-      <div className="flex items-center justify-between gap-2">
-        <h2 className="font-semibold text-zinc-100">Facebook ad setup <span className="text-xs font-normal text-zinc-500">(mock)</span></h2>
-        {status}
-      </div>
+      <CardHeader title={<>Facebook ad setup <span className="text-xs font-normal text-zinc-500">(mock)</span></>} right={status} />
       {compact ? (
         <details className="group">
-          <summary className="mt-3 cursor-pointer text-xs font-medium text-zinc-400 transition-colors hover:text-zinc-200">Show ad copy, audience & budget</summary>
+          <summary className="mt-3 inline-flex cursor-pointer list-none items-center gap-1 text-xs font-medium text-zinc-400 transition-colors hover:text-zinc-200"><IconChevronRight size={12} className="transition group-open:rotate-90" /> Show ad copy, audience & budget</summary>
           {body}
         </details>
       ) : body}
@@ -224,5 +223,5 @@ const Row = ({ k, v }: { k: string; v: string }) => (
   <div className="flex gap-2"><span className="w-24 shrink-0 text-zinc-500">{k}</span><span className="text-zinc-200">{v}</span></div>
 );
 const Mini = ({ k, v }: { k: string; v: string }) => (
-  <div className="rounded-lg border border-line bg-surface-2 px-2 py-2"><div className="text-[11px] text-zinc-500">{k}</div><div className="mt-0.5 font-semibold tabular-nums text-zinc-100">{v}</div></div>
+  <div className="rounded-lg border border-line bg-surface-2 px-2 py-2"><div className="text-[11px] text-zinc-500">{k}</div><div className="mt-0.5 font-medium tabular-nums text-zinc-100">{v}</div></div>
 );
