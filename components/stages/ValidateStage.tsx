@@ -166,7 +166,7 @@ function AdSetup({ idea, status, compact }: { idea: Idea; status: React.ReactNod
   const body = (
     <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 [&>*]:min-w-0">
       {/* Mock FB ad preview */}
-      <div className="rounded-xl border border-line bg-surface-2 p-2.5">
+      <div className="self-start rounded-xl border border-line bg-surface-2 p-2.5">
       <div className="label mb-2 px-0.5">Ad preview</div>
       <div className="overflow-hidden rounded-lg bg-white text-sm text-zinc-900">
         <div className="flex items-center gap-2 p-3">
