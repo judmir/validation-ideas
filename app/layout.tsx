@@ -3,7 +3,7 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import ResetButton from "@/components/ResetButton";
 import { SearchProvider } from "@/components/Search";
-import { Sidebar, Topbar } from "@/components/Shell";
+import TopBar from "@/components/TopBar";
 
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
 
@@ -15,20 +15,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={manrope.variable}>
       <body className="font-sans">
         <SearchProvider>
-          <div className="flex min-h-screen lg:gap-3 lg:p-3">
-            <Sidebar />
-            <div className="flex min-w-0 flex-1 flex-col lg:gap-3">
-              <Topbar />
-              <main className="w-full flex-1 px-4 pb-8 pt-4 sm:px-6 lg:rounded-[24px] lg:bg-panel lg:p-7 xl:p-8">
-                <div className="mx-auto w-full max-w-[1200px]">{children}</div>
-              </main>
-              <footer className="border-t border-line lg:hidden">
-                <div className="flex items-center justify-between gap-3 px-4 py-4 text-xs text-faint sm:px-6">
-                  <span>Mock data · no real Facebook or bot calls</span>
-                  <ResetButton />
-                </div>
-              </footer>
-            </div>
+          <div className="flex min-h-screen flex-col">
+            <TopBar />
+            <main className="mx-auto w-full max-w-[1040px] flex-1 px-4 pb-12 pt-6 sm:px-6 sm:pt-8">{children}</main>
+            <footer className="mx-auto flex w-full max-w-[1040px] flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 pb-6 text-[12px] text-zinc-400 sm:px-6">
+              <span>Mock data · no real Facebook or bot calls · state lives in this browser</span>
+              <ResetButton />
+            </footer>
           </div>
         </SearchProvider>
       </body>

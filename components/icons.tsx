@@ -11,32 +11,17 @@ const make = (paths: ReactNode) =>
     );
   };
 
-export const IconGrid = make(<><rect x="3" y="3" width="7" height="7" rx="2" /><rect x="14" y="3" width="7" height="7" rx="2" /><rect x="3" y="14" width="7" height="7" rx="2" /><rect x="14" y="14" width="7" height="7" rx="2" /></>);
-export const IconBulb = make(<><path d="M9 18h6" /><path d="M10 22h4" /><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z" /></>);
-export const IconStar = make(<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z" />);
-export const IconChart = make(<><path d="M3 3v18h18" /><path d="m7 15 4-4 3 3 6-6" /></>);
-export const IconBars = make(<><path d="M6 20V11" /><path d="M12 20V5" /><path d="M18 20v-7" /></>);
-export const IconFlask = make(<><path d="M9 3h6" /><path d="M10 3v6L4.5 18.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3" /><path d="M7 15h10" /></>);
-export const IconLayers = make(<><path d="m12 2 10 5-10 5L2 7z" /><path d="m2 17 10 5 10-5" /><path d="m2 12 10 5 10-5" /></>);
-export const IconCalendar = make(<><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></>);
-export const IconRefresh = make(<><path d="M3 12a9 9 0 0 1 15-6.7L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-15 6.7L3 16" /><path d="M8 16H3v5" /></>);
 export const IconArrowLeft = make(<><path d="M19 12H5" /><path d="m12 19-7-7 7-7" /></>);
-export const IconArrowRight = make(<><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></>);
 export const IconExternal = make(<><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></>);
 export const IconCheck = make(<path d="M20 6 9 17l-5-5" />);
-export const IconChecks = make(<><path d="M18 6 7 17l-5-5" /><path d="m22 10-7.5 7.5L13 16" /></>);
 export const IconX = make(<><path d="M18 6 6 18" /><path d="m6 6 12 12" /></>);
 export const IconLock = make(<><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></>);
 export const IconClock = make(<><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>);
 export const IconChevronRight = make(<path d="m9 18 6-6-6-6" />);
-export const IconChevronDown = make(<path d="m6 9 6 6 6-6" />);
-export const IconMegaphone = make(<><path d="m3 11 18-5v12L3 14v-3z" /><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" /></>);
 export const IconPlus = make(<><path d="M12 5v14" /><path d="M5 12h14" /></>);
 export const IconLink = make(<><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7" /><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7" /></>);
 export const IconSearch = make(<><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></>);
 export const IconSparkle = make(<><path d="M12 3v4M12 17v4M3 12h4M17 12h4" /><path d="m6.3 6.3 2.1 2.1M15.6 15.6l2.1 2.1M6.3 17.7l2.1-2.1M15.6 8.4l2.1-2.1" /></>);
-export const IconHourglass = make(<><path d="M6 2h12M6 22h12" /><path d="M7 2v4a5 5 0 0 0 10 0V2" /><path d="M7 22v-4a5 5 0 0 1 10 0v4" /></>);
-
 /** Square "stop" glyph for the end-of-test control. */
 export function IconStop({ size = 12 }: { size?: number }) {
   return <svg width={size} height={size} viewBox="0 0 12 12" aria-hidden><rect x="1" y="1" width="10" height="10" rx="2.5" fill="currentColor" /></svg>;

@@ -58,9 +58,34 @@ export function usePersisted<T>(key: string, fallback: T) {
   return [value, set, loaded] as const;
 }
 
+/** Read-only snapshot of several keys at once (list views); `keys` and `fallbacks` should be stable. */
+export function usePersistedMany<T>(keys: readonly string[], fallbacks: readonly T[]) {
+  const [values, setValues] = useState<readonly T[]>(fallbacks);
+  const [loaded, setLoaded] = useState(false);
+  const sig = keys.join("|");
+  useEffect(() => {
+    const sync = () => setValues(keys.map((k, i) => read<T>(k) ?? fallbacks[i]));
+    sync();
+    setLoaded(true);
+    window.addEventListener("vi-storage", sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener("vi-storage", sync);
+      window.removeEventListener("storage", sync);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sig]);
+  return [values, loaded] as const;
+}
+
 export const useValidation = (idea: Idea) => usePersisted<ValidationState>("val:" + idea.id, initialState(idea));
 export type QueueState = { status: "none" } | { status: "queued"; at: number };
 export const useQueue = (id: string) => usePersisted<QueueState>("queue:" + id, { status: "none" });
+
+/** Free-text "New idea" requests handed to the App Ideas bot (mock). */
+export type ScoutRequest = { id: string; text: string; at: number };
+const NO_REQUESTS: ScoutRequest[] = [];
+export const useRequests = () => usePersisted<ScoutRequest[]>("requests", NO_REQUESTS);
 
 export function resetAll() {
   Object.keys(localStorage)

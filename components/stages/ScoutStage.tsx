@@ -1,22 +1,14 @@
 import Link from "next/link";
 import { formatDate, type Idea, type ScoutRun } from "@/lib/data";
-import { Badge, Bar, Card, CardHeader, Ring, ScorePill, btn } from "../ui";
-import { IconChevronRight, IconExternal, IconLink, IconStar } from "../icons";
+import { Bar, Card, CardHeader, ScorePill } from "../ui";
+import { IconChevronRight, IconLink } from "../icons";
 
 export default function ScoutStage({ idea, run }: { idea: Idea; run: ScoutRun }) {
   return (
     <div className="grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start">
       <Card className="min-w-0">
-        <div className="flex flex-wrap items-center gap-5">
-          <Ring size={124} stroke={14} rings={[{ value: idea.score, color: "var(--color-accent)" }]} label={`Overall score ${idea.score} of 100`}>
-            <div><div className="text-[30px] font-semibold leading-none tabular-nums text-zinc-50">{idea.score}</div><div className="mt-1 text-[11px] text-zinc-400">of 100</div></div>
-          </Ring>
-          <div className="min-w-0 flex-1">
-            <Badge color="indigo"><IconStar size={10} fill="currentColor" /> Top pick of {formatDate(run.date)}</Badge>
-            <p className="mt-2 text-[14px] leading-relaxed text-zinc-300">Overall score <span className="font-semibold tabular-nums text-zinc-50">{idea.score}/100</span> from the App Ideas bot.</p>
-          </div>
-        </div>
-        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-4 rounded-2xl bg-tile-2 p-5 sm:grid-cols-2">
+        <h3 className="label">Score breakdown</h3>
+        <div className="mt-2.5 grid grid-cols-1 gap-x-6 gap-y-4 rounded-2xl bg-tile-2 p-5 sm:grid-cols-2">
           <Bar label="Demand" value={idea.subScores.demand} />
           <Bar label="Competition (higher = less crowded)" value={idea.subScores.competition} />
           <Bar label="Build effort (higher = easier)" value={idea.subScores.buildEffort} />
@@ -36,10 +28,6 @@ export default function ScoutStage({ idea, run }: { idea: Idea; run: ScoutRun })
             </li>
           ))}
         </ul>
-        <div className="mt-6 grid grid-cols-2 gap-2">
-          <a href={idea.demoUrl} target="_blank" rel="noreferrer" className={btn.primary}>Open demo <IconExternal size={13} /></a>
-          <a href={idea.validationUrl} target="_blank" rel="noreferrer" className={btn.ghost}>Validation page <IconExternal size={13} /></a>
-        </div>
       </Card>
 
       <Card className="min-w-0">

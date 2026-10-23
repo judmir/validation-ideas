@@ -12,11 +12,13 @@ export default function ReportStage({ idea, v, setV, loaded, goValidate }: Props
   if (v.status !== "finished") {
     const label = v.status === "running" ? "The test is still running." : v.status === "ready" ? "The ad is set up but not running yet." : "Validation hasn't started yet.";
     return (
-      <Card className="py-12 text-center">
-        <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-tile-2 text-zinc-300"><IconLock size={20} /></div>
-        <h2 className="mt-4 text-[17px] font-semibold text-zinc-50">Report not available yet</h2>
-        <p className="mt-1.5 text-[13px] text-zinc-400">{label} Finish the validation test to see results.</p>
-        <button onClick={goValidate} className={btn.primary + " mt-5"}>Go to Validate</button>
+      <Card className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-tile-2 text-zinc-300"><IconLock size={18} /></div>
+        <div className="min-w-0 flex-1">
+          <h3 className="text-[15px] font-semibold text-zinc-50">Report not available yet</h3>
+          <p className="mt-0.5 text-[13px] text-zinc-400">{label} The verdict appears here when the live test finishes.</p>
+        </div>
+        <button onClick={goValidate} className={btn.ghost}>Go to live test</button>
       </Card>
     );
   }
@@ -73,22 +75,21 @@ export default function ReportStage({ idea, v, setV, loaded, goValidate }: Props
         <Funnel r={r} />
       </Card>
 
-      <Card>
-        <CardHeader
-          title="Daily signups & spend"
-          right={
-            <div className="flex gap-3 text-[11px] text-zinc-300">
-              <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-accent" />Signups</span>
-              <span className="flex items-center gap-1.5"><span className="h-0.5 w-3 rounded bg-warm" />Spend</span>
-            </div>
-          }
-        />
-        <Chart r={r} />
-      </Card>
+      {/* Two single-series charts rather than one dual-axis chart: each reads on its own scale. */}
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card className="min-w-0">
+          <CardHeader title="Daily signups" sub={`${int(r.signups)} in total`} />
+          <DailyBars values={r.daily.map((d) => d.signups)} fill="bg-accent" fmt={(n) => int(n)} unit="signups" />
+        </Card>
+        <Card className="min-w-0">
+          <CardHeader title="Daily spend" sub={`${eur(r.spend)} in total`} />
+          <DailyBars values={r.daily.map((d) => d.spend)} fill="bg-warm" fmt={(n) => "€" + Math.round(n)} unit="spent" />
+        </Card>
+      </div>
 
       <div className="flex justify-end">
         <button
-          className="text-xs font-semibold text-zinc-400 underline-offset-2 transition-colors hover:text-zinc-200 hover:underline"
+          className="text-xs font-semibold text-zinc-300 underline decoration-zinc-500 underline-offset-2 transition-colors hover:text-white hover:decoration-zinc-300"
           onClick={() => { if (confirm("Discard these results and run the validation again?")) { setV({ status: "on_hold" }); goValidate(); } }}
         >
           Re-run validation
@@ -127,34 +128,34 @@ function Funnel({ r }: { r: FinishedResult }) {
   );
 }
 
-function Chart({ r }: { r: FinishedResult }) {
-  const W = 320, H = 160, P = { l: 24, r: 30, t: 10, b: 22 };
-  const n = r.daily.length;
-  const maxS = Math.max(...r.daily.map((d) => d.signups), 1);
-  const maxSp = Math.max(...r.daily.map((d) => d.spend), 1);
-  const iw = W - P.l - P.r, ih = H - P.t - P.b, bw = Math.min(14, (iw / n) * 0.55);
-  const x = (i: number) => P.l + (iw / n) * (i + 0.5);
-  const line = r.daily.map((d, i) => `${x(i)},${P.t + ih - (d.spend / maxSp) * ih}`).join(" ");
+/** HTML pill-bar chart (zero baseline, recessive grid) so axis labels stay 11px+ at any width. */
+function DailyBars({ values, fill, fmt, unit }: { values: number[]; fill: string; fmt: (n: number) => string; unit: string }) {
+  const max = Math.max(...values, 1);
+  const ticks = [1, 0.5, 0];
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="mt-4 h-auto max-h-[300px] w-full">
-      {[0, 0.5, 1].map((f) => (
-        <g key={f}>
-          <line x1={P.l} x2={W - P.r} y1={P.t + ih * (1 - f)} y2={P.t + ih * (1 - f)} stroke="#34343a" strokeDasharray={f ? "2 3" : undefined} />
-          <text x={P.l - 4} y={P.t + ih * (1 - f) + 3} fontSize="8" textAnchor="end" fill="#a1a1aa">{Math.round(maxS * f)}</text>
-          <text x={W - P.r + 4} y={P.t + ih * (1 - f) + 3} fontSize="8" fill="#a1a1aa">€{Math.round(maxSp * f)}</text>
-        </g>
-      ))}
-      {r.daily.map((d, i) => {
-        const h = Math.max(bw, (d.signups / maxS) * ih);
-        return (
-          <g key={d.day}>
-            <rect x={x(i) - bw / 2} y={P.t + ih - h} width={bw} height={h} rx={bw / 2} fill="#8b7cf6"><title>{`Day ${d.day}: ${d.signups} signups, ${eur(d.spend)}`}</title></rect>
-            <text x={x(i)} y={H - 8} fontSize="8" textAnchor="middle" fill="#a1a1aa">D{d.day}</text>
-          </g>
-        );
-      })}
-      <polyline points={line} fill="none" stroke="#fb923c" strokeWidth="1.6" strokeLinejoin="round" />
-      {r.daily.map((d, i) => <circle key={d.day} cx={x(i)} cy={P.t + ih - (d.spend / maxSp) * ih} r="2.5" fill="#252529" stroke="#fb923c" strokeWidth="1.5" />)}
-    </svg>
+    <div className="mt-5 flex gap-2">
+      <div className="relative h-40 w-8 shrink-0 text-right text-[11px] tabular-nums text-zinc-400" aria-hidden>
+        {ticks.map((f) => <span key={f} className="absolute right-0 -translate-y-1/2" style={{ top: `${(1 - f) * 100}%` }}>{fmt(max * f)}</span>)}
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="relative h-40">
+          {ticks.map((f) => <div key={f} className={`absolute inset-x-0 border-t ${f ? "border-dashed border-white/[0.08]" : "border-white/[0.16]"}`} style={{ top: `${(1 - f) * 100}%` }} />)}
+          <div className="absolute inset-0 flex items-end gap-1.5">
+            {values.map((n, i) => (
+              <div key={i} className="group relative flex h-full flex-1 items-end justify-center" title={`Day ${i + 1}: ${fmt(n)} ${unit}`}>
+                <span className={`w-full max-w-[22px] rounded-t-full ${fill} transition-opacity group-hover:opacity-80`} style={{ height: `${n > 0 ? Math.max(4, (n / max) * 100) : 0}%` }} />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="mt-2 flex gap-1.5 text-center text-[11px] text-zinc-400" aria-hidden>
+          {values.map((_, i) => <span key={i} className="flex-1">D{i + 1}</span>)}
+        </div>
+        <table className="sr-only">
+          <caption>Daily {unit}</caption>
+          <tbody>{values.map((n, i) => <tr key={i}><th>Day {i + 1}</th><td>{fmt(n)}</td></tr>)}</tbody>
+        </table>
+      </div>
+    </div>
   );
 }

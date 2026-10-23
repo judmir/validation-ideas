@@ -22,7 +22,7 @@ export default function CreateIdea({ id }: { id: string }) {
 
   return (
     <div className="mx-auto max-w-3xl space-y-4">
-      <Link href="/" className="inline-flex items-center gap-1.5 text-[13px] font-medium text-zinc-400 transition-colors hover:text-zinc-100"><IconArrowLeft size={14} /> Overview</Link>
+      <Link href="/" className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-zinc-300 transition-colors hover:text-white"><IconArrowLeft size={14} /> All scouts</Link>
       <Card>
         <div className="flex items-start gap-4">
           <Ring size={72} stroke={8} rings={[{ value: idea.score, color: "var(--color-accent-light)" }]} label={`Score ${idea.score} of 100`}>
@@ -60,7 +60,7 @@ export default function CreateIdea({ id }: { id: string }) {
             <Badge color="violet">Queued</Badge>
             <p className="font-semibold text-zinc-50">Queued with App Ideas bot — demo and validation page in progress</p>
             <p className="text-xs text-zinc-400">Queued {new Date(q.at).toLocaleString("en-GB")}. You&apos;ll see the links here once they&apos;re ready.</p>
-            <div className="pt-2"><Link href="/" className={btn.ghost}>Back to overview</Link></div>
+            <div className="pt-2"><Link href="/" className={btn.ghost}>Back to all scouts</Link></div>
           </div>
         ) : busy ? (
           <div className="flex flex-col items-center gap-3 py-6 text-zinc-200">

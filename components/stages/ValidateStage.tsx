@@ -4,7 +4,7 @@ import { eur, int, pct, type Idea } from "@/lib/data";
 import type { ValidationState } from "@/lib/store";
 import { emptyLive, simulateEnd, tick } from "@/lib/sim";
 import { verdict } from "@/lib/verdict";
-import { Badge, Card, CardHeader, Spinner, Stat, btn } from "../ui";
+import { Badge, Card, CardHeader, Sparkline, Spinner, Stat, btn } from "../ui";
 import { IconCheck, IconChevronRight, IconSparkle, IconStop } from "../icons";
 
 type Props = { idea: Idea; v: ValidationState; setV: (v: ValidationState | ((p: ValidationState) => ValidationState)) => void; loaded: boolean; onFinished: () => void };
@@ -54,7 +54,7 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
   if (v.status === "on_hold") {
     const total = idea.ad!.budget.daily * idea.ad!.budget.days;
     return (
-      <section className="mx-auto max-w-xl rounded-[24px] bg-[linear-gradient(160deg,#c9c0fc_0%,#9a8cf8_45%,#6f60e6_100%)] p-5 sm:p-6">
+      <section className="rounded-[24px]bg-[linear-gradient(160deg,#c9c0fc_0%,#9a8cf8_45%,#6f60e6_100%)] p-5 sm:p-6">
         <div className="flex items-center justify-between gap-2">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-white/75 px-2.5 py-1 text-[11px] font-bold text-accent-ink"><IconSparkle size={12} strokeWidth={2} /> App Ideas bot</span>
           <span className="rounded-full bg-[#1c1830] px-2.5 py-1 text-[11px] font-semibold text-white">{preparing ? "Preparing…" : "On hold"}</span>
@@ -77,7 +77,7 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
               I&apos;ve built a <a className="font-bold text-[#4c3fb8] underline underline-offset-2" href={idea.validationUrl} target="_blank" rel="noreferrer">validation page</a> for <b>{idea.name}</b>. Purchase a small Facebook ad test to send real traffic to it and measure signups.
               <span className="mt-2 block text-ink-soft">Estimated test: {eur(idea.ad!.budget.daily)}/day × {idea.ad!.budget.days} days = <b className="tabular-nums text-ink">{eur(total)}</b></span>
             </p>
-            <button onClick={purchase} className={btn.primary + " mt-6 w-full"}>Purchase / Run validation</button>
+            <button onClick={purchase} className={btn.primary + " mt-6 w-full sm:w-auto"}>Purchase / Run validation</button>
           </>
         )}
       </section>
@@ -137,7 +137,8 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
                 <linearGradient id="gauge-grad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stopColor="#f2622e" /><stop offset=".6" stopColor="#fb923c" /><stop offset="1" stopColor="#fdba5c" /></linearGradient>
               </defs>
               <path d="M 22 120 A 98 98 0 0 1 218 120" fill="none" stroke="#e7e5ec" strokeWidth="16" strokeLinecap="round" pathLength={100} />
-              <path d="M 22 120 A 98 98 0 0 1 218 120" fill="none" stroke="url(#gauge-grad)" strokeWidth="16" strokeLinecap="round" pathLength={100} strokeDasharray={`${Math.max(0.5, used)} 100`} className="transition-[stroke-dasharray] duration-700" />
+              {/* Any spend > 0 shows at least a short arc; a near-zero dash would render as a stray dot. */}
+              {l.spend > 0 && <path d="M 22 120 A 98 98 0 0 1 218 120" fill="none" stroke="url(#gauge-grad)" strokeWidth="16" strokeLinecap="round" pathLength={100} strokeDasharray={`${Math.max(5, used)} 100`} className="transition-[stroke-dasharray] duration-700" />}
             </svg>
             <div className="absolute inset-x-0 bottom-0 text-center">
               <div className="text-[34px] font-medium leading-none tabular-nums tracking-tight sm:text-[40px]">{eur(l.spend)}</div>
@@ -155,31 +156,16 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
             <Stat label="CTR" value={pct(ctr)} tick />
             <Stat label="Signups" value={int(l.signups)} highlight tick />
           </div>
-          <Sparkline points={l.ticks.map((t) => t.signups)} />
+          <div className="mt-3 rounded-2xl bg-tile-2/60 p-3">
+            <div className="mb-2 text-[11px] text-zinc-400">Signups over time</div>
+            <Sparkline points={[0, ...l.ticks.map((t) => t.signups)]} label={l.ticks.length ? "Signups over time" : "Collecting signup data…"} className="h-16" />
+          </div>
         </Card>
       </div>
       <AdSetup idea={idea} status={<Badge color="orange">Live</Badge>} compact />
       <div className="flex justify-end">
         <button onClick={finish} className={btn.primary}>Simulate end of test →</button>
       </div>
-    </div>
-  );
-}
-
-function Sparkline({ points }: { points: number[] }) {
-  if (points.length < 2) return <div className="mt-3 h-20 rounded-2xl bg-tile-2/60 text-center text-xs leading-[5rem] text-zinc-400">Collecting signup data…</div>;
-  const max = Math.max(...points, 1);
-  const d = points.map((p, i) => `${(i / (points.length - 1)) * 100},${40 - (p / max) * 34}`).join(" ");
-  return (
-    <div className="mt-3 rounded-2xl bg-tile-2/60 p-3">
-      <div className="mb-1 text-[11px] text-zinc-400">Signups over time</div>
-      <svg viewBox="0 0 100 40" preserveAspectRatio="none" className="h-16 w-full" aria-hidden>
-        <defs>
-          <linearGradient id="spark-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#8b7cf6" stopOpacity="0.45" /><stop offset="1" stopColor="#8b7cf6" stopOpacity="0" /></linearGradient>
-        </defs>
-        <polyline points={`0,40 ${d} 100,40`} fill="url(#spark-fill)" stroke="none" />
-        <polyline points={d} fill="none" stroke="#b9aefb" strokeWidth="2" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
-      </svg>
     </div>
   );
 }

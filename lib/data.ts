@@ -329,5 +329,8 @@ export function formatDate(iso: string) {
   return new Date(iso + "T12:00:00").toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
 }
 export const eur = (n: number) => "€" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-export const int = (n: number) => Math.round(n).toLocaleString("en-US");
+/** Whole-euro label for compact UI ("€2 of €140"). */
+export const eur0 = (n: number) => "€" + Math.round(n).toLocaleString("en-US");
+export const shortDate = (iso: string) => new Date(iso + "T12:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+export const int =(n: number) => Math.round(n).toLocaleString("en-US");
 export const pct = (n: number) => (n * 100).toFixed(2) + "%";
