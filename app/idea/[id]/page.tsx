@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { ALL_IDEAS, findIdea } from "@/lib/mock";
-import IdeaPage from "@/components/IdeaPage";
+import { ALL_IDEAS, NIGHTS, findIdea, ideasOfNight } from "@/lib/mock";
+import IdeaPage, { type RunInfo } from "@/components/IdeaPage";
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -11,5 +11,11 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const { id } = await params;
   const idea = findIdea(id);
   if (!idea) notFound();
-  return <IdeaPage idea={idea} />;
+  const n = NIGHTS.find((x) => x.date === idea.night)!;
+  const run: RunInfo = {
+    date: n.date, label: n.label ?? null, note: n.note ?? null,
+    line: `${n.scout.complaints} complaints + ${n.scout.provenModels} proven models · ${n.niches.join(" + ")} · ${n.analyst.survivors} survivors${n.builder.winnerPainId ? "" : ", no winner"}.`,
+    ideas: ideasOfNight(n.date).map((i) => ({ id: i.painId, title: i.name ?? i.label ?? i.painId, score: i.scores.total })),
+  };
+  return <IdeaPage idea={idea} run={run} />;
 }
