@@ -7,7 +7,7 @@ import StatusBadge from "./StatusBadge";
 import ScoutStage from "./stages/ScoutStage";
 import ValidateStage from "./stages/ValidateStage";
 import ReportStage from "./stages/ReportStage";
-import { btn } from "./ui";
+import { Tag, btn } from "./ui";
 import { IconArrowLeft, IconCheck, IconLock } from "./icons";
 
 const STEPS = [
@@ -45,20 +45,20 @@ export default function IdeaFlow({ id }: { id: string }) {
   const doneUpTo = finished ? 2 : 1;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <div>
-        <Link href="/" className="inline-flex items-center gap-1.5 text-[13px] text-zinc-500 transition-colors hover:text-zinc-200 lg:hidden"><IconArrowLeft size={14} /> Scout log</Link>
-        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 lg:mt-0">
-          <h1 className="text-[22px] font-medium tracking-tight text-zinc-50">{idea.name}</h1>
+        <Link href="/" className="inline-flex items-center gap-1.5 text-[13px] font-medium text-zinc-400 transition-colors hover:text-zinc-100"><IconArrowLeft size={14} /> Overview</Link>
+        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+          <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-zinc-50 sm:text-[34px]">{idea.name}</h1>
           <StatusBadge idea={idea} />
         </div>
-        <p className="mt-1 text-[13px] text-zinc-400">{idea.pitch}</p>
-        <p className="mt-2 text-xs text-zinc-500">Top pick · scout run {formatDate(run.date)}</p>
+        <p className="mt-1 text-[15px] text-zinc-400">{idea.pitch}</p>
+        <div className="mt-3 flex flex-wrap gap-1.5"><Tag warm>Top pick</Tag><Tag>Scout run {formatDate(run.date)}</Tag></div>
       </div>
 
-      {/* Stepper */}
-      <nav className="sticky top-16 z-10 -mx-4 bg-bg/85 px-4 py-2 backdrop-blur-md sm:-mx-6 sm:px-6 lg:-mx-7 lg:px-7">
-        <ol className="grid grid-cols-3 gap-1 rounded-xl border border-line bg-surface p-1 sm:max-w-md">
+      {/* Calm segmented tabs */}
+      <nav className="sticky top-[68px] z-10 lg:top-3" aria-label="Flow steps">
+        <ol className="grid grid-cols-3 gap-1 rounded-full bg-tile p-1 shadow-[0_10px_24px_-12px_rgb(0_0_0/0.7)] sm:max-w-md">
           {STEPS.map((s, i) => {
             const active = s.key === step;
             const locked = s.key === "report" && reportLocked;
@@ -67,12 +67,13 @@ export default function IdeaFlow({ id }: { id: string }) {
               <li key={s.key}>
                 <button
                   onClick={() => go(s.key)}
-                  className={`flex h-9 w-full items-center justify-center gap-2 rounded-lg px-2 text-[13px] font-medium transition-colors ${
-                    active ? "border border-line-strong bg-surface-3 text-zinc-50" : locked ? "text-zinc-400" : "text-zinc-400 hover:bg-white/[0.03] hover:text-zinc-200"
+                  aria-current={active ? "step" : undefined}
+                  className={`flex h-10 w-full items-center justify-center gap-2 rounded-full px-2 text-[13px] font-semibold transition-colors ${
+                    active ? "bg-white text-ink" : "text-zinc-300 hover:bg-white/[0.05] hover:text-white"
                   }`}
                 >
-                  <span className={`grid h-[18px] w-[18px] place-items-center rounded-full text-[10px] font-semibold tabular-nums ${active ? "bg-white text-black" : done ? "bg-[#bbf7d0] text-[#14532d]" : "bg-surface-3 text-zinc-400"}`}>
-                    {done ? <IconCheck size={11} strokeWidth={2.5} /> : locked ? <IconLock size={10} strokeWidth={2} /> : i + 1}
+                  <span className={`grid h-5 w-5 place-items-center rounded-full text-[10px] font-bold tabular-nums ${active ? "bg-accent text-accent-ink" : done ? "bg-accent-pale text-accent-ink" : "bg-tile-2 text-zinc-300"}`}>
+                    {done ? <IconCheck size={11} strokeWidth={2.6} /> : locked ? <IconLock size={10} strokeWidth={2} /> : i + 1}
                   </span>
                   <span>{s.label}</span>
                 </button>
@@ -91,7 +92,7 @@ export default function IdeaFlow({ id }: { id: string }) {
       {/* Back / Next */}
       <div className="flex items-center justify-between gap-3 border-t border-line pt-5">
         {idx === 0 ? (
-          <Link href="/" className={btn.ghost}>← Scout log</Link>
+          <Link href="/" className={btn.ghost}>← Overview</Link>
         ) : (
           <button className={btn.ghost} onClick={() => go(STEPS[idx - 1].key)}>← {STEPS[idx - 1].label}</button>
         )}
@@ -105,7 +106,7 @@ export default function IdeaFlow({ id }: { id: string }) {
             {STEPS[idx + 1].key === "report" && reportLocked ? "Report 🔒" : `Next: ${STEPS[idx + 1].label} →`}
           </button>
         ) : (
-          <Link href="/" className={btn.primary}>Done · Scout log</Link>
+          <Link href="/" className={btn.primary}>Done · Overview</Link>
         )}
       </div>
     </div>

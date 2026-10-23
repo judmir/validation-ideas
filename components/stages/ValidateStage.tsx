@@ -1,11 +1,11 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { eur, int, pct, type Idea } from "@/lib/data";
 import type { ValidationState } from "@/lib/store";
 import { emptyLive, simulateEnd, tick } from "@/lib/sim";
 import { verdict } from "@/lib/verdict";
-import { Badge, Card, CardHeader, Spinner, Stat, btn, linkCls } from "../ui";
-import { IconChevronRight } from "../icons";
+import { Badge, Card, CardHeader, Spinner, Stat, btn } from "../ui";
+import { IconCheck, IconChevronRight, IconSparkle, IconStop } from "../icons";
 
 type Props = { idea: Idea; v: ValidationState; setV: (v: ValidationState | ((p: ValidationState) => ValidationState)) => void; loaded: boolean; onFinished: () => void };
 
@@ -26,7 +26,7 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
     return () => clearInterval(t);
   }, [v.status, idea, setV]);
 
-  if (!loaded) return <Card><div className="h-40 animate-pulse rounded-xl bg-white/[0.04]" /></Card>;
+  if (!loaded) return <Card><div className="h-40 animate-pulse rounded-2xl bg-white/[0.04]" /></Card>;
 
   const purchase = () => {
     setPreparing(true);
@@ -52,32 +52,35 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
   };
 
   if (v.status === "on_hold") {
+    const total = idea.ad!.budget.daily * idea.ad!.budget.days;
     return (
-      <Card>
+      <section className="mx-auto max-w-xl rounded-[24px] bg-[linear-gradient(160deg,#c9c0fc_0%,#9a8cf8_45%,#6f60e6_100%)] p-5 sm:p-6">
+        <div className="flex items-center justify-between gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/75 px-2.5 py-1 text-[11px] font-bold text-accent-ink"><IconSparkle size={12} strokeWidth={2} /> App Ideas bot</span>
+          <span className="rounded-full bg-[#1c1830] px-2.5 py-1 text-[11px] font-semibold text-white">{preparing ? "Preparing…" : "On hold"}</span>
+        </div>
         {preparing ? (
-          <div className="flex flex-col items-center gap-4 py-10 text-center">
-            <div className="text-zinc-200"><Spinner /></div>
-            <div>
-              <p className="font-semibold text-zinc-100">Preparing Facebook validation…</p>
-              <ol className="mt-3 space-y-1 text-sm">
-                {PREP_STEPS.map((s, i) => (
-                  <li key={s} className={i < prepStep ? "text-[#86efac]" : i === prepStep ? "text-zinc-100" : "text-zinc-600"}>{i < prepStep ? "✓ " : ""}{s}</li>
-                ))}
-              </ol>
-            </div>
+          <div className="mt-5 rounded-2xl rounded-bl-md bg-white p-4 text-ink" aria-live="polite">
+            <p className="flex items-center gap-2 font-bold"><Spinner /> Preparing Facebook validation…</p>
+            <ol className="mt-3 space-y-1.5 text-[13px]">
+              {PREP_STEPS.map((s, i) => (
+                <li key={s} className={`flex items-center gap-2 ${i < prepStep ? "text-[#4c3fb8]" : i === prepStep ? "font-semibold text-ink" : "text-ink-soft"}`}>
+                  <span className={`grid h-4 w-4 place-items-center rounded-full ${i < prepStep ? "bg-accent-pale" : "bg-[#ebe9f0]"}`}>{i < prepStep && <IconCheck size={10} strokeWidth={3} />}</span>{s}
+                </li>
+              ))}
+            </ol>
           </div>
         ) : (
-          <div className="space-y-4 py-2 text-center">
-            <Badge color="amber">On hold</Badge>
-            <h2 className="text-lg font-medium tracking-tight text-zinc-50">Validation is on hold</h2>
-            <p className="mx-auto max-w-md text-[13px] leading-relaxed text-zinc-400">
-              The bot has built a <a className={linkCls} href={idea.validationUrl} target="_blank" rel="noreferrer">validation page</a> for {idea.name}. Purchase a small Facebook ad test to send real traffic to it and measure signups.
+          <>
+            <h2 className="mt-5 text-[22px] font-bold tracking-tight text-accent-ink">Validation is on hold</h2>
+            <p className="mt-3 rounded-2xl rounded-bl-md bg-white p-4 text-[13px] leading-relaxed text-ink">
+              I&apos;ve built a <a className="font-bold text-[#4c3fb8] underline underline-offset-2" href={idea.validationUrl} target="_blank" rel="noreferrer">validation page</a> for <b>{idea.name}</b>. Purchase a small Facebook ad test to send real traffic to it and measure signups.
+              <span className="mt-2 block text-ink-soft">Estimated test: {eur(idea.ad!.budget.daily)}/day × {idea.ad!.budget.days} days = <b className="tabular-nums text-ink">{eur(total)}</b></span>
             </p>
-            <p className="text-xs text-zinc-500">Estimated test: {eur(idea.ad!.budget.daily)}/day × {idea.ad!.budget.days} days = <span className="font-semibold tabular-nums text-zinc-200">{eur(idea.ad!.budget.daily * idea.ad!.budget.days)}</span></p>
-            <button onClick={purchase} className={btn.primary + " w-full sm:w-auto"}>Purchase / Run validation</button>
-          </div>
+            <button onClick={purchase} className={btn.primary + " mt-6 w-full"}>Purchase / Run validation</button>
+          </>
         )}
-      </Card>
+      </section>
     );
   }
 
@@ -88,8 +91,8 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
         <AdSetup idea={idea} status={<Badge color="slate">Completed</Badge>} compact />
         <Card className="text-center">
           <Badge color={vd.winner ? "green" : "red"}>{vd.winner ? "✓ Winning idea" : "✕ Not a winner"}</Badge>
-          <p className="mt-2 text-[13px] text-zinc-400">Test finished {v.result.finishedAt}: {int(v.result.signups)} signups from {eur(v.result.spend)} spend.</p>
-          <button onClick={onFinished} className={btn.primary + " mt-3"}>View report →</button>
+          <p className="mt-2.5 text-[13px] text-zinc-300">Test finished {v.result.finishedAt}: {int(v.result.signups)} signups from {eur(v.result.spend)} spend.</p>
+          <button onClick={onFinished} className={btn.primary + " mt-4"}>View report →</button>
         </Card>
       </div>
     );
@@ -98,7 +101,7 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
   if (v.status === "ready") {
     return (
       <div className="space-y-4">
-        <AdSetup idea={idea} status={<Badge color="blue">Ready to run</Badge>} />
+        <AdSetup idea={idea} status={<Badge color="violet">Ready to run</Badge>} />
         <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
           <button onClick={() => setV({ status: "on_hold" })} className={btn.ghost} disabled={launching}>Cancel</button>
           <button onClick={run} className={btn.fb} disabled={launching}>
@@ -112,26 +115,50 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
   // running
   const l = v.live;
   const budget = idea.ad!.budget.daily * idea.ad!.budget.days;
+  const used = Math.min(100, (l.spend / budget) * 100);
   const ctr = l.impressions ? l.clicks / l.impressions : 0;
   return (
     <div className="space-y-4">
-      <Card>
-        <CardHeader title="Live campaign" right={<Badge color="green" pulse>Running</Badge>} />
-        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-5">
-          <Metric label="Spend" value={eur(l.spend)} />
-          <Metric label="Impressions" value={int(l.impressions)} />
-          <Metric label="Clicks" value={int(l.clicks)} />
-          <Metric label="CTR" value={pct(ctr)} />
-          <div className="col-span-2 sm:col-span-1"><Metric label="Signups" value={int(l.signups)} highlight /></div>
-        </div>
-        <div className="mt-4">
-          <div className="mb-1.5 flex justify-between text-xs text-zinc-400"><span>Budget used</span><span className="tabular-nums">{eur(l.spend)} / {eur(budget)}</span></div>
-          <div className="h-1.5 rounded-full bg-line-strong"><div className="h-1.5 rounded-full bg-zinc-200 transition-all duration-700" style={{ width: `${Math.min(100, (l.spend / budget) * 100)}%` }} /></div>
-        </div>
-        <Sparkline points={l.ticks.map((t) => t.signups)} />
-        <p className="mt-3 text-xs text-zinc-500">{l.spend >= budget ? "Budget fully spent — press “Simulate end of test” to see the report." : "Mock metrics update every ~1 s while this page is open."}</p>
-      </Card>
-      <AdSetup idea={idea} status={<Badge color="green">Live</Badge>} compact />
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]">
+        {/* Light "time tracker" card: budget gauge */}
+        <section className="flex flex-col rounded-[22px] bg-paper p-5 text-ink sm:p-6">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h2 className="text-[17px] font-bold tracking-tight">Live campaign</h2>
+              <div className="mt-1.5"><span className="inline-flex items-center gap-1.5 rounded-full bg-[#ffedd5] px-2.5 py-0.5 text-[11px] font-bold text-[#9a3412]"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#ea580c]" />Running</span></div>
+            </div>
+            <button onClick={finish} aria-label="Simulate end of test" title="Simulate end of test" className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#f97316] text-white ring-4 ring-[#ffedd5] transition-colors hover:bg-[#ea580c]">
+              <IconStop size={13} />
+            </button>
+          </div>
+          <div className="relative mx-auto mt-4 w-full max-w-[280px]">
+            <svg viewBox="0 0 240 132" className="w-full" aria-hidden>
+              <defs>
+                <linearGradient id="gauge-grad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stopColor="#f2622e" /><stop offset=".6" stopColor="#fb923c" /><stop offset="1" stopColor="#fdba5c" /></linearGradient>
+              </defs>
+              <path d="M 22 120 A 98 98 0 0 1 218 120" fill="none" stroke="#e7e5ec" strokeWidth="16" strokeLinecap="round" pathLength={100} />
+              <path d="M 22 120 A 98 98 0 0 1 218 120" fill="none" stroke="url(#gauge-grad)" strokeWidth="16" strokeLinecap="round" pathLength={100} strokeDasharray={`${Math.max(0.5, used)} 100`} className="transition-[stroke-dasharray] duration-700" />
+            </svg>
+            <div className="absolute inset-x-0 bottom-0 text-center">
+              <div className="text-[34px] font-medium leading-none tabular-nums tracking-tight sm:text-[40px]">{eur(l.spend)}</div>
+              <div className="mt-1.5 text-[12px] font-medium text-ink-soft">of {eur(budget)} budget</div>
+            </div>
+          </div>
+          <p className="mt-5 text-center text-xs text-ink-soft">{l.spend >= budget ? "Budget fully spent — press “Simulate end of test” to see the report." : "Mock metrics update every ~1 s while this page is open."}</p>
+        </section>
+
+        <Card className="min-w-0">
+          <CardHeader title="Live metrics" sub="Facebook ad test · mock" />
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            <Stat label="Impressions" value={int(l.impressions)} tick />
+            <Stat label="Clicks" value={int(l.clicks)} tick />
+            <Stat label="CTR" value={pct(ctr)} tick />
+            <Stat label="Signups" value={int(l.signups)} highlight tick />
+          </div>
+          <Sparkline points={l.ticks.map((t) => t.signups)} />
+        </Card>
+      </div>
+      <AdSetup idea={idea} status={<Badge color="orange">Live</Badge>} compact />
       <div className="flex justify-end">
         <button onClick={finish} className={btn.primary}>Simulate end of test →</button>
       </div>
@@ -139,26 +166,21 @@ export default function ValidateStage({ idea, v, setV, loaded, onFinished }: Pro
   );
 }
 
-function Metric({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
-  return (
-    <Stat label={label} value={value} highlight={highlight} tick />
-  );
-}
-
 function Sparkline({ points }: { points: number[] }) {
-  const ref = useRef<SVGSVGElement>(null);
-  if (points.length < 2) return <div className="mt-4 h-16 rounded-lg border border-dashed border-line-strong text-center text-xs leading-[4rem] text-zinc-500">Collecting data…</div>;
+  if (points.length < 2) return <div className="mt-3 h-20 rounded-2xl bg-tile-2/60 text-center text-xs leading-[5rem] text-zinc-400">Collecting signup data…</div>;
   const max = Math.max(...points, 1);
-  const d = points.map((p, i) => `${(i / (points.length - 1)) * 100},${40 - (p / max) * 36}`).join(" ");
+  const d = points.map((p, i) => `${(i / (points.length - 1)) * 100},${40 - (p / max) * 34}`).join(" ");
   return (
-    <svg ref={ref} viewBox="0 0 100 40" preserveAspectRatio="none" className="mt-4 h-16 w-full rounded-lg border border-line bg-surface-2">
-      <defs>
-        <linearGradient id="spark-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#fff" stopOpacity="0.16" /><stop offset="1" stopColor="#fff" stopOpacity="0" /></linearGradient>
-      </defs>
-      {[10, 20, 30].map((y) => <line key={y} x1="0" x2="100" y1={y} y2={y} stroke="#222" vectorEffect="non-scaling-stroke" />)}
-      <polyline points={`0,40 ${d} 100,40`} fill="url(#spark-fill)" stroke="none" />
-      <polyline points={d} fill="none" stroke="#f4f4f5" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
-    </svg>
+    <div className="mt-3 rounded-2xl bg-tile-2/60 p-3">
+      <div className="mb-1 text-[11px] text-zinc-400">Signups over time</div>
+      <svg viewBox="0 0 100 40" preserveAspectRatio="none" className="h-16 w-full" aria-hidden>
+        <defs>
+          <linearGradient id="spark-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#8b7cf6" stopOpacity="0.45" /><stop offset="1" stopColor="#8b7cf6" stopOpacity="0" /></linearGradient>
+        </defs>
+        <polyline points={`0,40 ${d} 100,40`} fill="url(#spark-fill)" stroke="none" />
+        <polyline points={d} fill="none" stroke="#b9aefb" strokeWidth="2" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+      </svg>
+    </div>
   );
 }
 
@@ -166,9 +188,9 @@ function AdSetup({ idea, status, compact }: { idea: Idea; status: React.ReactNod
   const ad = idea.ad!;
   const host = idea.validationUrl?.replace(/^https?:\/\//, "").split("/")[0];
   const body = (
-    <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 [&>*]:min-w-0">
-      {/* Mock FB ad preview */}
-      <div className="self-start rounded-lg border border-line bg-surface-2 p-2.5">
+    <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 [&>*]:min-w-0">
+      {/* Mock FB ad preview — keeps Facebook's own look */}
+      <div className="self-start rounded-2xl bg-tile-2 p-3">
       <div className="label mb-2 px-0.5">Ad preview</div>
       <div className="overflow-hidden rounded-lg bg-white text-sm text-zinc-900">
         <div className="flex items-center gap-2 p-3">
@@ -183,7 +205,7 @@ function AdSetup({ idea, status, compact }: { idea: Idea; status: React.ReactNod
         </div>
       </div>
       </div>
-      <div className="space-y-4 text-sm">
+      <div className="space-y-5 text-sm">
         <Section title="Ad copy">
           <Row k="Headline" v={ad.headline} />
           <Row k="Primary text" v={ad.primaryText} />
@@ -192,7 +214,7 @@ function AdSetup({ idea, status, compact }: { idea: Idea; status: React.ReactNod
         <Section title="Suggested audience">
           <Row k="Location" v={ad.audience.location} />
           <Row k="Age" v={ad.audience.age} />
-          <div className="flex flex-wrap gap-1 pt-1">{ad.audience.interests.map((i) => <span key={i} className="rounded-md border border-line-strong bg-surface-3 px-2 py-0.5 text-xs text-zinc-300">{i}</span>)}</div>
+          <div className="flex flex-wrap gap-1.5 pt-1">{ad.audience.interests.map((i) => <span key={i} className="rounded-full bg-white/[0.08] px-2.5 py-0.5 text-xs font-medium text-zinc-200">{i}</span>)}</div>
         </Section>
         <Section title="Estimated budget">
           <div className="grid grid-cols-3 gap-2 text-center">
@@ -206,10 +228,10 @@ function AdSetup({ idea, status, compact }: { idea: Idea; status: React.ReactNod
   );
   return (
     <Card>
-      <CardHeader title={<>Facebook ad setup <span className="text-xs font-normal text-zinc-500">(mock)</span></>} right={status} />
+      <CardHeader title={<>Facebook ad setup <span className="text-xs font-normal text-zinc-400">(mock)</span></>} right={status} />
       {compact ? (
         <details className="group">
-          <summary className="mt-3 inline-flex cursor-pointer list-none items-center gap-1 text-xs font-medium text-zinc-400 transition-colors hover:text-zinc-200"><IconChevronRight size={12} className="transition group-open:rotate-90" /> Show ad copy, audience & budget</summary>
+          <summary className="mt-3 inline-flex cursor-pointer list-none items-center gap-1 text-xs font-semibold text-zinc-400 transition-colors hover:text-zinc-200"><IconChevronRight size={12} className="transition group-open:rotate-90" /> Show ad copy, audience & budget</summary>
           {body}
         </details>
       ) : body}
@@ -220,8 +242,8 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
   <div><h3 className="label mb-2">{title}</h3><div className="space-y-1.5">{children}</div></div>
 );
 const Row = ({ k, v }: { k: string; v: string }) => (
-  <div className="flex gap-2"><span className="w-24 shrink-0 text-zinc-500">{k}</span><span className="text-zinc-200">{v}</span></div>
+  <div className="flex gap-2"><span className="w-24 shrink-0 text-zinc-400">{k}</span><span className="text-zinc-100">{v}</span></div>
 );
 const Mini = ({ k, v }: { k: string; v: string }) => (
-  <div className="rounded-lg border border-line bg-surface-2 px-2 py-2"><div className="text-[11px] text-zinc-400">{k}</div><div className="mt-0.5 font-medium tabular-nums text-zinc-100">{v}</div></div>
+  <div className="rounded-2xl bg-tile-2 px-2 py-2.5"><div className="text-[11px] text-zinc-400">{k}</div><div className="mt-0.5 font-semibold tabular-nums text-zinc-50">{v}</div></div>
 );

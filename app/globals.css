@@ -1,25 +1,39 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #0a0a0a;
-  --color-surface: #0f0f0f;
-  --color-surface-2: #151515;
-  --color-surface-3: #1b1b1b;
-  --color-line: #1f1f1f;
-  --color-line-strong: #2b2b2b;
-  --color-accent: #f4f4f5;
-  --color-accent-hover: #ffffff;
-  --color-accent-soft: #e4e4e7;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  /* Soft charcoal frame → panel → tile (each step slightly lighter, no harsh borders). */
+  --color-frame: #0f0f11;
+  --color-panel: #1b1b1e;
+  --color-tile: #252529;
+  --color-tile-2: #2f2f34;
+  --color-line: rgb(255 255 255 / 0.06);
+  --color-faint: #9a9aa3; /* smallest readable muted text: ≥4.5:1 on tile */
+  /* One lavender/violet accent family + a warm orange for small highlights. */
+  --color-accent: #8b7cf6;
+  --color-accent-light: #b9aefb;
+  --color-accent-pale: #dcd6fe;
+  --color-accent-deep: #5e5491;
+  --color-accent-ink: #16112e;
+  --color-warm: #fb923c;
+  --color-paper: #f6f5f8;
+  --color-ink: #17161c;
+  --color-ink-soft: #4d4a56;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, monospace;
 }
 
 :root { color-scheme: dark; }
-body { @apply bg-bg text-[14px] text-zinc-100 antialiased; font-feature-settings: "cv11", "ss01", "tnum" 0; }
-::selection { background: rgb(255 255 255 / 0.18); }
-.label { @apply text-[11px] font-medium uppercase tracking-[0.06em] text-zinc-400; }
+body { @apply bg-panel text-[14px] text-zinc-100 antialiased lg:bg-frame; }
+::selection { background: rgb(139 124 246 / 0.35); }
+.label { @apply text-[11px] font-semibold uppercase tracking-[0.08em] text-faint; }
 summary::-webkit-details-marker { display: none; }
 
-@keyframes tick { 0% { background-color: rgb(255 255 255 / 0.07); } 100% { background-color: transparent; } }
+/* Striped bar for projected / pending values. */
+.hatch {
+  background: repeating-linear-gradient(135deg, var(--color-accent-pale) 0 3px, transparent 3px 9px);
+  box-shadow: inset 0 0 0 1.5px rgb(220 214 254 / 0.55);
+}
+
+@keyframes tick { 0% { background-color: rgb(139 124 246 / 0.22); } 100% { background-color: transparent; } }
 .tick { animation: tick 0.9s ease-out; }
 @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
