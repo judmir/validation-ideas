@@ -1,8 +1,7 @@
 "use client";
 import { usePersistedMany, valKey } from "@/lib/store";
 import { testNumbers } from "@/lib/status";
-import type { TestRow } from "./NightStatusCard";
-import { TestList } from "./TestList";
+import { TestList, type TestRow } from "./TestList";
 
 export function TestListLive({ tests }: { tests: TestRow[] }) {
   const [vals, loaded] = usePersistedMany(tests.map((t) => valKey(t.id)), tests.map((t) => t.initial));

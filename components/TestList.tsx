@@ -3,7 +3,9 @@ import Link from "next/link";
 import { int, shortDate } from "@/lib/format";
 import type { ValidationState } from "@/lib/store";
 import type { testNumbers } from "@/lib/status";
-import type { TestRow } from "./NightStatusCard";
+import type { ValidationState as VS } from "@/lib/store";
+
+export type TestRow = { id: string; name: string; night: string; initial: VS; budgetEur: number };
 
 /** Each run's top pick with its live test status (Ready / Live / ✓ Winner / ✕ Not a winner) and signups. */
 export function TestList({ rows, loaded }: { rows: { t: TestRow; v: ValidationState; n: ReturnType<typeof testNumbers> }[]; loaded: boolean }) {
