@@ -4,7 +4,7 @@ import type { Idea, TrafficSource } from "@/lib/types";
 import type { ValidationState } from "@/lib/store";
 import { emptySignals, tickSignals } from "@/lib/sim";
 import { Card, CardHeader, btn } from "../ui";
-import { IconStop } from "../icons";
+import { IconChevronRight, IconStop } from "../icons";
 import AdKit, { SOURCE_NAME } from "./AdKit";
 import LandingPreview from "./LandingPreview";
 import SignalsTable from "./SignalsTable";
@@ -24,7 +24,7 @@ export default function ValidateTab({ idea, v, setV, loaded, goReport }: Props) 
   }, [v.status, val.sim, budget, setV]);
 
   const plan: { s: TrafficSource; note: string; available: boolean }[] = [
-    { s: "meta", note: "Default. Paid traffic from the ad kit above.", available: true },
+    { s: "meta", note: "Default. Paid traffic from the ad kit below.", available: true },
     { s: "google_search", note: val.adKit.searchIntent ? `On: people search for it (${(val.adKit.googleKeywords ?? []).slice(0, 2).join(", ")}…)` : "Off: no search intent for this idea.", available: val.adKit.searchIntent },
     { s: "reddit", note: `Optional paid ads in ${(val.adKit.redditSubs ?? []).join(", ") || "relevant subs"}.`, available: true },
   ];
@@ -35,47 +35,16 @@ export default function ValidateTab({ idea, v, setV, loaded, goReport }: Props) 
   return (
     <div className="space-y-4">
       <Card>
-        <CardHeader title="Landing page" sub="One shared template for every top pick. Prices in EUR." right={<span className="rounded-md bg-white/[0.08] px-2 py-0.5 text-[11px] font-semibold text-zinc-300">Preview only</span>} />
-        <div id="landing" className="mt-4 scroll-mt-24"><LandingPreview landing={val.landing} name={name} /></div>
-      </Card>
-
-      <Card>
-        <CardHeader title="Ad kit · Phase 1" sub="Copy each block into Meta Ads Manager yourself. Nothing is published from here." />
-        <div className="mt-4"><AdKit kit={val.adKit} slug={val.landing.slug} /></div>
-      </Card>
-
-      <Card>
-        <CardHeader title="Traffic plan" sub="No automated organic posting." />
-        <ul className="mt-4 space-y-2">
-          {plan.map(({ s, note, available }) => {
-            const on = v.active.includes(s);
-            const locked = v.status === "running" || (!available && !on);
-            return (
-              <li key={s} className="flex items-center gap-3 rounded-2xl bg-tile-2 px-4 py-3">
-                <div className="min-w-0 flex-1">
-                  <div className="text-[14px] font-semibold text-zinc-50">{SOURCE_NAME[s]}{s === "reddit" && <span className="ml-1.5 text-[12px] font-medium text-zinc-400">optional</span>}</div>
-                  <div className="text-[12px] text-zinc-400">{note}</div>
-                </div>
-                <button role="switch" aria-checked={on} aria-label={`${SOURCE_NAME[s]} ${on ? "on" : "off"}`} disabled={locked} onClick={() => toggle(s)} className={`relative h-6 w-11 shrink-0 rounded-full transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${on ? "bg-accent" : "bg-white/[0.14]"}`}>
-                  <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-[left] ${on ? "left-[22px]" : "left-0.5"}`} />
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </Card>
-
-      <Card>
         <CardHeader
-          title="Signals per source"
-          sub={v.status === "running" ? "Simulated · ticks every ~1 s while this page is open" : v.status === "finished" ? `Simulated results · ended ${v.endedAt}${v.status === "finished" && v.seeded ? " (seeded demo)" : ""}` : "Not started"}
+          title="Live test"
+          sub={v.status === "running" ? "Simulated · ticks every ~1 s while this page is open" : v.status === "finished" ? `Simulated results · ended ${v.endedAt}` : `€${val.adKit.budget.dailyEur}/day for ${val.adKit.budget.days} days · not started`}
           right={loaded && v.status === "running" ? <span className="inline-flex items-center gap-1.5 rounded-full bg-[#fdba74] px-2.5 py-0.5 text-[11px] font-semibold text-[#431407]"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" />Running</span> : undefined}
         />
         <div className="mt-4">
           {!loaded ? (
             <div className="h-40 animate-pulse rounded-2xl bg-white/[0.04]" />
           ) : v.status === "idle" ? (
-            <div className="rounded-2xl border border-dashed border-white/[0.12] p-5 text-center text-[13px] text-zinc-400">Paste the ad kit, then start the simulation to watch price clicks, checkout starts and waitlist signups per source.</div>
+            <div className="rounded-2xl border border-dashed border-white/[0.12] p-5 text-center text-[13px] text-zinc-400">Start the simulation to watch visitors, price clicks and waitlist signups come in.</div>
           ) : (
             <SignalsTable rows={v.bySource} active={v.active} live={v.status === "running"} />
           )}
@@ -90,6 +59,47 @@ export default function ValidateTab({ idea, v, setV, loaded, goReport }: Props) 
             </>
           )}
         </div>
+        <details className="group mt-5 border-t border-white/[0.06] pt-4">
+          <summary className="flex cursor-pointer list-none items-center gap-2 text-[13px] font-semibold text-zinc-300 hover:text-zinc-50">
+            <span className="min-w-0 flex-1">Traffic sources <span className="font-medium text-zinc-400">· {v.active.map((s) => SOURCE_NAME[s].split(" (")[0]).join(", ") || "none"}</span></span>
+            <IconChevronRight size={14} className="shrink-0 text-zinc-400 transition group-open:rotate-90" />
+          </summary>
+          <ul className="mt-3 space-y-2">
+            {plan.map(({ s, note, available }) => {
+              const on = v.active.includes(s);
+              const locked = v.status === "running" || (!available && !on);
+              return (
+                <li key={s} className="flex items-center gap-3 rounded-2xl bg-tile-2 px-4 py-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[14px] font-semibold text-zinc-50">{SOURCE_NAME[s]}</div>
+                    <div className="text-[12px] text-zinc-400">{note}</div>
+                  </div>
+                  <button role="switch" aria-checked={on} aria-label={`${SOURCE_NAME[s]} ${on ? "on" : "off"}`} disabled={locked} onClick={() => toggle(s)} className={`relative h-6 w-11 shrink-0 rounded-full transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${on ? "bg-accent" : "bg-white/[0.14]"}`}>
+                    <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-[left] ${on ? "left-[22px]" : "left-0.5"}`} />
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </details>
+      </Card>
+
+      <Card>
+        <CardHeader title="Landing page" sub="The page the ads send people to. Preview only, not deployed." />
+        <div id="landing" className="mt-4 scroll-mt-24"><LandingPreview landing={val.landing} name={name} /></div>
+      </Card>
+
+      <Card className="!p-0">
+        <details className="group">
+          <summary className="flex cursor-pointer list-none items-center gap-3 p-5 sm:p-6">
+            <div className="min-w-0 flex-1">
+              <h2 className="text-[17px] font-semibold tracking-tight text-zinc-50">Ad kit</h2>
+              <p className="mt-1 text-[13px] text-zinc-400">Copy for Meta Ads Manager. Nothing is published from here.</p>
+            </div>
+            <IconChevronRight size={16} className="shrink-0 text-zinc-400 transition group-open:rotate-90" />
+          </summary>
+          <div className="px-5 pb-5 sm:px-6 sm:pb-6"><AdKit kit={val.adKit} slug={val.landing.slug} /></div>
+        </details>
       </Card>
     </div>
   );

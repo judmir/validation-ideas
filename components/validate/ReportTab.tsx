@@ -4,10 +4,10 @@ import type { ValidationState } from "@/lib/store";
 import { eur0, pct, plural } from "@/lib/format";
 import { CALL_LABEL, recommendation, totals, validationVerdict, type ValidationCall } from "@/lib/verdict";
 import { Card, CardHeader, Funnel, btn } from "../ui";
-import { IconLock } from "../icons";
+import { IconChevronRight, IconLock } from "../icons";
 import { SOURCE_NAME } from "./AdKit";
 
-const TONE: Record<ValidationCall, { bg: string; ink: string; bar: string }> = {
+const TONE: Record<ValidationCall, { bg: string; ink: string; bar: string }> = { // bg/ink kept for reuse
   strong: { bg: "bg-[#bbf7d0]", ink: "text-[#14532d]", bar: "#16a34a" },
   kill: { bg: "bg-[#fecaca]", ink: "text-[#7f1d1d]", bar: "#dc2626" },
   inconclusive: { bg: "bg-[#fde68a]", ink: "text-[#713f12]", bar: "#d97706" },
@@ -37,54 +37,63 @@ export default function ReportTab({ idea, v, loaded, goValidate }: { idea: Idea;
   return (
     <div className="space-y-4">
       <section className="rounded-[24px] bg-paper p-5 text-ink sm:p-7">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-ink-soft">Fake-door verdict</span>
-          {v.status === "running" && <span className="rounded-full bg-[#ffedd5] px-2.5 py-0.5 text-[11px] font-bold text-[#9a3412]">Live · provisional</span>}
-          <span className="rounded-full bg-[#ebe9f0] px-2.5 py-0.5 text-[11px] font-bold text-ink-soft">Simulated</span>
-        </div>
-        <div className="mt-3 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2 className="text-[30px] font-bold leading-tight tracking-tight sm:text-[36px]">{CALL_LABEL[call]}</h2>
-            <p className="mt-1 text-[14px] text-ink-soft">Price-click rate <b className="tabular-nums text-ink">{t.visitors ? pct(rate) : "—"}</b> from <b className="tabular-nums text-ink">{t.visitors}</b> visitors ({t.priceClicks} clicked “{idea.validation?.landing.primaryCta ?? "Start for …"}”).</p>
-          </div>
-          <span className={`self-start rounded-full px-3 py-1 text-[12px] font-bold sm:self-auto ${tone.bg} ${tone.ink}`}>{call === "not-enough-traffic" ? `< ${RULES.minVisitors} visitors` : call === "strong" ? "> 3%" : call === "kill" ? "< 1%" : "1–3%"}</span>
-        </div>
+        <div className="text-[11px] font-bold uppercase tracking-[0.08em] text-ink-soft">Verdict · simulated{v.status === "running" ? " · provisional" : ""}</div>
+        <h2 className="mt-2 text-[30px] font-bold leading-tight tracking-tight sm:text-[36px]">{CALL_LABEL[call]}</h2>
+        <p className="mt-1 text-[14px] text-ink-soft">Price-click rate <b className="tabular-nums text-ink">{t.visitors ? pct(rate) : "—"}</b> from <b className="tabular-nums text-ink">{t.visitors}</b> visitors.</p>
         <RateBar rate={rate} color={tone.bar} dim={call === "not-enough-traffic"} />
-        <p className="mt-5 border-t border-[#e7e5ec] pt-5 text-[14px] leading-relaxed text-ink-soft"><b className="text-ink">Recommendation:</b> {recommendation(name, call, t.visitors)}</p>
+        <p className="mt-5 border-t border-[#e7e5ec] pt-5 text-[14px] leading-relaxed text-ink-soft">{recommendation(name, call, t.visitors)}</p>
       </section>
 
-      <div className="grid gap-4 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-        <Card className="min-w-0">
-          <CardHeader title="Funnel" sub={`${eur0(t.spendEur)} spent across ${rows.length} source${rows.length === 1 ? "" : "s"}`} />
-          <div className="mt-5"><Funnel rows={[{ k: "Visitors", n: t.visitors }, { k: "Price clicks", n: t.priceClicks }, { k: "Checkout starts", n: t.checkoutStarts }]} /></div>
-        </Card>
-        <Card className="min-w-0">
-          <CardHeader title="Waitlist" sub="Secondary signal: interest without a price commitment." />
-          <div className="mt-4 flex items-baseline gap-2"><span className="text-[40px] font-medium leading-none tracking-tight tabular-nums text-zinc-50">{t.waitlistSignups}</span><span className="text-[13px] text-zinc-300">signups</span></div>
-          <p className="mt-2 text-[12px] text-zinc-400">{t.visitors ? pct(t.waitlistSignups / t.visitors) : "—"} of visitors. Doesn&apos;t change the verdict.</p>
-        </Card>
-      </div>
-
       <Card>
-        <CardHeader title="By source" sub="Each source is judged on its own traffic." />
-        <ul className="mt-4 space-y-2">
-          {rows.map((r) => {
-            const s = validationVerdict(r);
-            const tn = TONE[s.call];
-            return (
-              <li key={r.source} className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl bg-tile-2 px-4 py-3">
-                <div className="min-w-0 flex-1 basis-40">
-                  <div className="text-[14px] font-semibold text-zinc-50">{SOURCE_NAME[r.source]}</div>
-                  <div className="text-[12px] tabular-nums text-zinc-400">{eur0(r.spendEur)} · {plural(r.visitors, "visitor")} · {plural(r.priceClicks, "price click")} · {plural(r.checkoutStarts, "checkout start")} · {r.waitlistSignups} waitlist</div>
-                </div>
-                <span className="text-[13px] font-semibold tabular-nums text-zinc-100">{r.visitors ? pct(s.rate) : "—"}</span>
-                <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${tn.bg} ${tn.ink}`}>{CALL_LABEL[s.call]}</span>
-              </li>
-            );
-          })}
-        </ul>
-        <p className="mt-3 text-[11px] text-zinc-400">Rules: under {RULES.minVisitors} visitors = not enough traffic · price clicks ÷ visitors above {RULES.strongPriceClickRate * 100}% = strong · below {RULES.killPriceClickRate * 100}% = kill · otherwise inconclusive.</p>
+        <CardHeader title="Results" right={<span className="text-xs text-zinc-400">{v.status === "finished" ? `Ended ${v.endedAt}` : "Live"}</span>} />
+        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <Kpi k="Spend" v={eur0(t.spendEur)} />
+          <Kpi k="Visitors" v={String(t.visitors)} />
+          <Kpi k="Price clicks" v={String(t.priceClicks)} hi />
+          <Kpi k="Price-click rate" v={t.visitors ? pct(rate) : "—"} hi />
+          <Kpi k="Checkout starts" v={String(t.checkoutStarts)} />
+          <Kpi k="Waitlist" v={String(t.waitlistSignups)} />
+        </div>
+        <div className="mt-5"><Funnel rows={[{ k: "Visitors", n: t.visitors }, { k: "Price clicks", n: t.priceClicks }, { k: "Checkout starts", n: t.checkoutStarts }]} /></div>
       </Card>
+
+      <Card className="!p-0">
+        <details className="group">
+          <summary className="flex cursor-pointer list-none items-center gap-3 p-5 sm:p-6">
+            <div className="min-w-0 flex-1">
+              <h2 className="text-[17px] font-semibold tracking-tight text-zinc-50">By source</h2>
+              <p className="mt-1 text-[13px] text-zinc-400">Each source judged on its own traffic.</p>
+            </div>
+            <IconChevronRight size={16} className="shrink-0 text-zinc-400 transition group-open:rotate-90" />
+          </summary>
+          <div className="px-5 pb-5 sm:px-6 sm:pb-6">
+            <ul className="space-y-2">
+              {rows.map((r) => {
+                const s = validationVerdict(r);
+                return (
+                  <li key={r.source} className="flex flex-wrap items-center gap-x-4 gap-y-1 rounded-2xl bg-tile-2 px-4 py-3">
+                    <div className="min-w-0 flex-1 basis-40">
+                      <div className="text-[14px] font-semibold text-zinc-50">{SOURCE_NAME[r.source]}</div>
+                      <div className="text-[12px] tabular-nums text-zinc-400">{eur0(r.spendEur)} · {plural(r.visitors, "visitor")} · {plural(r.priceClicks, "price click")} · {r.waitlistSignups} waitlist</div>
+                    </div>
+                    <span className="text-[13px] font-semibold tabular-nums text-zinc-100">{r.visitors ? pct(s.rate) : "—"} · {CALL_LABEL[s.call]}</span>
+                  </li>
+                );
+              })}
+            </ul>
+            <p className="mt-3 text-[12px] text-zinc-400">Under {RULES.minVisitors} visitors = not enough traffic · above {RULES.strongPriceClickRate * 100}% = strong · below {RULES.killPriceClickRate * 100}% = kill · otherwise inconclusive.</p>
+          </div>
+        </details>
+      </Card>
+    </div>
+  );
+}
+
+function Kpi({ k, v, hi }: { k: string; v: string; hi?: boolean }) {
+  return (
+    <div className={`min-w-0 rounded-2xl px-4 py-3.5 ${hi ? "bg-accent/15" : "bg-tile-2"}`}>
+      <div className="text-[12px] text-zinc-400">{k}</div>
+      <div className="mt-1 text-[24px] font-medium leading-none tracking-tight tabular-nums text-zinc-50">{v}</div>
     </div>
   );
 }
