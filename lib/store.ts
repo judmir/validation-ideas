@@ -1,26 +1,12 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import type { Idea, SourceSignals, TrafficSource } from "./types";
+import type { Idea } from "./types";
+import { initialState, type ValidationState } from "./valstate";
 
 export const PREFIX = "vi:";
 
-/** Simulated fake-door test. `seeded` = the mock results that ship with the demo. */
-export type ValidationState =
-  | { status: "idle"; active: TrafficSource[] }
-  | { status: "running"; startedAt: number; active: TrafficSource[]; bySource: SourceSignals[] }
-  | { status: "finished"; endedAt: string; active: TrafficSource[]; bySource: SourceSignals[]; seeded?: boolean };
-
-export function defaultSources(idea: Idea): TrafficSource[] {
-  const kit = idea.validation?.adKit;
-  if (!kit) return [];
-  return ["meta", ...(kit.searchIntent ? (["google_search"] as const) : [])];
-}
-
-export function initialState(idea: Idea): ValidationState {
-  const r = idea.validation?.results;
-  if (r) return { status: "finished", endedAt: r.endedAt ?? r.startedAt, active: r.bySource.filter((s) => s.visitors > 0).map((s) => s.source), bySource: r.bySource, seeded: true };
-  return { status: "idle", active: defaultSources(idea) };
-}
+export { defaultSources, initialState, type ValidationState } from "./valstate";
+export const valKey = (painId: string) => "val2:" + painId;
 
 function read<T>(key: string): T | null {
   try {
@@ -65,7 +51,27 @@ export function usePersisted<T>(key: string, fallback: T) {
 }
 
 // v2 key: the old CPS-based state shape is incompatible.
-export const useValidation = (idea: Idea) => usePersisted<ValidationState>("val2:" + idea.painId, initialState(idea));
+/** Read-only snapshot of several keys at once (list views); `keys` and `fallbacks` should be stable. */
+export function usePersistedMany<T>(keys: readonly string[], fallbacks: readonly T[]) {
+  const [values, setValues] = useState<readonly T[]>(fallbacks);
+  const [loaded, setLoaded] = useState(false);
+  const sig = keys.join("|");
+  useEffect(() => {
+    const sync = () => setValues(keys.map((k, i) => read<T>(k) ?? fallbacks[i]));
+    sync();
+    setLoaded(true);
+    window.addEventListener("vi-storage", sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener("vi-storage", sync);
+      window.removeEventListener("storage", sync);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sig]);
+  return [values, loaded] as const;
+}
+
+export const useValidation = (idea: Idea) => usePersisted<ValidationState>(valKey(idea.painId), initialState(idea));
 
 export function resetAll() {
   Object.keys(localStorage)

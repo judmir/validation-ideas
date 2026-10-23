@@ -1,36 +1,50 @@
-import IdeaBoard, { type NightMeta } from "@/components/IdeaBoard";
-import NightStatusCard from "@/components/NightStatusCard";
-import { StatCell } from "@/components/ui";
-import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, LEGACY_ROWS, NIGHTS, US_ROWS, findIdea } from "@/lib/mock";
-import { BEST_THIS_WEEK, NEAR_MISSES, NIGHTS_SINCE_WINNER, US_COMPLAINTS, nightSummary } from "@/lib/mock/derived";
+import ScoutTimeline, { type LegacyNight, type NightMeta } from "@/components/ScoutTimeline";
+import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, NIGHTS, ideasOfNight } from "@/lib/mock";
+import { BEST_THIS_WEEK, NIGHTS_SINCE_WINNER, US_COMPLAINTS } from "@/lib/mock/derived";
+import { TESTS } from "@/lib/mock/tests";
+import { shortDate } from "@/lib/format";
+
+const shortDesc = (s: string) => {
+  const first = s.replace(/\s*\([^)]*\)/g, "").split(/[:;]|\.\s/)[0].replace(/\.$/, "").trim();
+  return first.length > 70 ? first.slice(0, 67).trimEnd() + "…" : first;
+};
 
 export default function Home() {
-  const last = NIGHTS[0];
-  const winner = last.builder.winnerPainId ? findIdea(last.builder.winnerPainId) : null;
-  const nights: NightMeta[] = [
-    ...NIGHTS.map((n) => ({ date: n.date, market: "US" as const, label: n.label ?? "US run", summary: nightSummary(n.date), winnerPainId: n.builder.winnerPainId, note: n.note })),
-    ...LEGACY_NIGHTS.map((n) => ({
-      date: n.date, market: "DE" as const, label: n.label,
-      summary: `${n.complaints != null ? `${n.complaints} complaints → ` : ""}${LEGACY.filter((p) => p.night === n.date).length} pains · ${n.note}`,
-      winnerPainId: n.winner,
-    })),
-  ].sort((a, b) => b.date.localeCompare(a.date) || (a.market === "US" ? -1 : 1));
-  const niches = [...new Set(ALL_IDEAS.map((i) => i.niche))];
-
+  const nights: NightMeta[] = NIGHTS.map((n) => {
+    const ideas = ideasOfNight(n.date);
+    // DinnerList (simulated winner) leads its night so its demo is the top card.
+    const ordered = [...ideas.filter((i) => i.demo || i.verdict === "winner"), ...ideas.filter((i) => !i.demo && i.verdict !== "winner")];
+    return {
+      date: n.date, label: n.label ?? null,
+      line: `${n.scout.complaints} complaints + ${n.scout.provenModels} proven models · ${n.niches.join(" + ")}${n.builder.winnerPainId ? "" : " · no winner"}.`,
+      pains: ordered.map((i, k) => ({
+        id: i.painId, title: i.name ?? i.label ?? shortDesc(i.description), sub: i.pitch ?? i.who,
+        score: i.scores.total, verdict: i.verdict, veto: i.competitor_veto, demo: !!i.demo, rank: k + 1,
+      })),
+    };
+  });
+  const legacy: LegacyNight[] = LEGACY_NIGHTS.map((n) => ({
+    date: n.date, label: n.label, note: n.note,
+    pains: LEGACY.filter((p) => p.night === n.date).sort((a, b) => b.scores.total - a.scores.total).map((p) => ({ id: p.painId, title: p.name ?? shortDesc(p.description), score: p.scores.total, verdict: p.verdict })),
+  }));
+  const dates = [...new Set([...NIGHTS.map((n) => n.date), ...LEGACY_NIGHTS.map((n) => n.date)])].sort();
+  const chart = dates.map((d) => {
+    const us = ideasOfNight(d)[0];
+    const de = LEGACY.filter((p) => p.night === d).sort((a, b) => b.scores.total - a.scores.total)[0];
+    const useUs = us && (!de || us.scores.total >= de.scores.total);
+    return { date: d, score: useUs ? us.scores.total : de.scores.total, id: useUs ? us.painId : null };
+  });
+  const stats = {
+    pains: ALL_IDEAS.length, runs: NIGHTS.length, sinceWinner: NIGHTS_SINCE_WINNER, complaints: US_COMPLAINTS,
+    best: { score: BEST_THIS_WEEK.scores.total, id: BEST_THIS_WEEK.painId }, lastWinner: `${LAST_WINNER.name}, ${shortDate(LAST_WINNER.date)}`,
+  };
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-zinc-50 sm:text-[32px]">Ideas</h1>
-        <p className="mt-1 text-[15px] text-zinc-400">Every pain the nightly pipeline scored, grouped by night or by outcome. Scores are out of 25; the bar is 18.</p>
+        <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-zinc-50 sm:text-[32px]">Scouts</h1>
+        <p className="mt-1 text-[15px] text-zinc-400">Every pain the nightly pipeline scored. Scores are out of 25; the bar is 18.</p>
       </div>
-      <NightStatusCard night={last} winnerName={winner ? winner.name ?? winner.painId : null} sinceWinner={NIGHTS_SINCE_WINNER} lastWinner={LAST_WINNER} usNights={NIGHTS.length} />
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <StatCell label="US complaints" value={US_COMPLAINTS} unit={`in ${NIGHTS.length} runs`} />
-        <StatCell label="US pains" value={ALL_IDEAS.length} unit="scored" />
-        <StatCell label="Near-misses" value={NEAR_MISSES} unit="15–17" />
-        <StatCell label="Best score this week" value={BEST_THIS_WEEK.scores.total} unit={`/25 · ${BEST_THIS_WEEK.painId}`} />
-      </div>
-      <IdeaBoard rows={US_ROWS} legacyRows={LEGACY_ROWS} nights={nights} niches={niches} sinceWinner={NIGHTS_SINCE_WINNER} lastWinnerDate={LAST_WINNER.date} />
+      <ScoutTimeline nights={nights} legacy={legacy} tests={TESTS} stats={stats} chart={chart} />
     </div>
   );
 }

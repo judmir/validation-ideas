@@ -272,3 +272,26 @@ export function StatCell({ label, value, unit }: { label: string; value: ReactNo
     </div>
   );
 }
+
+/** The one status vocabulary for top picks: ready → running → report. */
+export type Stage = "ready" | "running" | "report";
+const STAGE_PILL: Record<Stage, { label: string; color: string; pulse?: boolean }> = {
+  ready: { label: "Ready", color: "violet" },
+  running: { label: "Running", color: "orange", pulse: true },
+  report: { label: "Report", color: "light" },
+};
+export function StatusPill({ stage }: { stage: Stage }) {
+  const s = STAGE_PILL[stage];
+  return <Badge color={s.color} pulse={s.pulse}>{s.label}</Badge>;
+}
+/** Three short pills (Scout · Test · Report); the live step glows warm. */
+export function StageMeter({ stage }: { stage: Stage }) {
+  const done = { ready: 1, running: 1, report: 3 }[stage];
+  return (
+    <span className="flex shrink-0 gap-1" role="img" aria-label={`Step ${Math.min(done + 1, 3)} of 3`}>
+      {[0, 1, 2].map((i) => (
+        <span key={i} className={`h-1.5 w-5 rounded-full ${i < done ? "bg-accent-light" : stage === "running" && i === 1 ? "animate-pulse bg-warm" : "bg-white/[0.12]"}`} />
+      ))}
+    </span>
+  );
+}
