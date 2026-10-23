@@ -6,7 +6,7 @@ import { Badge } from "./ui";
 
 export default function StatusBadge({ idea }: { idea: Idea }) {
   const [v, , loaded] = useValidation(idea);
-  if (!loaded) return <span className="h-5 w-20 animate-pulse rounded-full bg-slate-100" />;
+  if (!loaded) return <span className="h-5 w-20 animate-pulse rounded-full bg-white/[0.06]" />;
   switch (v.status) {
     case "on_hold": return <Badge color="amber">Validation on hold</Badge>;
     case "ready": return <Badge color="blue">Ready to run</Badge>;

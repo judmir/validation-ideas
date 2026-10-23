@@ -1,6 +1,24 @@
 @import "tailwindcss";
-:root { color-scheme: light; }
-body { @apply bg-slate-50 text-slate-900 antialiased; }
-@keyframes tick { 0% { background-color: rgb(209 250 229); } 100% { background-color: transparent; } }
+
+@theme {
+  --color-bg: #0b0b0f;
+  --color-surface: #131318;
+  --color-surface-2: #18181e;
+  --color-line: rgb(255 255 255 / 0.07);
+  --color-line-strong: rgb(255 255 255 / 0.12);
+  --color-accent: #8b5cf6;
+  --color-accent-hover: #9d74f8;
+  --color-accent-soft: #c4b5fd;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+:root { color-scheme: dark; }
+body { @apply bg-bg text-zinc-100 antialiased; font-feature-settings: "cv11", "ss01"; }
+::selection { background: rgb(139 92 246 / 0.35); }
+.label { @apply text-[11px] font-medium uppercase tracking-[0.08em] text-zinc-500; }
+summary::-webkit-details-marker { display: none; }
+
+@keyframes tick { 0% { background-color: rgb(139 92 246 / 0.14); } 100% { background-color: transparent; } }
 .tick { animation: tick 0.9s ease-out; }
 @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }

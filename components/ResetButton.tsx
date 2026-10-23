@@ -12,7 +12,7 @@ export default function ResetButton() {
         setDone(true);
         setTimeout(() => setDone(false), 1500);
       }}
-      className="rounded-md border border-slate-300 px-2 py-1 font-medium text-slate-600 hover:bg-slate-100"
+      className="rounded-lg border border-line-strong px-2.5 py-1 font-medium text-zinc-300 transition-colors hover:bg-white/[0.06] hover:text-zinc-100"
     >
       {done ? "Demo reset ✓" : "Reset demo"}
     </button>

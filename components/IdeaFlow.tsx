@@ -46,18 +46,18 @@ export default function IdeaFlow({ id }: { id: string }) {
   return (
     <div className="space-y-5">
       <div>
-        <Link href="/" className="text-sm text-slate-500 hover:text-slate-800">← Scout log</Link>
-        <div className="mt-2 flex flex-wrap items-center gap-2">
-          <h1 className="text-2xl font-bold tracking-tight">{idea.name}</h1>
+        <Link href="/" className="text-sm text-zinc-500 transition-colors hover:text-zinc-200">← Scout log</Link>
+        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+          <h1 className="text-[26px] font-semibold tracking-tight text-zinc-50">{idea.name}</h1>
           <StatusBadge idea={idea} />
         </div>
-        <p className="text-sm text-slate-600">{idea.pitch}</p>
-        <p className="mt-1 text-xs text-slate-400">Top pick · scout run {formatDate(run.date)}</p>
+        <p className="mt-1 text-sm text-zinc-400">{idea.pitch}</p>
+        <p className="mt-2 text-xs text-zinc-500">Top pick · scout run {formatDate(run.date)}</p>
       </div>
 
       {/* Stepper */}
-      <nav className="sticky top-[57px] z-10 -mx-4 bg-slate-50/95 px-4 py-2 backdrop-blur">
-        <ol className="grid grid-cols-3 gap-1 rounded-2xl bg-slate-200/70 p-1">
+      <nav className="sticky top-14 z-10 -mx-4 bg-bg/85 px-4 py-2 backdrop-blur-md">
+        <ol className="grid grid-cols-3 gap-1 rounded-xl border border-line bg-surface p-1">
           {STEPS.map((s, i) => {
             const active = s.key === step;
             const locked = s.key === "report" && reportLocked;
@@ -66,11 +66,11 @@ export default function IdeaFlow({ id }: { id: string }) {
               <li key={s.key}>
                 <button
                   onClick={() => go(s.key)}
-                  className={`flex w-full items-center justify-center gap-2 rounded-xl px-2 py-2 text-sm font-medium transition ${
-                    active ? "bg-white text-indigo-700 shadow-sm" : locked ? "text-slate-400" : "text-slate-600 hover:bg-white/60"
+                  className={`flex w-full items-center justify-center gap-2 rounded-lg px-2 py-2 text-sm font-medium transition-colors ${
+                    active ? "bg-white/[0.07] text-zinc-50 ring-1 ring-inset ring-white/10" : locked ? "text-zinc-600" : "text-zinc-400 hover:bg-white/[0.04] hover:text-zinc-200"
                   }`}
                 >
-                  <span className={`grid h-5 w-5 place-items-center rounded-full text-[11px] font-bold ${active ? "bg-indigo-600 text-white" : done ? "bg-emerald-500 text-white" : "bg-slate-300 text-slate-600"}`}>
+                  <span className={`grid h-5 w-5 place-items-center rounded-full text-[10px] font-semibold tabular-nums ${active ? "bg-accent text-white" : done ? "bg-emerald-400/15 text-emerald-300" : "bg-white/[0.06] text-zinc-500"}`}>
                     {done ? "✓" : locked ? "🔒" : i + 1}
                   </span>
                   <span>{s.label}</span>
@@ -88,7 +88,7 @@ export default function IdeaFlow({ id }: { id: string }) {
       </div>
 
       {/* Back / Next */}
-      <div className="flex items-center justify-between gap-3 border-t border-slate-200 pt-4">
+      <div className="flex items-center justify-between gap-3 border-t border-line pt-5">
         {idx === 0 ? (
           <Link href="/" className={btn.ghost}>← Scout log</Link>
         ) : (
