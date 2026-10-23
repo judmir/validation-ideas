@@ -1,15 +1,15 @@
 import { notFound } from "next/navigation";
-import { ALL_IDEAS, findIdea } from "@/lib/data";
-import IdeaFlow from "@/components/IdeaFlow";
+import { ALL_IDEAS, findIdea } from "@/lib/mock";
+import IdeaPage from "@/components/IdeaPage";
 
 export const dynamicParams = false;
 export function generateStaticParams() {
-  return ALL_IDEAS.filter((x) => x.rank === 1).map((x) => ({ id: x.idea.id }));
+  return ALL_IDEAS.map((x) => ({ id: x.painId }));
 }
 
-export default async function IdeaPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const found = findIdea(id);
-  if (!found || found.rank !== 1) notFound();
-  return <IdeaFlow id={id} />;
+  const idea = findIdea(id);
+  if (!idea) notFound();
+  return <IdeaPage idea={idea} />;
 }

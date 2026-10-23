@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useState } from "react";
 
-// Top-bar search pill filters the scout log on the overview page.
+// Top-bar search pill filters the ideas board (name, pitch, description, niche).
 const Ctx = createContext<{ q: string; setQ: (q: string) => void }>({ q: "", setQ: () => {} });
 
 export function SearchProvider({ children }: { children: React.ReactNode }) {

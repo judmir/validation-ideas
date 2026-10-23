@@ -1,20 +1,53 @@
-import { TARGET_CPS, TARGET_SIGNUP_RATE, type FinishedResult, type Idea } from "./data";
+import { RULES, type GateResult, type Idea, type LegacyPain, type PipelineVerdict, type SourceSignals } from "./types";
 
-export function metrics(r: { spend: number; impressions: number; clicks: number; signups: number }) {
-  const ctr = r.impressions ? r.clicks / r.impressions : 0;
-  const signupRate = r.clicks ? r.signups / r.clicks : 0;
-  const cps = r.signups ? r.spend / r.signups : Infinity;
-  const cpc = r.clicks ? r.spend / r.clicks : 0;
-  return { ctr, signupRate, cps, cpc };
+/** Parse a free-text gate string ("pass…", "weak pass…", "borderline pass…", "fail…", "n/a"). */
+export function parseGate(text: string | null | undefined): GateResult {
+  const s = (text ?? "").trim().toLowerCase();
+  const result: GateResult["result"] = s.startsWith("fail") ? "fail" : s.startsWith("weak pass") ? "weak-pass" : s.startsWith("borderline") || s.startsWith("maybe") ? "borderline" : s.startsWith("pass") ? "pass" : "not-assessed";
+  return { result, text: text || "not assessed" };
 }
 
-export function verdict(idea: Idea, r: FinishedResult) {
-  const m = metrics(r);
-  const winner = m.cps <= TARGET_CPS && m.signupRate >= TARGET_SIGNUP_RATE;
-  const cpsTxt = isFinite(m.cps) ? `€${m.cps.toFixed(2)}` : "n/a";
-  const recommendation = winner
-    ? `${idea.name} beat both targets (cost per signup ${cpsTxt} vs €${TARGET_CPS} target; signup rate ${(m.signupRate * 100).toFixed(1)}%). Recommend investing more: build the MVP behind the waitlist, email the ${r.signups} signups for 5 discovery calls, and run a second 14-day test at 2× budget to confirm the CPS holds at scale.`
-    : `${idea.name} missed the targets (cost per signup ${cpsTxt} vs €${TARGET_CPS} target; signup rate ${(m.signupRate * 100).toFixed(1)}% vs ${(TARGET_SIGNUP_RATE * 100).toFixed(0)}%). Recommend not investing further in this form. Optionally try one cheap pivot of the landing-page angle (≤ €50), otherwise archive it and move budget to the next scout run's top pick.`;
-  const confidence = r.clicks > 300 ? "High" : r.clicks > 120 ? "Medium" : "Low";
-  return { winner, recommendation, confidence, ...m };
+/**
+ * Display verdict, derived from score + gates + veto (pains.json `status` is not trusted):
+ * veto or PLC decline → killed; ≥18 with a failed gate → killed; ≥18 → winner; 15–17 → near-miss; else below bar.
+ */
+export function pipelineVerdict(idea: Pick<Idea, "scores" | "gates" | "competitor_veto" | "plc">): PipelineVerdict {
+  const t = idea.scores.total;
+  if (idea.competitor_veto || idea.plc?.stage === "decline") return "killed";
+  if (t >= RULES.passBar) return Object.values(idea.gates).some((g) => g.result === "fail") ? "killed" : "winner";
+  return t >= RULES.nearMissMin ? "near-miss" : "below-bar";
+}
+export const legacyVerdict = (p: LegacyPain): PipelineVerdict => p.verdict;
+
+export const VERDICT_LABEL: Record<PipelineVerdict, string> = { winner: "Winner", "near-miss": "Near-miss", killed: "Killed", "below-bar": "Below bar" };
+export function verdictLabel(v: PipelineVerdict, veto?: boolean) {
+  return v === "killed" && veto ? "Killed by veto" : VERDICT_LABEL[v];
+}
+
+export type ValidationCall = "not-enough-traffic" | "strong" | "inconclusive" | "kill";
+export const CALL_LABEL: Record<ValidationCall, string> = { "not-enough-traffic": "Not enough traffic", strong: "Strong", inconclusive: "Inconclusive", kill: "Kill" };
+
+export function totals(rows: SourceSignals[]) {
+  const sum = (k: keyof Omit<SourceSignals, "source">) => rows.reduce((a, r) => a + r[k], 0);
+  return { spendEur: sum("spendEur"), visitors: sum("visitors"), priceClicks: sum("priceClicks"), checkoutStarts: sum("checkoutStarts"), waitlistSignups: sum("waitlistSignups") };
+}
+
+/** Fake-door verdict: <100 visitors → not enough traffic; price-click rate >3% strong; <1% kill; else inconclusive. */
+export function validationVerdict(r: { visitors: number; priceClicks: number }) {
+  const rate = r.visitors ? r.priceClicks / r.visitors : 0;
+  const call: ValidationCall = r.visitors < RULES.minVisitors ? "not-enough-traffic" : rate > RULES.strongPriceClickRate ? "strong" : rate < RULES.killPriceClickRate ? "kill" : "inconclusive";
+  return { rate, call };
+}
+
+export function recommendation(name: string, call: ValidationCall, visitors: number) {
+  switch (call) {
+    case "not-enough-traffic":
+      return `Only ${visitors} visitors so far. Keep the ads running until at least ${RULES.minVisitors} people have seen the ${name} page before reading the price-click rate.`;
+    case "strong":
+      return `People click the price. Email the waitlist, talk to 5 of them, and start the 2-week MVP build for ${name}.`;
+    case "kill":
+      return `Fewer than 1 in 100 visitors clicked the price. Stop spending on ${name} and archive it.`;
+    default:
+      return `The price-click rate sits between 1% and 3%. Try one sharper headline or a lower price for ${name} within the same €30–50 budget, then decide.`;
+  }
 }

@@ -1,0 +1,129 @@
+// Mock-data shapes for the nightly startup-research pipeline. Fields copied verbatim from
+// pains.json / us/*.jsonl keep their snake_case names so a later loader can map 1:1.
+export type Stream = "problem" | "proven-model";
+export type Provenance = "complaints" | "complaints+proven-model" | "proven-model";
+export type Rating = 1 | 2 | 3 | 4 | 5;
+export type Market = "US" | "DE";
+
+/** us/complaints.jsonl line (verbatim fields). */
+export type Complaint = {
+  id: string; found_date: string; post_date: string;
+  source: string;
+  link: string; // required: no link, no quote
+  quote: string; // verbatim
+  engagement: string;
+  niche: string; stream: string; market: string;
+};
+
+/** us/proven-models.jsonl line (verbatim fields). */
+export type ProvenModel = {
+  id: string; found_date: string; app: string; country: string;
+  model_and_price: string; traction_evidence: string; us_status: string;
+  entry_point: string; why_not_done_yet: string; lifecycle_evidence: string;
+  stream: string; market: string;
+};
+
+export type ScoreKey = "frequency" | "intensity" | "willingness_to_pay" | "reachability" | "buildability";
+export type Scores = Record<ScoreKey, number> & { total: number };
+export type ScoreNotes = Partial<Record<ScoreKey | "method", string>>;
+
+export type GateKey = "consumer_subscription" | "simplest_way" | "us_entry";
+/** text = raw pains.json string; result is parsed from it ("not-assessed" covers "n/a" / "not assessed"). */
+export type GateResult = { result: "pass" | "weak-pass" | "borderline" | "fail" | "not-assessed"; text: string };
+
+export type QuoteRef = { quote: string; who: string; link: string };
+export type Competitor = { name: string; url: string | null; price: string; price_source: string | null; loves: QuoteRef[]; hates: QuoteRef[]; loves_hates_note?: string; funding: string };
+
+export type PlcStage = "introduction" | "growth" | "maturity" | "decline";
+export type PlcVerdict = "yes" | "maybe" | "no";
+export type Plc = { stage: PlcStage; evidence: string[]; verdict: PlcVerdict; trendTo?: PlcVerdict; verdictText: string; assessment: true };
+
+/** Display verdict, derived by lib/verdict.ts:pipelineVerdict(), never read from pains.json `status`. */
+export type PipelineVerdict = "winner" | "near-miss" | "killed" | "below-bar";
+
+export type WeekOverWeek = { this_week_iso: string; this_week: number; last_week_iso: string; last_week: number; partial_week_W43?: number; note: string };
+
+export type Idea = {
+  painId: string;
+  night: string;
+  analyst_run: string;
+  market: "US";
+  niche: string;
+  // From the brief (markdown), so nullable:
+  name: string | null;
+  /** Short display label when the brief gave no name (e.g. "Lift-logger paywalls"). */
+  label: string | null;
+  pitch: string | null;
+  price: { text: string; estimate: true } | null;
+  mvp: string | null;
+  killQuestion: string | null;
+  // From pains.json:
+  description: string;
+  who: string;
+  source: Provenance | string;
+  evidenceSummary: string;
+  complaint_ids: string[];
+  quotes: Complaint[];
+  proven_models: ProvenModel[];
+  distinct_people: number;
+  distinct_people_note: string;
+  weekly_counts: Record<string, number>;
+  week_over_week: WeekOverWeek;
+  recurring: boolean;
+  recurring_note?: string | null;
+  scores: Scores;
+  score_notes: ScoreNotes;
+  gates: Record<GateKey, GateResult>;
+  gate_failed?: string | null;
+  competitor_veto: boolean; // normalised: true if killed by the competitor check
+  kill_reason: string | null;
+  borderline_note: string | null;
+  competitors: Competitor[];
+  gap: string | null;
+  plc: Plc | null;
+  verdict: PipelineVerdict; // precomputed in mocks, recomputed by pipelineVerdict()
+  validation?: Validation; // winners (and the simulated demo) only
+  demo?: { simulatedWinner: true; banner: string };
+};
+
+/** Old Germany-market pains p-001…p-071: board rows only, no detail page. */
+export type LegacyPain = {
+  painId: string; night: string; market: "DE"; description: string; who: string; source: string;
+  scores: Scores; verdict: PipelineVerdict; kill_reason: string | null; borderline_note: string | null; name: string | null; pitched: boolean;
+};
+
+export type TrafficSource = "meta" | "google_search" | "reddit";
+export type SourceSignals = { source: TrafficSource; spendEur: number; visitors: number; priceClicks: number; checkoutStarts: number; waitlistSignups: number };
+/** Hidden per-source rates the simulator ticks with. */
+export type SimProfile = Record<TrafficSource, { eurPerVisitor: number; priceClickRate: number; checkoutRate: number; waitlistRate: number }>;
+export type Validation = {
+  landing: { slug: string; headline: string; subhead: string; bullets: string[]; priceUsdMonthly: number; primaryCta: string; secondaryCta: "Join waitlist" };
+  adKit: {
+    budgetEur: { min: 30; max: 50 };
+    sources: TrafficSource[];
+    searchIntent: boolean;
+    meta: { primaryText: string[]; headlines: string[]; description: string; audience: { country: "US"; age: string; interests: string[] } };
+    googleKeywords?: string[];
+    redditSubs?: string[];
+    utm: Record<TrafficSource, string>;
+  };
+  sim: SimProfile;
+  results?: { startedAt: string; endedAt?: string; bySource: SourceSignals[]; simulated: true };
+};
+
+export const RULES = { passBar: 18, nearMissMin: 15, maxScore: 25, minVisitors: 100, strongPriceClickRate: 0.03, killPriceClickRate: 0.01 } as const;
+
+export type StepStatus = "done" | "skipped" | "failed";
+export type StepKey = "scout" | "analyst" | "builder" | "brief";
+export type SourceKey = "google_play" | "app_store" | "reddit" | "x" | "hn" | "trustpilot" | "forums";
+export type NightRun = {
+  date: string; label?: string; market: "US"; niches: string[];
+  steps: Record<StepKey, StepStatus>; // fixed times 00:30 / 03:00 / 04:30 / 07:30
+  scout: { complaints: number; provenModels: number; bySource: Record<SourceKey, number>; blocked: { source: string; reason: string }[] };
+  analyst: { newPainIds: string[]; survivors: number };
+  builder: { winnerPainId: string | null; poc: string | null };
+  briefPath: string; note?: string;
+};
+
+/** pitched.json entry (verbatim) + current status for display. */
+export type Pitched = { date: string; name: string; pain_id: string; core_feature: string; user: string; winner: boolean; poc: string; laterStatus?: string };
