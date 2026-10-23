@@ -6,9 +6,6 @@ export type Stage = "scouting" | "ready" | "running" | "report";
 
 export const stageOf = (v: ValidationState): Stage => (v.status === "running" ? "running" : v.status === "finished" ? "report" : "ready");
 
-/** Sort order for the home list: live work first, finished reports last. */
-export const STAGE_ORDER: Record<Stage, number> = { running: 0, scouting: 1, ready: 2, report: 3 };
-
 export const budgetOf = (idea: Idea) => (idea.ad ? idea.ad.budget.daily * idea.ad.budget.days : 0);
 
 /** Spend, signups and a trend series for any validation state. */
