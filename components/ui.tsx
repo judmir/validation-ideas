@@ -127,10 +127,10 @@ export function Stat({ label, value, sub, highlight, tick }: { label: string; va
 }
 
 /** Header metric tile: quiet label, big friendly numeral, then a small visual underneath. */
-export function Metric({ label, value, unit, children }: { label: string; value: ReactNode; unit?: ReactNode; children?: ReactNode }) {
+export function Metric({ label, value, unit, children }: { label: ReactNode; value: ReactNode; unit?: ReactNode; children?: ReactNode }) {
   return (
     <div className="flex min-w-0 flex-col rounded-[20px] bg-tile p-4 sm:p-5">
-      <div className="text-[13px] text-zinc-400">{label}</div>
+      <div className="flex min-w-0 flex-wrap items-center gap-1.5 text-[13px] text-zinc-400">{label}</div>
       <div className="mt-1.5 flex items-baseline gap-1.5">
         <span className="text-[30px] font-medium leading-none tracking-tight tabular-nums text-zinc-50 sm:text-[34px]">{value}</span>
         {unit && <span className="truncate text-[13px] font-medium text-zinc-300">{unit}</span>}
@@ -237,7 +237,7 @@ export function Funnel({ rows }: { rows: { k: string; n: number }[] }) {
 }
 
 /** Rounded callout: amber (borderline), red (kill) or neutral. Collapsible when `collapsible`. */
-export function Callout({ tone, title, children, collapsible }: { tone: "amber" | "red" | "accent" | "neutral"; title: string; children: ReactNode; collapsible?: boolean }) {
+export function Callout({ tone, title, children, collapsible }: { tone: "amber" | "red" | "accent" | "neutral"; title: ReactNode; children: ReactNode; collapsible?: boolean }) {
   const cls = { amber: "bg-[#fbbf24]/[0.09] ring-[#fbbf24]/25", red: "bg-[#f87171]/[0.09] ring-[#f87171]/25", accent: "bg-accent/[0.12] ring-accent/30", neutral: "bg-tile-2 ring-white/[0.06]" }[tone];
   const head = { amber: "text-[#fcd34d]", red: "text-[#fca5a5]", accent: "text-accent-light", neutral: "text-zinc-200" }[tone];
   if (collapsible)
