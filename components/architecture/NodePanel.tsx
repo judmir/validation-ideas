@@ -8,12 +8,11 @@ const SETTINGS_SECTION: Record<string, { id: string; title: string }[]> = {
   "de-scout": [{ id: "scouting", title: "Scouting" }],
   analyst: [{ id: "scoring", title: "Scoring" }],
   builder: [{ id: "winner", title: "Ideas & winner" }, { id: "poc", title: "POC build" }],
-  brief: [{ id: "winner", title: "Ideas & winner" }, { id: "schedule", title: "Schedule" }],
+  brief: [{ id: "report", title: "Report / Run video" }, { id: "winner", title: "Ideas & winner" }, { id: "schedule", title: "Schedule" }],
   weekly: [{ id: "schedule", title: "Schedule" }],
   landing: [{ id: "validation", title: "Validation" }],
   meta: [{ id: "validation", title: "Validation" }],
   report: [{ id: "validation", title: "Validation" }, { id: "report", title: "Report / Run video" }],
-  "run-video": [{ id: "report", title: "Report / Run video" }],
 };
 
 const STATUS_BADGE = { active: "violet", paused: "slate", proposed: "light" } as const;

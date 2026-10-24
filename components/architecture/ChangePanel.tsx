@@ -1,4 +1,4 @@
-import { EDGES, NODES, edgeById, nodeById } from "@/lib/architecture";
+import { EDGES, NODES, RETIRED, edgeById, nodeById } from "@/lib/architecture";
 import { CHANGELOG, LATEST, highlightsFor, type ChangeEntry, type ChangeStatus, type ChangeType } from "@/lib/architecture-changelog";
 import { shortDate } from "@/lib/format";
 import { HL_COLOR } from "./Diagram";
@@ -14,6 +14,7 @@ const STATUS: Record<ChangeStatus, { label: string; cls: string }> = {
 const idLabel = (id: string) => {
   const n = nodeById(id);
   if (n) return n.title;
+  if (RETIRED[id]) return RETIRED[id];
   const e = edgeById(id);
   return e ? `${nodeById(e.from)?.title} → ${nodeById(e.to)?.title}` : id;
 };

@@ -53,15 +53,15 @@ export const NODES: ArchNode[] = [
   {
     id: "us-scout",
     title: "US scout",
-    time: "00:30",
-    schedule: "Nightly 00:30 Berlin",
+    time: "~00:30",
+    schedule: "Nightly ~00:30 Berlin",
     status: "active",
     since: "2026-10-19",
     summary: "Scouts the US market in two streams: user complaints first, then proven US subscription models.",
     details: [
       "Stream 1 (primary): real user complaints, each with provenance (source link + quote).",
       "Stream 2: proven US subscription models people already pay for.",
-      "US-only since 22 Oct; moved to 00:30 so the analyst has fresh data at 03:00.",
+      "US-only since 22 Oct. Runs ~00:30 so the analyst has fresh data at ~01:30.",
     ],
     outputs: ["us/complaints.jsonl", "us/proven-models.jsonl"],
     desk: { x: 95, y: 95 },
@@ -82,8 +82,8 @@ export const NODES: ArchNode[] = [
   {
     id: "analyst",
     title: "Analyst",
-    time: "03:00",
-    schedule: "Nightly 03:00",
+    time: "~01:30",
+    schedule: "Nightly ~01:30 (since 25 Oct; was 03:00)",
     status: "active",
     since: "2026-10-19",
     summary: "Clusters complaints into pains, scores the US entries out of 25 and labels each one.",
@@ -103,8 +103,8 @@ export const NODES: ArchNode[] = [
   {
     id: "builder",
     title: "Builder",
-    time: "04:30",
-    schedule: "Nightly 04:30",
+    time: "~02:30",
+    schedule: "Nightly ~02:30 (since 25 Oct; was 04:30); POC due by 05:00",
     status: "active",
     since: "2026-10-19",
     summary: "Builds one private POC demo per night.",
@@ -117,30 +117,19 @@ export const NODES: ArchNode[] = [
     mob: { x: 82, y: 285 },
   },
   {
-    id: "run-video",
-    title: "Run video",
-    time: "~07:00",
-    schedule: "Nightly ~07:00, after the demo build; ready by 07:30",
-    status: "active",
-    since: "2026-10-24",
-    summary: "App ideas renders a short narrated video of the night's scout run, then pings dev to deploy it.",
-    details: [
-      "Reads settings.report.run_video: enabled (off = the step skips), voiceover, subtitles, ready_by.",
-      "2–4 minute MP4, under 40 MB. Deployed to gh-pages only; the player shows on that night's scout run and winner page.",
-    ],
-    outputs: ["/workspace/run-videos/<date>/scout-run-<date>.mp4", "ping to dev to deploy"],
-    desk: { x: 755, y: 220 },
-    mob: { x: 82, y: 422 },
-  },
-  {
     id: "brief",
-    title: "Morning brief",
-    time: "07:30",
-    schedule: "Daily 07:30",
+    title: "Final report + run video",
+    time: "~05:05",
+    schedule: "Nightly ~05:05, everything ready by 06:00 (since 25 Oct; the brief was 07:30)",
     status: "active",
     since: "2026-10-19",
-    summary: "The night's results, sent to Judi every morning.",
-    details: ["Winner (if any), near-misses with their tags, and what the builder made.", "Will include validation results once the proposed loop is approved."],
+    summary: "The night's final report for Judi, with the narrated run video as its last step.",
+    details: [
+      "Winner (if any, incl. a “Fallback (below bar)” demo), near-misses with their tags, and the POC the builder made by 05:00.",
+      "Last step, if settings.report.run_video.enabled: render the narrated video as scout-run-<date>.mp4.tmp, check it with ffprobe, rename it to .mp4, then ping dev to deploy. Off = the step skips.",
+      "Will include validation results once the proposed loop is approved.",
+    ],
+    outputs: ["briefs/<date>.md", "/workspace/run-videos/<date>/scout-run-<date>.mp4", "ping to dev to deploy"],
     desk: { x: 755, y: 95 },
     mob: { x: 82, y: 560 },
   },
@@ -219,9 +208,7 @@ export const EDGES: ArchEdge[] = [
   { id: "de-analyst", from: "de-scout", to: "analyst", kind: "paused", desk: { from: "right", to: "left", toShift: 10 }, mob: { from: "bottom", to: "right", toShift: -12 } },
   { id: "analyst-builder", from: "analyst", to: "builder", kind: "run", mob: { from: "bottom", to: "top" } },
   { id: "analyst-gbrain", from: "analyst", to: "gbrain", kind: "filing", desk: { from: "bottom", to: "top" }, mob: { from: "right", to: "top", fromShift: 12 } },
-  { id: "builder-brief", from: "builder", to: "brief", kind: "run", desk: { from: "right", to: "left", fromShift: -12 }, mob: { from: "bottom", to: "top" } },
-  { id: "builder-runvideo", from: "builder", to: "run-video", kind: "run", desk: { from: "right", to: "left", fromShift: 14 }, mob: { from: "bottom", to: "top" } },
-  { id: "runvideo-brief", from: "run-video", to: "brief", kind: "run", desk: { from: "top", to: "bottom", toShift: -30 }, mob: { from: "bottom", to: "top" } },
+  { id: "builder-brief", from: "builder", to: "brief", kind: "run", mob: { from: "bottom", to: "top" } },
   { id: "builder-gbrain", from: "builder", to: "gbrain", kind: "filing", desk: { from: "bottom", to: "right", fromShift: -40 }, mob: { from: "right", to: "bottom", fromShift: -12 } },
   { id: "builder-landing", from: "builder", to: "landing", kind: "proposed", desk: { from: "bottom", to: "top", fromShift: 20, toShift: 20 }, mob: { from: "right", to: "left", fromShift: 12 } },
   { id: "landing-meta", from: "landing", to: "meta", kind: "proposed", mob: { from: "bottom", to: "top" } },
@@ -244,13 +231,18 @@ export interface NightStep {
 /** One night, step by step. */
 export const NIGHT_STEPS: NightStep[] = [
   { time: "00:30", node: "us-scout", title: "US scout", short: "Scout", caption: "Collects US complaints, then proven subscription models, and hands both files to the analyst.", edges: ["us-analyst"] },
-  { time: "03:00", node: "analyst", title: "Analyst", short: "Analyst", caption: "Scores each US entry out of 25 (bar 18), applies the veto and gates, and files to GBrain.", edges: ["analyst-builder", "analyst-gbrain"] },
-  { time: "04:30", node: "builder", title: "Builder", short: "Builder", caption: "Builds one private POC demo (a fallback below the bar if nothing clears it). The proposed loop would hand it to a validation page and ads.", edges: ["builder-brief", "builder-gbrain", "builder-landing", "landing-meta", "meta-report"] },
-  { time: "07:00", node: "run-video", title: "Run video", short: "Video", caption: "If the Run video setting is on, a narrated MP4 of the night is rendered and dev is pinged to deploy it.", edges: ["builder-runvideo", "runvideo-brief"] },
-  { time: "07:30", node: "brief", title: "Morning brief", short: "Brief", caption: "Judi gets the brief. On Sundays it rolls up into the weekly.", edges: ["report-brief", "brief-weekly"] },
+  { time: "01:30", node: "analyst", title: "Analyst", short: "Analyst", caption: "Scores each US entry out of 25 (bar 18), applies the gates and the competition rule, and files to GBrain.", edges: ["analyst-builder", "analyst-gbrain"] },
+  { time: "02:30", node: "builder", title: "Builder", short: "Builder", caption: "Builds one private POC demo by 05:00 (a fallback below the bar if nothing clears it). The proposed loop would hand it to a validation page and ads.", edges: ["builder-brief", "builder-gbrain", "builder-landing", "landing-meta", "meta-report"] },
+  { time: "05:05", node: "brief", title: "Final report + run video", short: "Report", caption: "The final report, then the narrated run video as its last step (.mp4.tmp, ffprobe check, rename, ping dev). Everything is ready by 06:00; on Sundays it rolls up into the weekly.", edges: ["report-brief", "brief-weekly"] },
 ];
 
 export const nodeById = (id: string) => NODES.find((n) => n.id === id);
+/** Pieces that no longer exist on their own, so older changelog entries can still name them. */
+export const RETIRED: Record<string, string> = {
+  "run-video": "Run video (merged into the final report on 25 Oct)",
+  "builder-runvideo": "Builder → Run video (retired)",
+  "runvideo-brief": "Run video → Morning brief (retired)",
+};
 export const edgeById = (id: string) => EDGES.find((e) => e.id === id);
 
 /** Cubic path between two nodes for a layout, using the edge's anchors or the dominant direction. */
