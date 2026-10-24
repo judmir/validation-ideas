@@ -6,3 +6,6 @@ next-env.d.ts
 *.tsbuildinfo
 .env*
 .DS_Store
+
+# Run videos are deployed to gh-pages only (scripts/sync-run-videos.sh), never committed
+public/videos/
