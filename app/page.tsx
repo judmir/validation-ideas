@@ -1,6 +1,6 @@
 import ScoutTimeline, { type LegacyNight, type NightMeta } from "@/components/ScoutTimeline";
 import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, NIGHTS, ideasOfNight } from "@/lib/mock";
-import { BEST_THIS_WEEK, NIGHTS_SINCE_WINNER, US_COMPLAINTS } from "@/lib/mock/derived";
+import { BEST_THIS_WEEK, NIGHTS_SINCE_WINNER, US_COMPLAINTS, US_WINNER_NOTE } from "@/lib/mock/derived";
 import { TESTS } from "@/lib/mock/tests";
 import { shortDate } from "@/lib/format";
 
@@ -39,8 +39,8 @@ export default function Home() {
     return { date: d, score: useUs ? us.scores.total : de.scores.total, id: useUs ? us.painId : null };
   });
   const stats = {
-    pains: ALL_IDEAS.length, runs: NIGHTS.length, sinceWinner: NIGHTS_SINCE_WINNER, complaints: US_COMPLAINTS,
-    best: { score: BEST_THIS_WEEK.scores.total, id: BEST_THIS_WEEK.painId }, lastWinner: `${LAST_WINNER.name}, ${shortDate(LAST_WINNER.date)}`,
+    pains: ALL_IDEAS.length, runs: NIGHTS.length, sinceWinner: NIGHTS_SINCE_WINNER, usWinnerNote: US_WINNER_NOTE, complaints: US_COMPLAINTS,
+    best: { score: BEST_THIS_WEEK.scores.total, id: BEST_THIS_WEEK.painId }, lastWinner: `${LAST_WINNER.name} (DE), ${shortDate(LAST_WINNER.date)}`,
   };
   return (
     <div className="space-y-6">

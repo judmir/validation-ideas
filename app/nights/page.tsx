@@ -5,7 +5,7 @@ import { Timeline, TimelineNode } from "@/components/Timeline";
 import { StatCell } from "@/components/ui";
 import { IconChevronRight } from "@/components/icons";
 import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, NIGHTS, PITCHED, findIdea, ideasOfNight } from "@/lib/mock";
-import { NIGHTS_SINCE_WINNER, US_COMPLAINTS } from "@/lib/mock/derived";
+import { NIGHTS_SINCE_WINNER, US_COMPLAINTS, US_WINNER_NOTE } from "@/lib/mock/derived";
 import { formatDate, shortDate, weekday, wk } from "@/lib/format";
 
 export const metadata = { title: "Nights · Validation Ideas" };
@@ -27,7 +27,7 @@ export default function NightsPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <StatCell label="Nights since winner" value={NIGHTS_SINCE_WINNER} unit={`last: ${LAST_WINNER.name}, ${shortDate(LAST_WINNER.date)}`} />
+        <StatCell label="Nights since winner" value={NIGHTS_SINCE_WINNER} unit={`last: ${LAST_WINNER.name} (DE), ${shortDate(LAST_WINNER.date)}`} note={US_WINNER_NOTE} />
         <StatCell label="US runs" value={NIGHTS.length} unit="0 winners" />
         <StatCell label="US complaints" value={US_COMPLAINTS} unit="scouted" />
         <StatCell label="Blocked sources" value={blocked} unit={`in ${NIGHTS.length} runs`} />

@@ -261,7 +261,7 @@ export function Callout({ tone, title, children, collapsible }: { tone: "amber" 
 export const Placeholder = ({ what = "Not written for this idea" }: { what?: string }) => <p className="text-[13px] italic text-zinc-400">{what}. The brief only writes this for the night&apos;s top ideas.</p>;
 
 /** Home stats tile: quiet label, big numeral, small unit. */
-export function StatCell({ label, value, unit }: { label: string; value: ReactNode; unit?: ReactNode }) {
+export function StatCell({ label, value, unit, note }: { label: string; value: ReactNode; unit?: ReactNode; note?: ReactNode }) {
   return (
     <div className="min-w-0 rounded-[20px] bg-tile p-4 sm:p-5">
       <div className="truncate text-[13px] text-zinc-400">{label}</div>
@@ -269,6 +269,7 @@ export function StatCell({ label, value, unit }: { label: string; value: ReactNo
         <span className="text-[32px] font-medium leading-none tracking-tight tabular-nums text-zinc-50 sm:text-[36px]">{value}</span>
         {unit && <span className="truncate text-[12px] font-medium text-zinc-300">{unit}</span>}
       </div>
+      {note && <div className="mt-1.5 truncate text-[11px] text-zinc-400">{note}</div>}
     </div>
   );
 }

@@ -1,7 +1,12 @@
 import { ALL_IDEAS, LAST_WINNER, LEGACY_NIGHTS, NIGHTS, ideasOfNight } from "./index";
 
-/** Calendar nights after the last winner (US and Germany runs share the same nights). */
-export const NIGHTS_SINCE_WINNER = new Set([...NIGHTS, ...LEGACY_NIGHTS].map((n) => n.date).filter((d) => d > LAST_WINNER.date)).size;
+const dayMs = 86400000;
+const latestNight = [...NIGHTS, ...LEGACY_NIGHTS].map((n) => n.date).sort().at(-1)!;
+/** Calendar nights from the last winner (Fristly, Germany, 19 Oct 2026) to the latest scouted night: 19 → 24 Oct = 5. */
+export const NIGHTS_SINCE_WINNER = Math.round((Date.parse(latestNight + "T12:00:00Z") - Date.parse(LAST_WINNER.date + "T12:00:00Z")) / dayMs);
+/** No US run has produced a winner yet (the only winner so far is Germany's Fristly). */
+export const US_WINNER_YET = ALL_IDEAS.some((i) => i.verdict === "winner");
+export const US_WINNER_NOTE = US_WINNER_YET ? null : "No US run has had a winner yet";
 
 export const US_COMPLAINTS = NIGHTS.reduce((a, n) => a + n.scout.complaints, 0);
 export const NEAR_MISSES = ALL_IDEAS.filter((i) => i.verdict === "near-miss").length;

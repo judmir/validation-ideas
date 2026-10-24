@@ -15,7 +15,7 @@ export type PainRow = { id: string; title: string; sub: string; score: number; v
 export type NightMeta = { date: string; label: string | null; line: string; pains: PainRow[] };
 export type LegacyNight = { date: string; label: string; note: string; pains: PainRow[] };
 export type TestMeta = { id: string; initial: ValidationState; budgetEur: number };
-export type Stats = { pains: number; runs: number; sinceWinner: number; best: { score: number; id: string }; complaints: number; lastWinner: string };
+export type Stats = { pains: number; runs: number; sinceWinner: number; usWinnerNote: string | null; best: { score: number; id: string }; complaints: number; lastWinner: string };
 
 const localIso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 const signupsTxt = (n: number) => `${int(n)} signup${Math.round(n) === 1 ? "" : "s"}`;
@@ -41,7 +41,7 @@ export default function ScoutTimeline({ nights, legacy, tests, stats, chart }: {
     <div className="space-y-8">
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-[repeat(4,minmax(0,1fr))_minmax(0,1.5fr)]">
         <StatCell label="US pains scored" value={stats.pains} unit={`in ${stats.runs} runs`} />
-        <StatCell label="Nights since winner" value={stats.sinceWinner} unit={`last: ${stats.lastWinner}`} />
+        <StatCell label="Nights since winner" value={stats.sinceWinner} unit={`last: ${stats.lastWinner}`} note={stats.usWinnerNote} />
         <StatCell label="Best this week" value={stats.best.score} unit={`/ ${RULES.maxScore} · bar ${RULES.passBar}`} />
         <StatCell label={running ? "Running tests" : "US complaints"} value={running ? running : stats.complaints} unit={running ? "simulated" : `in ${stats.runs} runs`} />
         <ScoreBars runs={chart} />
