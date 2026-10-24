@@ -21,5 +21,5 @@ Routes:
 - `/nights/` night runs, week-over-week cluster growth, pitched ideas.
 
 Rules (`lib/types.ts` `RULES`, `lib/verdict.ts`): score /25, bar 18, near-miss 15–17; verdict derived from score + gates + competitor veto
-(pains.json `status` is ignored). A pain at 18+ with gates passed that is stopped only by the competitor veto is a near-miss tagged "Vetoed" (never passed, so no Demo/Validation). Fake-door verdict: < 100 visitors = not enough traffic, price-click rate > 3% strong, < 1% kill, else inconclusive.
+(pains.json `status` is ignored). Winner = 18+, every gate passed, no competitor veto. Any other pain at 15+ is a near-miss regardless of the veto or a failed gate, tagged "Vetoed" / "Fails gate: …" (never passed, so no Demo/Validation). Killed = decline-stage PLC only; under 15 = below bar. Fake-door verdict: < 100 visitors = not enough traffic, price-click rate > 3% strong, < 1% kill, else inconclusive.
 Product prices are USD; ad budgets EUR 30–50 per idea.

@@ -5181,7 +5181,7 @@ export const IDEAS: Idea[] = [
    "assessment": true,
    "stageText": "growth (incumbent monetising)"
   },
-  "verdict": "killed"
+  "verdict": "near-miss"
  },
  {
   "painId": "p-089",
@@ -5581,7 +5581,7 @@ export const IDEAS: Idea[] = [
    "assessment": true,
    "stageText": "growth→maturity"
   },
-  "verdict": "killed"
+  "verdict": "near-miss"
  },
  {
   "painId": "p-091",
@@ -5677,6 +5677,6 @@ export const IDEAS: Idea[] = [
    "assessment": true,
    "trendTo": "no"
   },
-  "verdict": "killed"
+  "verdict": "near-miss"
  }
 ];

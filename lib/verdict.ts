@@ -1,4 +1,4 @@
-import { RULES, type GateResult, type Idea, type LegacyPain, type PipelineVerdict, type SourceSignals } from "./types";
+import { RULES, type GateKey, type GateResult, type Idea, type LegacyPain, type PipelineVerdict, type SourceSignals } from "./types";
 
 /** Parse a free-text gate string ("pass…", "weak pass…", "borderline pass…", "fail…", "n/a"). */
 export function parseGate(text: string | null | undefined): GateResult {
@@ -7,23 +7,27 @@ export function parseGate(text: string | null | undefined): GateResult {
   return { result, text: text || "not assessed" };
 }
 
+type VerdictInput = Pick<Idea, "scores" | "gates" | "competitor_veto" | "plc">;
 /**
  * Display verdict, derived from score + gates + veto (pains.json `status` is not trusted):
- * PLC decline → killed; ≥18, gates passed, killed ONLY by the competitor veto → near-miss ("Vetoed", never a winner);
- * other veto → killed; ≥18 with a failed gate → killed; ≥18 → winner; 15–17 → near-miss; else below bar.
+ * - PLC decline → killed (the only "killed" for US pains);
+ * - ≥18, every gate passed, no competitor veto → winner;
+ * - ≥15 otherwise → near-miss, regardless of the veto or a failed gate (shown with "Vetoed" / "Fails gate" tags; never passed);
+ * - under 15 → below bar.
  */
-export function pipelineVerdict(idea: Pick<Idea, "scores" | "gates" | "competitor_veto" | "plc">): PipelineVerdict {
+export function pipelineVerdict(idea: VerdictInput): PipelineVerdict {
   const t = idea.scores.total;
   if (idea.plc?.stage === "decline") return "killed";
-  if (isVetoNearMiss(idea)) return "near-miss";
-  if (idea.competitor_veto) return "killed";
-  if (t >= RULES.passBar) return Object.values(idea.gates).some((g) => g.result === "fail") ? "killed" : "winner";
+  if (t >= RULES.passBar && !idea.competitor_veto && failedGates(idea).length === 0) return "winner";
   return t >= RULES.nearMissMin ? "near-miss" : "below-bar";
 }
-/** ≥18/25 with no failed gate and no PLC decline, stopped only by the competitor veto: a near-miss, not a kill (and not passed). */
-export function isVetoNearMiss(idea: Pick<Idea, "scores" | "gates" | "competitor_veto" | "plc">): boolean {
-  return idea.competitor_veto && idea.scores.total >= RULES.passBar && idea.plc?.stage !== "decline" && !Object.values(idea.gates).some((g) => g.result === "fail");
+/** Gates whose parsed result is "fail", in GateKey order (from the data, never hardcoded per pain). */
+export function failedGates(idea: Pick<Idea, "gates">): GateKey[] {
+  return (Object.keys(idea.gates) as GateKey[]).filter((k) => idea.gates[k].result === "fail");
 }
+/** Near-miss stopped by the competitor veto (any score 15+). */
+export const isVetoNearMiss = (idea: VerdictInput & Pick<Idea, "verdict">) => idea.verdict === "near-miss" && idea.competitor_veto;
+export const GATE_LABEL: Record<GateKey, string> = { consumer_subscription: "Consumer subscription", simplest_way: "Simplest way", us_entry: "US entry" };
 export const VETOED_TITLE = "vetoed by competitors";
 export const legacyVerdict = (p: LegacyPain): PipelineVerdict => p.verdict;
 
