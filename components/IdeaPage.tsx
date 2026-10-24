@@ -28,6 +28,7 @@ import PlcFit from "./evidence/PlcFit";
 import ValidateTab from "./validate/ValidateTab";
 import ReportTab from "./validate/ReportTab";
 import { IconArrowLeft, IconChevronRight, IconExternal, IconLock } from "./icons";
+import MockedPill from "./MockedPill";
 
 export type RunInfo = { date: string; label: string | null; line: string; note: string | null; ideas: { id: string; title: string; score: number }[] };
 
@@ -60,7 +61,7 @@ export default function IdeaPage({ idea, run }: { idea: Idea; run: RunInfo }) {
           </div>
           <p className="mt-1.5 max-w-2xl text-[15px] leading-relaxed text-zinc-300">{idea.pitch ?? idea.who}</p>
           <div className="mt-3 flex flex-wrap gap-1.5">
-            {idea.demo ? <Tag warm>Simulated winner</Tag> : idea.verdict === "winner" ? <Tag warm>Winner</Tag> : null}
+            {idea.demo ? <MockedPill label="Mocked winner" /> : idea.verdict === "winner" ? <Tag warm>Winner</Tag> : null}
             {idea.verdict === "near-miss" && idea.competitor_veto && <span title={VETOED_TITLE}><Tag>Vetoed · {VETOED_TITLE}</Tag></span>}
             {idea.verdict === "near-miss" && failedGates(idea).map((g) => <span key={g.id} title={g.text}><Tag>Fails gate: {gateDef(g.id).label}</Tag></span>)}
             <Tag>{idea.painId}</Tag>
@@ -71,12 +72,12 @@ export default function IdeaPage({ idea, run }: { idea: Idea; run: RunInfo }) {
       </div>
 
       <TabBar
-        tabs={[{ id: "evidence", label: "Evidence" }, { id: "validate", label: "Validate", badge: lock }, { id: "report", label: "Report", badge: lock }]}
+        tabs={[{ id: "evidence", label: "Evidence" }, { id: "validate", label: "Validate", badge: lock ?? (idea.demo ? <MockedPill /> : undefined) }, { id: "report", label: "Report", badge: lock ?? (idea.demo ? <MockedPill /> : undefined) }]}
         active={tab}
         onSelect={select}
       />
       <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`} className="space-y-4">
-        {tab !== "evidence" && idea.demo && <Callout tone="accent" title="Simulated — this idea was actually killed">{idea.demo.banner.replace(/^Simulated — this idea was actually killed\. /, "")}</Callout>}
+        {tab !== "evidence" && idea.demo && <Callout tone="amber" title={<span className="inline-flex flex-wrap items-center gap-2"><MockedPill />This idea did not pass</span>}>{idea.demo.banner.replace(/^Mocked: this idea did not pass\. /, "")}</Callout>}
         {tab === "evidence" && <Evidence idea={idea} run={run} />}
         {tab === "validate" && (validates ? <ValidateTab idea={idea} v={v} setV={setV} loaded={loaded} goReport={() => select("report")} /> : <Locked idea={idea} />)}
         {tab === "report" && (validates ? <ReportTab idea={idea} v={v} loaded={loaded} goValidate={() => select("validate")} /> : <Locked idea={idea} />)}
@@ -121,14 +122,14 @@ function Metrics({ idea, run, v, loaded, validates }: { idea: Idea; run: RunInfo
   return (
     <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
       {score}
-      <Metric label="Signups" value={loaded ? int(n.signups) : "–"} unit={v.status === "finished" ? "simulated" : v.status === "running" ? "live" : undefined}>
+      <Metric label={<>Signups <MockedPill /></>} value={loaded ? int(n.signups) : "–"} unit={v.status === "running" ? "live" : undefined}>
         <div className="text-[12px] text-zinc-400">{loaded ? `${int(n.visitors)} visitors · ${int(n.priceClicks)} price clicks` : "\u00a0"}</div>
       </Metric>
-      <Metric label="Budget spent" value={loaded ? `${spentPct}%` : "–"}>
+      <Metric label={<>Budget spent <MockedPill /></>} value={loaded ? `${spentPct}%` : "–"}>
         <div className="h-2.5 rounded-full bg-white/[0.08]"><div className={`h-2.5 rounded-full ${v.status === "running" ? "bg-warm" : "bg-accent-light"}`} style={{ width: `${spentPct}%` }} /></div>
         <div className="mt-2 text-[12px] text-zinc-400">{eur0(n.spend)} of {eur0(budget)}</div>
       </Metric>
-      <Metric label="Test" value={<span className={`text-[24px] sm:text-[26px] ${status === "Strong" ? "text-[#86efac]" : status === "Kill" ? "text-[#fca5a5]" : status === "Inconclusive" ? "text-[#fcd34d]" : status === "Live" ? "text-warm" : ""}`}>{loaded ? status : "–"}</span>}>
+      <Metric label={<>Test <MockedPill /></>} value={<span className={`text-[24px] sm:text-[26px] ${status === "Strong" ? "text-[#86efac]" : status === "Kill" ? "text-[#fca5a5]" : status === "Inconclusive" ? "text-[#fcd34d]" : status === "Live" ? "text-warm" : ""}`}>{loaded ? status : "–"}</span>}>
         <div className="text-[12px] text-zinc-400">Fake-door test · <span className="whitespace-nowrap">€{idea.validation.adKit.budgetEur.min}–{budget}</span></div>
       </Metric>
     </div>

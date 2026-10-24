@@ -6,7 +6,8 @@ export default function LandingPreview({ landing, name }: { landing: Validation[
     <div className="overflow-hidden rounded-2xl bg-paper text-ink">
       <div className="flex items-center gap-2 border-b border-[#e7e5ec] px-3.5 py-2.5" aria-hidden>
         <span className="flex gap-1"><span className="h-2 w-2 rounded-full bg-[#d4d1da]" /><span className="h-2 w-2 rounded-full bg-[#d4d1da]" /><span className="h-2 w-2 rounded-full bg-[#d4d1da]" /></span>
-        <span className="min-w-0 flex-1 truncate rounded-full bg-[#ebe9f0] px-3 py-1 text-[11px] font-medium text-ink-soft">/v/{landing.slug}/ · preview, not deployed</span>
+        <span className="min-w-0 flex-1 truncate rounded-full bg-[#ebe9f0] px-3 py-1 text-[11px] font-medium text-ink-soft">/v/{landing.slug}/ · placeholder host, not deployed</span>
+        <span className="shrink-0 rounded-full bg-[#fde68a] px-2 py-px text-[10.5px] font-semibold text-[#713f12]">Mocked</span>
       </div>
       <div className="p-5 sm:p-7">
         <div className="flex items-center gap-2 text-[13px] font-bold"><span className="grid h-6 w-6 place-items-center rounded-lg bg-ink text-[12px] text-white">{name[0]}</span>{name}</div>

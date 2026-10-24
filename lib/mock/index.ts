@@ -9,7 +9,7 @@ export { PITCHED } from "./pitched";
 export { LEGACY };
 
 const DEMO_ID = "p-072";
-export const DEMO_BANNER = "Simulated — this idea did not pass. DinnerList (p-072) scored 19/25 but was vetoed by competitors (a near-miss); it stands in as a winner so you can see the Validate and Report flow. No real ads, payments or emails.";
+export const DEMO_BANNER = "Mocked: this idea did not pass. DinnerList (p-072) scored 19/25 but was vetoed by competitors (a near-miss); it stands in as a winner so you can see the Validate and Report flow. No real ads, payments or emails.";
 
 /** All US ideas, with the display verdict recomputed and the DinnerList demo kit attached. */
 export const ALL_IDEAS: Idea[] = IDEAS.map((i) => {

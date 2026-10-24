@@ -10,6 +10,7 @@ import { stageOf, testNumbers } from "@/lib/status";
 import { useSearch } from "./Search";
 import { StageMeter, StatCell, StatusPill } from "./ui";
 import { IconChevronRight } from "./icons";
+import MockedPill from "./MockedPill";
 
 export type PainRow = { id: string; title: string; sub: string; score: number; verdict: PipelineVerdict; veto: boolean; demo: boolean; rank: number; linkable: boolean; pitched?: boolean;
   /** Failed gates (label + raw pains.json text), shown as a "Fails gate" tag on near-misses. */
@@ -45,7 +46,7 @@ export default function ScoutTimeline({ nights, legacy, tests, stats, chart }: {
         <StatCell label="US pains scored" value={stats.pains} unit={`in ${stats.runs} runs`} />
         <StatCell label="Nights since winner" value={stats.sinceWinner} unit={`last: ${stats.lastWinner}`} note={stats.usWinnerNote} />
         <StatCell label="Best this week" value={stats.best.score} unit={`/ ${RULES.maxScore} · bar ${RULES.passBar}`} />
-        <StatCell label={running ? "Running tests" : "US complaints"} value={running ? running : stats.complaints} unit={running ? "simulated" : `in ${stats.runs} runs`} />
+        <StatCell label={running ? "Running tests" : "US complaints"} value={running ? running : stats.complaints} unit={running ? <MockedPill /> : `in ${stats.runs} runs`} />
         <ScoreBars runs={chart} />
       </div>
 
@@ -123,10 +124,10 @@ const pill = "relative z-10 inline-flex h-7 items-center gap-1 whitespace-nowrap
 
 function testLine(v: ValidationState, budget: number): ReactNode {
   const n = testNumbers(v);
-  if (v.status === "running") return <><span className="font-semibold text-warm">Live</span> · <b className="font-semibold text-zinc-100">{eur0(n.spend)}</b> of {eur0(budget)} · {signupsTxt(n.signups)}</>;
+  if (v.status === "running") return <><span className="font-semibold text-warm">Live</span> · <b className="font-semibold text-zinc-100">{eur0(n.spend)}</b> of {eur0(budget)} · {signupsTxt(n.signups)} <MockedPill className="ml-1" /></>;
   if (v.status === "finished") {
     const won = n.call === "strong";
-    return <><span className={won ? "font-semibold text-[#86efac]" : n.call === "kill" ? "font-semibold text-[#fca5a5]" : "font-semibold text-[#fcd34d]"}>{won ? "✓ Strong" : n.call === "kill" ? "✕ Kill" : "~ Inconclusive"}</span> · {signupsTxt(n.signups)} · simulated</>;
+    return <><span className={won ? "font-semibold text-[#86efac]" : n.call === "kill" ? "font-semibold text-[#fca5a5]" : "font-semibold text-[#fcd34d]"}>{won ? "✓ Strong" : n.call === "kill" ? "✕ Kill" : "~ Inconclusive"}</span> · {signupsTxt(n.signups)} <MockedPill className="ml-1" /></>;
   }
   return "Page ready · test not started";
 }
@@ -206,6 +207,7 @@ function TopCard({ row, t, loaded }: { row: PainRow; t: { v: ValidationState; bu
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-accent-light">Top pick</span>
+            {row.demo && <MockedPill label="Mocked winner" />}
             {stage ? (
               loaded ? <><StatusPill stage={stage} /><StageMeter stage={stage} /></> : <span className="h-5 w-16 animate-pulse rounded-full bg-white/[0.06]" />
             ) : (

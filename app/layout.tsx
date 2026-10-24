@@ -4,6 +4,7 @@ import "./globals.css";
 import ResetButton from "@/components/ResetButton";
 import { SearchProvider } from "@/components/Search";
 import TopBar from "@/components/TopBar";
+import MockedPill from "@/components/MockedPill";
 
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
 
@@ -19,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <TopBar />
             <main className="mx-auto w-full max-w-[1040px] flex-1 px-4 pb-12 pt-6 sm:px-6 sm:pt-8">{children}</main>
             <footer className="mx-auto flex w-full max-w-[1040px] flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 pb-6 text-[12px] text-zinc-400 sm:px-6">
-              <span>Mock data · no real ads, payments or emails · state lives in this browser</span>
+              <span className="inline-flex flex-wrap items-center gap-1.5"><MockedPill /> marks made-up demo data · no real ads, payments or emails · state lives in this browser</span>
               <ResetButton />
             </footer>
           </div>

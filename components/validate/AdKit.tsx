@@ -2,6 +2,7 @@
 import { useState } from "react";
 import type { TrafficSource, Validation } from "@/lib/types";
 import { IconCheck } from "../icons";
+import MockedPill from "../MockedPill";
 
 export const SOURCE_NAME: Record<TrafficSource, string> = { meta: "Meta (Facebook + Instagram)", google_search: "Google Search", reddit: "Reddit" };
 
@@ -23,7 +24,7 @@ export default function AdKit({ kit, slug }: { kit: Validation["adKit"]; slug: s
         </div>
       </div>
       <div>
-        <div className="label mb-2">UTM link per source</div>
+        <div className="mb-2 flex flex-wrap items-center gap-2"><span className="label">UTM link per source · placeholder path</span><MockedPill /></div>
         <ul className="space-y-1.5">
           {(Object.keys(kit.utm) as TrafficSource[]).map((s) => <Copy key={s} label={SOURCE_NAME[s]} text={`/v/${slug}/${kit.utm[s]}`} mono />)}
         </ul>

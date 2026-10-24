@@ -7,7 +7,7 @@ export default function ResetButton() {
   return (
     <button
       onClick={() => {
-        if (!confirm("Reset all demo state (simulated validations)?")) return;
+        if (!confirm("Reset all demo state (mocked validations)?")) return;
         resetAll();
         setDone(true);
         setTimeout(() => setDone(false), 1500);

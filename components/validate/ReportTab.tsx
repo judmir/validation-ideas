@@ -6,6 +6,7 @@ import { CALL_LABEL, recommendation, totals, validationVerdict, type ValidationC
 import { Card, CardHeader, Funnel, btn } from "../ui";
 import { IconChevronRight, IconLock } from "../icons";
 import { SOURCE_NAME } from "./AdKit";
+import MockedPill from "../MockedPill";
 
 const TONE: Record<ValidationCall, { bg: string; ink: string; bar: string }> = { // bg/ink kept for reuse
   strong: { bg: "bg-[#bbf7d0]", ink: "text-[#14532d]", bar: "#16a34a" },
@@ -23,7 +24,7 @@ export default function ReportTab({ idea, v, loaded, goValidate }: { idea: Idea;
         <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-tile-2 text-zinc-300"><IconLock size={18} /></div>
         <div className="min-w-0 flex-1">
           <h3 className="text-[15px] font-semibold text-zinc-50">No report yet</h3>
-          <p className="mt-0.5 text-[13px] text-zinc-400">Start the simulated fake-door test on the Validate tab first.</p>
+          <p className="mt-0.5 text-[13px] text-zinc-400">Start the mocked fake-door test on the Validate tab first.</p>
         </div>
         <button onClick={goValidate} className={btn.ghost}>Go to Validate</button>
       </Card>
@@ -37,7 +38,7 @@ export default function ReportTab({ idea, v, loaded, goValidate }: { idea: Idea;
   return (
     <div className="space-y-4">
       <section className="rounded-[24px] bg-paper p-5 text-ink sm:p-7">
-        <div className="text-[11px] font-bold uppercase tracking-[0.08em] text-ink-soft">Verdict · simulated{v.status === "running" ? " · provisional" : ""}</div>
+        <div className="flex flex-wrap items-center gap-2"><span className="text-[11px] font-bold uppercase tracking-[0.08em] text-ink-soft">Verdict · mocked{v.status === "running" ? " · provisional" : ""}</span><span className="rounded-full bg-[#fde68a] px-2 py-px text-[11px] font-semibold text-[#713f12]" data-mocked>Mocked</span></div>
         <h2 className="mt-2 text-[30px] font-bold leading-tight tracking-tight sm:text-[36px]">{CALL_LABEL[call]}</h2>
         <p className="mt-1 text-[14px] text-ink-soft">Price-click rate <b className="tabular-nums text-ink">{t.visitors ? pct(rate) : "—"}</b> from <b className="tabular-nums text-ink">{t.visitors}</b> visitors.</p>
         <RateBar rate={rate} color={tone.bar} dim={call === "not-enough-traffic"} />
@@ -45,7 +46,7 @@ export default function ReportTab({ idea, v, loaded, goValidate }: { idea: Idea;
       </section>
 
       <Card>
-        <CardHeader title="Results" right={<span className="text-xs text-zinc-400">{v.status === "finished" ? `Ended ${v.endedAt}` : "Live"}</span>} />
+        <CardHeader title={<span className="inline-flex flex-wrap items-center gap-2">Results <MockedPill /></span>} right={<span className="text-xs text-zinc-400">{v.status === "finished" ? `Ended ${v.endedAt}` : "Live"}</span>} />
         <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
           <Kpi k="Spend" v={eur0(t.spendEur)} />
           <Kpi k="Visitors" v={String(t.visitors)} />
@@ -61,7 +62,7 @@ export default function ReportTab({ idea, v, loaded, goValidate }: { idea: Idea;
         <details className="group">
           <summary className="flex cursor-pointer list-none items-center gap-3 p-5 sm:p-6">
             <div className="min-w-0 flex-1">
-              <h2 className="text-[17px] font-semibold tracking-tight text-zinc-50">By source</h2>
+              <h2 className="flex flex-wrap items-center gap-2 text-[17px] font-semibold tracking-tight text-zinc-50">By source <MockedPill /></h2>
               <p className="mt-1 text-[13px] text-zinc-400">Each source judged on its own traffic.</p>
             </div>
             <IconChevronRight size={16} className="shrink-0 text-zinc-400 transition group-open:rotate-90" />

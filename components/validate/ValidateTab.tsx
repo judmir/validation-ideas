@@ -8,6 +8,7 @@ import { IconChevronRight, IconStop } from "../icons";
 import AdKit, { SOURCE_NAME } from "./AdKit";
 import LandingPreview from "./LandingPreview";
 import SignalsTable from "./SignalsTable";
+import MockedPill from "../MockedPill";
 
 type Props = { idea: Idea; v: ValidationState; setV: (v: ValidationState | ((p: ValidationState) => ValidationState)) => void; loaded: boolean; goReport: () => void };
 const ALL: TrafficSource[] = ["meta", "google_search", "reddit"];
@@ -36,26 +37,26 @@ export default function ValidateTab({ idea, v, setV, loaded, goReport }: Props) 
     <div className="space-y-4">
       <Card>
         <CardHeader
-          title="Live test"
-          sub={v.status === "running" ? "Simulated · ticks every ~1 s while this page is open" : v.status === "finished" ? `Simulated results · ended ${v.endedAt}` : `EUR ${val.adKit.budgetEur.min}–${val.adKit.budgetEur.max} budget · not started`}
+          title={<span className="inline-flex flex-wrap items-center gap-2">Live test <MockedPill /></span>}
+          sub={v.status === "running" ? "Mocked · ticks every ~1 s while this page is open" : v.status === "finished" ? `Mocked results · ended ${v.endedAt}` : `EUR ${val.adKit.budgetEur.min}–${val.adKit.budgetEur.max} budget · not started`}
           right={loaded && v.status === "running" ? <span className="inline-flex items-center gap-1.5 rounded-full bg-[#fdba74] px-2.5 py-0.5 text-[11px] font-semibold text-[#431407]"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" />Running</span> : undefined}
         />
         <div className="mt-4">
           {!loaded ? (
             <div className="h-40 animate-pulse rounded-2xl bg-white/[0.04]" />
           ) : v.status === "idle" ? (
-            <div className="rounded-2xl border border-dashed border-white/[0.12] p-5 text-center text-[13px] text-zinc-400">Start the simulation to watch visitors, price clicks and waitlist signups come in.</div>
+            <div className="rounded-2xl border border-dashed border-white/[0.12] p-5 text-center text-[13px] text-zinc-400">Start the mocked test to watch made-up visitors, price clicks and waitlist signups come in.</div>
           ) : (
             <SignalsTable rows={v.bySource} active={v.active} live={v.status === "running"} />
           )}
         </div>
         <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-end">
           {v.status === "running" ? (
-            <button onClick={stop} className={btn.primary}><IconStop size={11} /> End simulated test</button>
+            <button onClick={stop} className={btn.primary}><IconStop size={11} /> End mocked test</button>
           ) : (
             <>
               {v.status === "finished" && <button onClick={goReport} className={btn.ghost}>View report</button>}
-              <button onClick={start} disabled={!loaded} className={btn.primary}>{v.status === "finished" ? "Re-run simulation" : "Start simulated test"}</button>
+              <button onClick={start} disabled={!loaded} className={btn.primary}>{v.status === "finished" ? "Re-run mocked test" : "Start mocked test"}</button>
             </>
           )}
         </div>
@@ -85,7 +86,7 @@ export default function ValidateTab({ idea, v, setV, loaded, goReport }: Props) 
       </Card>
 
       <Card>
-        <CardHeader title="Landing page" sub="One shared template for every winner. Prices in USD. Preview only, not deployed." />
+        <CardHeader title={<span className="inline-flex flex-wrap items-center gap-2">Landing page <MockedPill /></span>} sub="One shared template for every winner. Prices in USD. Mocked preview, not deployed." />
         <div id="landing" className="mt-4 scroll-mt-24"><LandingPreview landing={val.landing} name={name} /></div>
       </Card>
 
@@ -93,7 +94,7 @@ export default function ValidateTab({ idea, v, setV, loaded, goReport }: Props) 
         <details className="group">
           <summary className="flex cursor-pointer list-none items-center gap-3 p-5 sm:p-6">
             <div className="min-w-0 flex-1">
-              <h2 className="text-[17px] font-semibold tracking-tight text-zinc-50">Ad kit</h2>
+              <h2 className="flex flex-wrap items-center gap-2 text-[17px] font-semibold tracking-tight text-zinc-50">Ad kit <MockedPill /></h2>
               <p className="mt-1 text-[13px] text-zinc-400">Copy for Meta Ads Manager. Nothing is published from here.</p>
             </div>
             <IconChevronRight size={16} className="shrink-0 text-zinc-400 transition group-open:rotate-90" />
