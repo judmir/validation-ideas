@@ -91,6 +91,7 @@ export default function NightsPage() {
             </ul>
           </More>
           <More title={`Old Germany pains (${LEGACY.length})`}>
+            <p className="mb-2 text-[12px] text-zinc-400">Germany, archived · these pains have no detail pages.</p>
             <ul className="divide-y divide-white/[0.05]">
               {[...LEGACY].sort((a, b) => b.night.localeCompare(a.night) || b.scores.total - a.scores.total).map((p) => (
                 <li key={p.painId} className="flex items-center gap-3 py-1.5 text-[13px]">

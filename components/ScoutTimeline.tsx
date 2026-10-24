@@ -229,6 +229,7 @@ function TopCard({ row, t, loaded }: { row: PainRow; t: { v: ValidationState; bu
         <div className="min-w-0 text-[12px] text-zinc-400">
           {ok && t ? (loaded ? <>{testLine(t.v, t.budget)}</> : "\u00a0") : row.pitched ? "Pitched as the night's winner, later killed by its stress test" : vetoedNear(row) && row.score >= RULES.passBar && !gateNear(row) ? `No demo · scored over the bar but ${VETOED_TITLE}` : `No demo · did not pass the bar (${RULES.passBar}, gates, veto)`}
         </div>
+        {!row.linkable && <ArchivedNote />}
         {row.linkable && (
           <div className="flex shrink-0 gap-2">
             {stage ? (
@@ -246,6 +247,11 @@ function TopCard({ row, t, loaded }: { row: PainRow; t: { v: ValidationState; bu
   );
 }
 
+/** Germany pains have no detail pages: their rows are not links and say so. */
+function ArchivedNote() {
+  return <span className="shrink-0 whitespace-nowrap text-[11px] font-medium text-zinc-400" title="Old Germany-market pain: no detail page">Germany, archived</span>;
+}
+
 function RunnerUp({ row }: { row: PainRow }) {
   const inner = (
     <>
@@ -257,7 +263,7 @@ function RunnerUp({ row }: { row: PainRow }) {
       <span className="shrink-0 text-[15px] font-semibold tabular-nums text-zinc-300">{row.score}</span>
     </>
   );
-  if (!row.linkable) return <div className="flex items-center gap-3 px-4 py-2.5">{inner}<span className="w-[14px] shrink-0" aria-hidden /></div>;
+  if (!row.linkable) return <div className="flex items-center gap-3 px-4 py-2.5" data-archived>{inner}<ArchivedNote /></div>;
   return (
     <Link href={`/idea/${row.id}/`} className="group flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-white/[0.04] focus-visible:bg-white/[0.04] focus-visible:outline-none">
       {inner}
