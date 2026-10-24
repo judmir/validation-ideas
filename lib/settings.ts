@@ -58,7 +58,7 @@ export interface PipelineSettings {
   };
   poc: { enabled: boolean; max_per_night: number; ready_by: string; private_only: boolean };
   validation: { status: string; ad_budget_eur: Range; min_visitors: number; strong_price_click_pct: number; kill_price_click_pct: number; two_button_page: boolean };
-  /** v3: the nightly narrated run video (~07:00). */
+  /** v3+: the narrated run video, last step of the final report (~05:05, ready by 06:00 in v4). */
   report: { run_video: { enabled: boolean; voiceover: boolean; subtitles: boolean; ready_by: string } };
   schedule: { timezone: string; us_scout: string; analyst: string; builder: string; brief: string; weekly: string; read_only: boolean };
 }

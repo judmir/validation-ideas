@@ -136,7 +136,7 @@ export type StepKey = "scout" | "analyst" | "builder" | "brief";
 export type SourceKey = "google_play" | "app_store" | "reddit" | "x" | "hn" | "trustpilot" | "forums";
 export type NightRun = {
   date: string; label?: string; market: "US"; niches: string[];
-  steps: Record<StepKey, StepStatus>; // fixed times 00:30 / 03:00 / 04:30 / 07:30
+  steps: Record<StepKey, StepStatus>; // times of that night (until 24 Oct: 00:30 / 03:00 / 04:30 / 07:30)
   scout: { complaints: number; provenModels: number; bySource: Record<SourceKey, number>; blocked: { source: string; reason: string }[] };
   analyst: { newPainIds: string[]; survivors: number };
   builder: { winnerPainId: string | null; poc: string | null };

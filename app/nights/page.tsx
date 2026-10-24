@@ -23,7 +23,7 @@ export default function NightsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-zinc-50 sm:text-[32px]">Nights</h1>
-        <p className="mt-1 text-[15px] text-zinc-400">Each night&apos;s run: scout 00:30, analyst 03:00, builder 04:30, brief 07:30.</p>
+        <p className="mt-1 text-[15px] text-zinc-400">Each night&apos;s run (since 25 Oct): scout ~00:30, analyst ~01:30, builder ~02:30, final report + run video ~05:05, all ready by 06:00. Earlier nights ran later (brief 07:30).</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">

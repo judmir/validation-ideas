@@ -276,7 +276,7 @@ function History({ versions }: { versions: SettingsVersion[] }) {
 function Scouting() {
   const { draft } = useS();
   return (
-    <Section id="scouting" title="Scouting" line="Where the 00:30 scout looks for complaints and proven models, and how much it collects.">
+    <Section id="scouting" title="Scouting" line="Where the ~00:30 scout looks for complaints and proven models, and how much it collects.">
       <Group label="Markets">
         <Toggle path="scouting.markets.US" label="US" />
         <Toggle path="scouting.markets.DE" label="Germany" help="Paused since 22 Oct" />
@@ -301,7 +301,7 @@ function Scoring() {
   const lo = scaled(draft, draft.scoring.near_miss_band.min), hi = scaled(draft, draft.scoring.near_miss_band.max);
   const weighted = max !== BASE_MAX;
   return (
-    <Section id="scoring" title="Scoring" line="How the 03:00 analyst scores each US entry, where the bar sits, and which checks can stop an idea.">
+    <Section id="scoring" title="Scoring" line="How the ~01:30 analyst scores each US entry, where the bar sits, and which checks can stop an idea.">
       <div className="grid grid-cols-3 gap-2" aria-live="polite">
         <Big label="Max score" value={fmtN(max)} />
         <Big label={weighted ? "Effective bar" : "Winning bar"} value={fmtN(bar)} warm sub={weighted ? `${draft.scoring.winning_bar} of 25, scaled` : "of 25"} />
@@ -367,7 +367,7 @@ function Winner() {
 
 function Poc() {
   return (
-    <Section id="poc" title="POC build" line="What the 04:30 builder may make each night.">
+    <Section id="poc" title="POC build" line="What the ~02:30 builder may make each night (due by the ready-by time).">
       <Toggle path="poc.enabled" label="Nightly POC" />
       <Num path="poc.max_per_night" label="Max builds per night" min={0} max={3} />
       <Time path="poc.ready_by" label="Ready by" />
@@ -398,7 +398,7 @@ function Report() {
         <div className="flex items-start gap-3">
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2"><span className="text-[15px] font-semibold text-zinc-50">Make a narrated run video each night</span><span className={`rounded-full px-2 py-px text-[11px] font-semibold ${on ? "bg-accent text-accent-ink" : "bg-white/[0.1] text-zinc-300"}`} data-run-video-state={on ? "on" : "off"}>{on ? "On" : "Off"}</span>{hl && <Was path="report.run_video.enabled" />}</div>
-            <p className="mt-1 text-[13px] leading-relaxed text-zinc-300">Built around 07:00 after the demo build, ready by 07:30; shows on that night&apos;s scout run and winner page. Off = the step skips.</p>
+            <p className="mt-1 text-[13px] leading-relaxed text-zinc-300">Built as the last step of the final report (~05:05), ready by 06:00.</p>
           </div>
           <Switch path="report.run_video.enabled" label="Make a narrated run video each night" />
         </div>
