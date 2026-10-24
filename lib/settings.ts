@@ -1,6 +1,6 @@
 // Pipeline settings. Source of truth: Supabase table pipeline_settings_versions (append-only; the view
 // pipeline_settings_latest is the current version, which the nightly routines read).
-// config/pipeline-settings.json is version 1 (identical to the Supabase seed) and the offline fallback.
+// config/pipeline-settings.json mirrors the current live version (v2) and is the offline fallback.
 // Shape: config/pipeline-settings.schema.json. Reading/saving lives in lib/settings-store.ts.
 import raw from "@/config/pipeline-settings.json";
 import { GATE_IDS, type GateId } from "./gates";
@@ -28,14 +28,33 @@ export interface PipelineSettings {
     /** Out of 25 at 1× weights. */
     winning_bar: number;
     near_miss_band: Range;
-    competitor_veto: boolean;
+    /** v2: competition is a demand signal; replaces v1's competitor_veto boolean. */
+    competition: {
+      mode: "signal" | "veto";
+      sweet_spot: Range;
+      sweet_spot_bonus: number;
+      veto_at_competitors: number;
+      veto_if_funded_leader_solves_well: boolean;
+      require_wedge: boolean;
+      zero_competitors: string;
+    };
     gates: Record<GateSettingKey, boolean> & { simplest_way_flag: boolean };
   };
   winner: {
     ideas_per_brief: number;
     no_repeats: boolean;
     prefer_stronger_plc_on_tie: boolean;
-    fallback: { enabled: boolean; min_score: number; allow_vetoed: boolean; allow_plc_maybe: boolean };
+    fallback: {
+      enabled: boolean;
+      always_one_per_night: boolean;
+      min_score: number;
+      prefer_not_vetoed: boolean;
+      allow_vetoed_as_last_resort: boolean;
+      allow_plc_maybe: boolean;
+      /** Always false (locked): a declining market is a kill. */
+      allow_plc_no: boolean;
+      label: string;
+    };
   };
   poc: { enabled: boolean; max_per_night: number; ready_by: string; private_only: boolean };
   validation: { status: string; ad_budget_eur: Range; min_visitors: number; strong_price_click_pct: number; kill_price_click_pct: number; two_button_page: boolean };

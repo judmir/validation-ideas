@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/judmir/validation-ideas/blob/main/config/pipeline-settings.schema.json",
   "title": "Validation Ideas pipeline settings",
-  "description": "Shape of pipeline_settings_versions.settings in Supabase (the source of truth; routines read pipeline_settings_latest). config/pipeline-settings.json is version 1 and the offline fallback. TS type: lib/settings.ts.",
+  "description": "Shape of pipeline_settings_versions.settings in Supabase (source of truth; routines read pipeline_settings_latest). config/pipeline-settings.json mirrors the live version (v2) and is the offline fallback. TS type: lib/settings.ts.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -137,8 +137,8 @@
         "max_score",
         "winning_bar",
         "near_miss_band",
-        "competitor_veto",
-        "gates"
+        "gates",
+        "competition"
       ],
       "properties": {
         "criteria": {
@@ -230,9 +230,6 @@
             }
           }
         },
-        "competitor_veto": {
-          "type": "boolean"
-        },
         "gates": {
           "type": "object",
           "additionalProperties": false,
@@ -262,6 +259,67 @@
             }
           },
           "description": "Maps onto the gate ids in lib/gates.ts."
+        },
+        "competition": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "sweet_spot",
+            "sweet_spot_bonus",
+            "veto_at_competitors",
+            "veto_if_funded_leader_solves_well",
+            "require_wedge",
+            "zero_competitors"
+          ],
+          "properties": {
+            "mode": {
+              "enum": [
+                "signal",
+                "veto"
+              ]
+            },
+            "sweet_spot": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "min",
+                "max"
+              ],
+              "properties": {
+                "min": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 50
+                },
+                "max": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 50
+                }
+              }
+            },
+            "sweet_spot_bonus": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5
+            },
+            "veto_at_competitors": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            },
+            "veto_if_funded_leader_solves_well": {
+              "type": "boolean"
+            },
+            "require_wedge": {
+              "type": "boolean"
+            },
+            "zero_competitors": {
+              "type": "string"
+            }
+          },
+          "description": "v2: 1\u20133 strong US competitors = demand signal (+bonus with a named wedge); veto only at veto_at_competitors+ or a funded leader solving it well. Replaces v1's competitor_veto."
         }
       }
     },
@@ -291,12 +349,19 @@
           "additionalProperties": false,
           "required": [
             "enabled",
+            "always_one_per_night",
             "min_score",
-            "allow_vetoed",
-            "allow_plc_maybe"
+            "prefer_not_vetoed",
+            "allow_vetoed_as_last_resort",
+            "allow_plc_maybe",
+            "allow_plc_no",
+            "label"
           ],
           "properties": {
             "enabled": {
+              "type": "boolean"
+            },
+            "always_one_per_night": {
               "type": "boolean"
             },
             "min_score": {
@@ -304,14 +369,23 @@
               "minimum": 0,
               "maximum": 25
             },
-            "allow_vetoed": {
+            "prefer_not_vetoed": {
+              "type": "boolean"
+            },
+            "allow_vetoed_as_last_resort": {
               "type": "boolean"
             },
             "allow_plc_maybe": {
               "type": "boolean"
+            },
+            "allow_plc_no": {
+              "const": false
+            },
+            "label": {
+              "type": "string"
             }
           },
-          "description": "Always build at least one demo, labelled 'Fallback (below bar)'. A PLC 'no' is never allowed."
+          "description": "v2: always build one demo per night, labelled `label`. A PLC 'no' is never allowed."
         }
       }
     },

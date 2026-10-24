@@ -7,10 +7,14 @@
   },
   "winner": {
     "fallback": {
-      "enabled": false,
-      "min_score": 15,
-      "allow_vetoed": false,
-      "allow_plc_maybe": true
+      "label": "Fallback (below bar)",
+      "enabled": true,
+      "min_score": 0,
+      "allow_plc_no": false,
+      "allow_plc_maybe": true,
+      "prefer_not_vetoed": true,
+      "always_one_per_night": true,
+      "allow_vetoed_as_last_resort": true
     },
     "no_repeats": true,
     "ideas_per_brief": 3,
@@ -32,12 +36,23 @@
       "willingness_to_pay": 1
     },
     "max_score": 25,
+    "competition": {
+      "mode": "signal",
+      "sweet_spot": {
+        "max": 3,
+        "min": 1
+      },
+      "require_wedge": true,
+      "sweet_spot_bonus": 1,
+      "zero_competitors": "flag: market may need educating",
+      "veto_at_competitors": 4,
+      "veto_if_funded_leader_solves_well": true
+    },
     "winning_bar": 18,
     "near_miss_band": {
       "max": 17,
       "min": 15
     },
-    "competitor_veto": true,
     "criterion_scale": {
       "max": 5,
       "min": 1
