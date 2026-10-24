@@ -1,5 +1,19 @@
 import { EDGES, STATUS_LABEL, nodeById, type ArchNode } from "@/lib/architecture";
+import Link from "next/link";
 import { Badge } from "@/components/ui";
+
+/** Each node's rules live in one Settings section. */
+const SETTINGS_SECTION: Record<string, { id: string; title: string }[]> = {
+  "us-scout": [{ id: "scouting", title: "Scouting" }],
+  "de-scout": [{ id: "scouting", title: "Scouting" }],
+  analyst: [{ id: "scoring", title: "Scoring" }],
+  builder: [{ id: "winner", title: "Ideas & winner" }, { id: "poc", title: "POC build" }],
+  brief: [{ id: "winner", title: "Ideas & winner" }, { id: "schedule", title: "Schedule" }],
+  weekly: [{ id: "schedule", title: "Schedule" }],
+  landing: [{ id: "validation", title: "Validation" }],
+  meta: [{ id: "validation", title: "Validation" }],
+  report: [{ id: "validation", title: "Validation" }],
+};
 
 const STATUS_BADGE = { active: "violet", paused: "slate", proposed: "light" } as const;
 
@@ -22,6 +36,14 @@ export default function NodePanel({ node, onPick }: { node: ArchNode; onPick?: (
       {node.outputs && (
         <div className="mt-3 flex flex-wrap gap-1.5">
           {node.outputs.map((o) => <span key={o} className="rounded-full bg-white/[0.07] px-2.5 py-1 font-mono text-[11.5px] text-zinc-200">{o}</span>)}
+        </div>
+      )}
+      {SETTINGS_SECTION[node.id] && (
+        <div className="mt-3 flex flex-wrap items-center gap-1.5 text-[12px]">
+          <span className="text-zinc-400">Settings:</span>
+          {SETTINGS_SECTION[node.id].map((s) => (
+            <Link key={s.id} href={`/settings/#${s.id}`} className="rounded-full bg-accent/15 px-2.5 py-1 font-semibold text-accent-light ring-1 ring-inset ring-accent/30 hover:bg-accent/25">{s.title} →</Link>
+          ))}
         </div>
       )}
       {(ins.length > 0 || outs.length > 0) && (
