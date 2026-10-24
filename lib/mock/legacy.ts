@@ -1,4 +1,4 @@
-// Generated from startup-research pipeline files (pains.json, us/*.jsonl, briefs/*.md) on 2026-10-23.
+// Generated from startup-research pipeline files (pains.json, us/*.jsonl, briefs/*.md) on 2026-10-24.
 // Static mock data: the app never reads the pipeline at build or run time.
 import type { LegacyPain } from "../types";
 

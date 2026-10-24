@@ -1,4 +1,4 @@
-// Generated from startup-research pipeline files (pains.json, us/*.jsonl, briefs/*.md) on 2026-10-23.
+// Generated from startup-research pipeline files (pains.json, us/*.jsonl, briefs/*.md) on 2026-10-24.
 // Static mock data: the app never reads the pipeline at build or run time.
 import type { Idea } from "../types";
 
@@ -18,10 +18,10 @@ export const IDEAS: Idea[] = [
   },
   "mvp": "One screen with ~40 tested weeknight dinners plus 'add your own by URL'. Tap 3–5, pick servings, get one combined, aisle-sorted list to share or copy into Instacart/Walmart. No account until you pay.",
   "killQuestion": "It's already dead: 20+ clones plus free Meals Hub and Flambette took the wedge, and a solo dev can't produce Mealime's tested-recipe catalogue in 2 weeks.",
-  "description": "US home cooks lost Mealime (shut down 21 Oct 2026, folded into Albertsons' store-tied Meals Hub) and want the same thing back: pick a few dinners, get one combined grocery list for any store, no bloat. Existing planners crash (eMeals), add ads/paywalls (Samsung Food) or have weak lists (NYT Cooking, Meals Hub).",
+  "description": "US home cooks lost Mealime (shut down 21 Oct 2026, folded into Albertsons' store-tied Meals Hub) and want the same thing back: pick a few dinners, get one combined grocery list for any store, no bloat. Existing planners crash (eMeals), add ads/paywalls (Samsung Food) or have weak lists (NYT Cooking, Meals Hub). Second pass (24 Oct): refugees forced into the Albertsons/Safeway apps report crashes, store-locked recipes and weak lists, and miss Mealime's ingredient-overlap meal suggestions.",
   "who": "US working parents and home cooks who plan weeknight dinners and don't shop at Albertsons-family stores",
   "source": "complaints+proven-model",
-  "evidenceSummary": "Mealime shut down 21 Oct 2026; 24 complaints from 22 people across Play, r/mealime, r/EatCheapAndHealthy and X.",
+  "evidenceSummary": "Mealime shut down 21 Oct 2026; 37 complaints from 35 people across the 22 and 24 Oct runs (Play, App Store, r/mealime, r/EatCheapAndHealthy and X).",
   "complaint_ids": [
    "c-us-20261022-011",
    "c-us-20261022-012",
@@ -46,7 +46,20 @@ export const IDEAS: Idea[] = [
    "c-us-20261022-040",
    "c-us-20261022-041",
    "c-us-20261022-042",
-   "c-us-20261022-043"
+   "c-us-20261022-043",
+   "c-us-20261024-056",
+   "c-us-20261024-057",
+   "c-us-20261024-058",
+   "c-us-20261024-065",
+   "c-us-20261024-066",
+   "c-us-20261024-067",
+   "c-us-20261024-073",
+   "c-us-20261024-076",
+   "c-us-20261024-077",
+   "c-us-20261024-078",
+   "c-us-20261024-079",
+   "c-us-20261024-080",
+   "c-us-20261024-081"
   ],
   "quotes": [
    {
@@ -93,6 +106,18 @@ export const IDEAS: Idea[] = [
     "link": "https://www.reddit.com/r/mealime/comments/1xafst8/mealime_founder_speaks_out/19res5iwwmum8/",
     "quote": "Even the subscription fee was absolutely reasonable and... kind of the perfect price to remind me to use it, rather than make me dislike it in any way.",
     "engagement": "1 upvotes (archive snapshot), u/scsibusfault",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-065",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-21",
+    "source": "app_store Safeway (US storefront)",
+    "link": "https://apps.apple.com/us/app/id521487551#review-14695436066",
+    "quote": "They shut down a perfectly good app that doesn’t require me to put in a store that’s across the country from me.",
+    "engagement": "1★ review by 'ArcToArcturus11', title: 'Rip Mealime'",
     "niche": "meal planning & recipes",
     "stream": "problem",
     "market": "US"
@@ -158,6 +183,66 @@ export const IDEAS: Idea[] = [
     "market": "US"
    },
    {
+    "id": "c-us-20261024-066",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-16",
+    "source": "app_store Safeway (US storefront)",
+    "link": "https://apps.apple.com/us/app/id521487551#review-14674542375",
+    "quote": "I spent over an hour last night budgeting different items and meal planning and building my cart, just for the app to crash this morning and delete ALL my items.",
+    "engagement": "2★ review by 'JoyBear419', title: 'Constant issues'",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-077",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-16",
+    "source": "reddit r/mealime (comment)",
+    "link": "https://www.reddit.com/r/mealime/comments/1x3b061/i_miss_the_ingredient_maximizing/ph45aur/",
+    "quote": "I’ve seen tons of posts promoting their own versions…but then ask me to import my recipes for THEIR catalog.",
+    "engagement": "2 upvotes (archive snapshot), u/xn28music",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-078",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-15",
+    "source": "reddit r/mealime (comment)",
+    "link": "https://www.reddit.com/r/mealime/comments/1x6w4me/mealime_user_feedback_survey/pgz3c7r/",
+    "quote": "Reducing food waste via suggested meal plans combinations was key. I don't see that in the Meals Hub and it makes the whole thing useless to me.",
+    "engagement": "7 upvotes (archive snapshot), u/hollyly",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-079",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-15",
+    "source": "reddit r/mealime (comment)",
+    "link": "https://www.reddit.com/r/mealime/comments/1x6w4me/mealime_user_feedback_survey/pgz4gkc/",
+    "quote": "I cared most about the suggested meal plans so losing those makes Meals Hub a no-go for me.",
+    "engagement": "5 upvotes (archive snapshot), u/girlwsquirrel",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-080",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-15",
+    "source": "reddit r/mealime (comment)",
+    "link": "https://www.reddit.com/r/mealime/comments/1x6w4me/mealime_user_feedback_survey/pgzdgly/",
+    "quote": "I live in NYC and don’t live near a single one of them",
+    "engagement": "3 upvotes (archive snapshot), u/green_typewriter",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
     "id": "c-us-20261022-036",
     "found_date": "2026-10-22",
     "post_date": "2026-10-13",
@@ -194,6 +279,42 @@ export const IDEAS: Idea[] = [
     "market": "US"
    },
    {
+    "id": "c-us-20261024-076",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-11",
+    "source": "reddit r/mealime",
+    "link": "https://www.reddit.com/r/mealime/comments/1x3b061/i_miss_the_ingredient_maximizing/",
+    "quote": "the fact that they try and say that the Albertsons meal planning is the same thing is a joke.",
+    "engagement": "22 upvotes, 37 comments (archive snapshot), u/New_Driver_39",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-057",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-10",
+    "source": "google_play Albertsons (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.safeway.client.android.albertsons&reviewId=218243f8-64b7-463c-8118-297c69506104",
+    "quote": "forced to use due to mealime shutting down...I can't view recipes if I don't have any services near me? how is this an appropriate replacement",
+    "engagement": "1★ review by 'Tanya Rodgers', 0 thumbs up",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-058",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-09",
+    "source": "google_play Safeway (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.safeway.client.android.safeway&reviewId=a94d02c2-0c46-4a53-ab8c-17551de3ef51",
+    "quote": "the recipes function is awful, I came from Mealime and the shopping list is almost useless.",
+    "engagement": "1★ review by 'Steven Tinoco', 1 thumbs up",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
     "id": "c-us-20261022-030",
     "found_date": "2026-10-22",
     "post_date": "2026-10-08",
@@ -213,6 +334,18 @@ export const IDEAS: Idea[] = [
     "link": "https://play.google.com/store/apps/details?id=com.emeals&reviewId=fe35e1df-cbea-47a2-b26e-62cf0159d0a5",
     "quote": "For YEARS I've repeatedly had to uninstall it and reinstall it to update menus.",
     "engagement": "1★ review by 'C Vick', 13 thumbs up",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-056",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-06",
+    "source": "google_play Albertsons (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.safeway.client.android.albertsons&reviewId=9ad4a9a0-0f81-4a92-9cc4-f9ed402fe513",
+    "quote": "I only got this app because they bought out Mealime. this app is terrible! it's glitchy and doesn't load most of the time!",
+    "engagement": "1★ review by 'christopher butcher', 0 thumbs up",
     "niche": "meal planning & recipes",
     "stream": "problem",
     "market": "US"
@@ -254,6 +387,18 @@ export const IDEAS: Idea[] = [
     "market": "US"
    },
    {
+    "id": "c-us-20261024-073",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-04",
+    "source": "app_store NYT Cooking (US storefront)",
+    "link": "https://apps.apple.com/us/app/id911422904#review-14627921304",
+    "quote": "Great recipes but wish they made it easier to export a grocery list",
+    "engagement": "3★ review by 'RomeoXantos', title: 'Great recipes but wish they made it easier to export a grocery list'",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
     "id": "c-us-20261022-033",
     "found_date": "2026-10-22",
     "post_date": "2026-10-03",
@@ -273,6 +418,18 @@ export const IDEAS: Idea[] = [
     "link": "https://www.reddit.com/r/mealime/comments/1wwgzns/im_devastated/pdmcn7y/",
     "quote": "I ended up making some weekly plans up of my favorite recipes, printing out the weekly grocery list and the recipes, and compiling it into an old school recipe book.",
     "engagement": "1 upvotes (archive snapshot), u/Mrs-Dr-Pepper",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-081",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-01",
+    "source": "reddit r/MealPrepSunday (comment)",
+    "link": "https://www.reddit.com/r/MealPrepSunday/comments/1wucza7/meal_plan_services_with_grocery_lists_and_prep/pd8wh6a/",
+    "quote": "Right now I pay $6/month for the one I have. I wouldn't want to spend more than probably $15-$20",
+    "engagement": "1 upvotes (archive snapshot), u/PayKay223",
     "niche": "meal planning & recipes",
     "stream": "problem",
     "market": "US"
@@ -309,6 +466,18 @@ export const IDEAS: Idea[] = [
     "link": "https://play.google.com/store/apps/details?id=com.nytimes.cooking&reviewId=f5b8192e-1db3-4216-8946-75ad55da0678",
     "quote": "I'm so sad Mealime is being shut down and using this NYT Cooking app made me even more sad. Yes, you can add recipes to a \"grocery list\" but it does not combine duplicate items from multiple recipes or organize the ingredients in any way",
     "engagement": "3★ review by 'Alexander Beck', 0 thumbs up",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-067",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-27",
+    "source": "app_store MealPrepPro (US storefront)",
+    "link": "https://apps.apple.com/us/app/id1249805978#review-14601730495",
+    "quote": "I used Mealime for years and loved it. But they sold out to a grocery store chain and I was looking for a replacement. Tried this one and hated it: no ability to add your own recipes",
+    "engagement": "1★ review by 'SleepyLabRat', title: 'I hate it'",
     "niche": "meal planning & recipes",
     "stream": "problem",
     "market": "US"
@@ -380,27 +549,42 @@ export const IDEAS: Idea[] = [
     "lifecycle_evidence": "Growth for AI meal planning (new $7.5M round Sep 2026, many launches), within a mature meal-planning category. Assessment.",
     "stream": "proven-model",
     "market": "US"
+   },
+   {
+    "id": "pm-us-20261024-05",
+    "found_date": "2026-10-24",
+    "app": "Workweek Lunch (creator meal-prep plans) / Restaurant Dropout (Substack plans)",
+    "country": "US",
+    "model_and_price": "Workweek Lunch Pro $12/mo for weekly meal-prep plans with grocery lists (https://workweeklunch.com/weekly-meal-plans/). Restaurant Dropout: $6/mo or $65/yr Substack meal plans (https://restaurantdropout.substack.com/about).",
+    "traction_evidence": "Workweek Lunch had 4,000 active subscribers, 25k+ lifetime customers and ~$2M lifetime revenue when acquired by Mealprep on Fleek in 2023 (https://theygotacquired.com/content/workweek-lunch-acquired-by-mealprep-on-fleek/). Restaurant Dropout subscriber count not found.",
+    "us_status": "US users displaced by Mealime's shutdown want a ready recipe database plus plans, not an empty recipe keeper: https://www.reddit.com/r/mealime/comments/1x3b061/i_miss_the_ingredient_maximizing/ ; willingness to pay $6–20/mo: https://www.reddit.com/r/MealPrepSunday/comments/1wucza7/meal_plan_services_with_grocery_lists_and_prep/pd8wh6a/",
+    "entry_point": "Content-led subscription (weekly plan + grocery list + leftovers/ingredient-overlap logic) sold via Lemon Squeezy/Polar; the hard part is recipe content and audience, not code. Assessment.",
+    "why_not_done_yet": "Many founders are pitching Mealime replacements in r/mealime right now, and creator plans depend on an existing audience. An unverified X claim says several new meal planners hit US top-10 grossing in Food & Drink this summer (https://x.com/ski0xFF/status/2112212729813463072). Crowded. Assessment.",
+    "lifecycle_evidence": "Mature niche with exits (Workweek Lunch acquired 2023, Mealime acquired by Albertsons and being shut down). Assessment.",
+    "stream": "proven-model",
+    "market": "US"
    }
   ],
-  "distinct_people": 22,
-  "distinct_people_note": "Counted from Play reviewer names, Reddit authors and X handles in the engagement field; no cross-platform dedup (not verified).",
+  "distinct_people": 35,
+  "distinct_people_note": "Counted from App Store/Play reviewer names, Reddit authors and X handles in the engagement field; no cross-platform dedup (not verified).",
   "weekly_counts": {
-   "2026-W39": 2,
-   "2026-W40": 9,
-   "2026-W41": 4,
-   "2026-W42": 6,
-   "2026-W43": 3
+   "2026-W39": 3,
+   "2026-W40": 11,
+   "2026-W41": 8,
+   "2026-W42": 11,
+   "2026-W43": 4
   },
   "week_over_week": {
    "this_week_iso": "2026-W42",
-   "this_week": 6,
+   "this_week": 11,
    "last_week_iso": "2026-W41",
-   "last_week": 4,
-   "partial_week_W43": 3,
-   "note": "US one-off run 2026-10-22: counts by post_date over the 30-day window (2026-09-22…2026-10-21); W43 (from Mon 19 Oct) is partial. One run only, so growth reflects this run's scouting, not the market."
+   "last_week": 8,
+   "partial_week_W43": 4,
+   "new_complaints_this_run": 13,
+   "note": "US analyst 2026-10-24: counts by post_date over all linked complaints (scout windows 2026-09-22…2026-10-21 and 2026-09-24…2026-10-21); W43 (from Mon 19 Oct) is partial. Growth reflects nights of scouting, not the market."
   },
   "recurring": true,
-  "recurring_note": "recurring=true if complaints fall in 3+ consecutive ISO weeks (by post_date). This pain: longest consecutive-week run 5; first US run, so the 'later run' rule cannot apply yet.",
+  "recurring_note": "recurring=true if complaints fall in 3+ consecutive ISO weeks (by post_date). This pain: longest consecutive-week run 5. Scout runs that surfaced it: 2026-10-22, 2026-10-24.",
   "scores": {
    "frequency": 5,
    "intensity": 4,
@@ -410,12 +594,12 @@ export const IDEAS: Idea[] = [
    "total": 19
   },
   "score_notes": {
-   "frequency": "24 complaints tonight; the largest US thread is r/EatCheapAndHealthy 'Dinner is honestly the most stressful part of my day' (469 upvotes, 308 comments, c-034). Proven demand: Mealime had a dedicated subreddit and a petition (pm-us-20261022-01); Plan to Eat 'trusted by 50k+ meal planners'; Ollie 'more than 50,000 families'.",
-   "intensity": "“I just exported 285 recipes but am really going to miss the simplicity of it all.” (c-029, 17 upvotes, 47 comments); “I JUST SPENT 20 MINUTES JUST TRYING TO GET THE THING TO LOAD INSTEAD OF PLANNING MY MEALS AND LIST. now I have no groceries or dinner for tonight.” (c-013).",
-   "willingness_to_pay": "Former payers: “Even the subscription fee was absolutely reasonable and... kind of the perfect price to remind me to use it, rather than make me dislike it in any way.” (c-041). Plan to Eat sells $5.95/mo or $49/yr with no free plan (plantoeat.com/pricing); Ollie $9.99/mo. Counter-signal: a user asks for a free one: “Does anybody know if there's a free app that helps you make a meal plan for the  week?” (c-035).",
+   "frequency": "24 complaints tonight; the largest US thread is r/EatCheapAndHealthy 'Dinner is honestly the most stressful part of my day' (469 upvotes, 308 comments, c-034). Proven demand: Mealime had a dedicated subreddit and a petition (pm-us-20261022-01); Plan to Eat 'trusted by 50k+ meal planners'; Ollie 'more than 50,000 families'. 24 Oct: +13 complaints (Play/App Store reviews of the Albertsons and Safeway apps, r/mealime thread 'I miss the ingredient maximizing' 22 upvotes / 37 comments, c-076).",
+   "intensity": "“I just exported 285 recipes but am really going to miss the simplicity of it all.” (c-029, 17 upvotes, 47 comments); “I JUST SPENT 20 MINUTES JUST TRYING TO GET THE THING TO LOAD INSTEAD OF PLANNING MY MEALS AND LIST. now I have no groceries or dinner for tonight.” (c-013). 24 Oct: “I spent over an hour last night budgeting different items and meal planning and building my cart, just for the app to crash this morning and delete ALL my items.” (c-066, https://apps.apple.com/us/app/id521487551#review-14674542375); “They shut down a perfectly good app that doesn’t require me to put in a store that’s across the country from me.” (c-065, https://apps.apple.com/us/app/id521487551#review-14695436066)",
+   "willingness_to_pay": "Former payers: “Even the subscription fee was absolutely reasonable and... kind of the perfect price to remind me to use it, rather than make me dislike it in any way.” (c-041). Plan to Eat sells $5.95/mo or $49/yr with no free plan (plantoeat.com/pricing); Ollie $9.99/mo. Counter-signal: a user asks for a free one: “Does anybody know if there's a free app that helps you make a meal plan for the  week?” (c-035). 24 Oct: “Right now I pay $6/month for the one I have. I wouldn't want to spend more than probably $15-$20” (c-081, https://www.reddit.com/r/MealPrepSunday/comments/1wucza7/meal_plan_services_with_grocery_lists_and_prep/pd8wh6a/); Workweek Lunch had 4,000 active subscribers at $12/mo when acquired (pm-us-20261024-05, scout link).",
    "reachability": "r/mealime is reachable but saturated and hostile to pitches: “I've been looking for a Mealime alternative but everyone is posting their slop apps with clearly AI generated images in their marketing.” (c-030); “95% of them are \"only available on web for now\"” (c-040). Meta ads to US parents are possible (assessment).",
    "buildability": "Planner + combined list is a 2-week MVP; the hard part is a trustworthy recipe catalogue (Mealime's tested recipes), which a solo dev can't produce in 2 weeks; BYO recipes or a public-domain set would be needed (assessment).",
-   "method": "First US run. Scores use US complaints and US proven models only."
+   "method": "First US run. Scores use US complaints and US proven models only. Re-scored 2026-10-24 (US analyst) with 13 new complaints and pm-us-20261024-05; total unchanged at 19."
   },
   "gates": {
    "consumer_subscription": {
@@ -434,7 +618,7 @@ export const IDEAS: Idea[] = [
   "gate_failed": null,
   "competitor_veto": true,
   "kill_reason": "Killed by the competitor check, not by score. 20+ Mealime replacements in 30 days, free Meals Hub (Albertsons), Plan to Eat since 2008, Ollie ($7.5M seed) owns AI planning.",
-  "borderline_note": "Near-miss: 19/25 and all gates pass, killed only by the competitor check (flooded by 20+ fresh Mealime clones plus free Meals Hub and Plan to Eat).",
+  "borderline_note": "Near-miss: 19/25 (re-scored 24 Oct), all gates pass, killed only by the competitor veto (20+ fresh Mealime clones, free Meals Hub, Plan to Eat, creator meal plans). Recurs across both US scout runs (22 and 24 Oct).",
   "competitors": [
    {
     "name": "Plan to Eat",
@@ -529,6 +713,15 @@ export const IDEAS: Idea[] = [
     "hates": [],
     "loves_hates_note": "No user reviews checked tonight.",
     "funding": "$7.5M seed led by Khosla Ventures (Sep 2026)"
+   },
+   {
+    "name": "Workweek Lunch Pro",
+    "url": "https://workweeklunch.com/weekly-meal-plans/",
+    "price": "$12/month (scout link)",
+    "price_source": "https://workweeklunch.com/weekly-meal-plans/",
+    "loves": [],
+    "hates": [],
+    "funding": "Acquired by Mealprep on Fleek, 2023 (https://theygotacquired.com/content/workweek-lunch-acquired-by-mealprep-on-fleek/, scout link); user reviews not fetched tonight"
    }
   ],
   "gap": "Only a sliver: a non-AI-slop planner with tested recipes and a combined list for any store, which Flambette, WeeknightBite and Plan to Eat already claim.",
@@ -539,13 +732,14 @@ export const IDEAS: Idea[] = [
     "Competitors: 20+ new replacements in 30 days on r/mealime and X (see kill_reason), on top of Plan to Eat, Paprika, AnyList, Samsung Food, eMeals, Ollie.",
     "Recent funding/exits: Mealime shut down 21 Oct 2026 after Albertsons ownership (https://getmealpot.com/mealime/shutting-down/); Ollie $7.5M seed Sep 2026 (TechCrunch).",
     "Price trend: flat or down: official successor free; Plan to Eat $49/yr unchanged; apps pushing annual-only (c-015).",
-    "Review/search trend: complaint spike around the shutdown date (Play reviews and r/mealime, 2026-09-24…10-21). Search trend not checked (no Google Trends access)."
+    "Review/search trend: complaint spike around the shutdown date (Play reviews and r/mealime, 2026-09-24…10-21). Search trend not checked (no Google Trends access).",
+    "24 Oct: exits in the content-plan niche too (Workweek Lunch acquired 2023, pm-us-20261024-05); unverified X claim that new meal planners reached US top-10 grossing Food & Drink this summer (https://x.com/ski0xFF/status/2112212729813463072) — not counted as evidence."
    ],
    "verdict": "maybe",
    "verdictText": "maybe (assessment): demand and willingness to pay are real, but in a mature category the wedge must be clear, and the obvious wedge was taken by 20+ entrants within a month.",
    "assessment": true
   },
-  "verdict": "killed"
+  "verdict": "near-miss"
  },
  {
   "painId": "p-073",
@@ -562,7 +756,7 @@ export const IDEAS: Idea[] = [
   },
   "mvp": "A share-sheet target: share a reel or URL, the app pulls caption, transcript and page schema and shows ingredients and steps in 3 seconds. Tap 'fix' on any line. One list of saved recipes.",
   "killQuestion": "Per-import AI/transcript cost above ~$0.02 at $15/yr; ReciMe dropping its 5-per-week cap; users really wanting one-time (Paprika exists); no TikTok distribution.",
-  "description": "US users who save recipes from TikTok/Instagram/websites feel baited by recipe-import apps: 'free' apps that open with a 7-day trial and $40/yr, 5 imports a week, charges after cancelling, imports that miss ingredients, and paid sync that only works on one platform. Many say they'd pay once, not yearly.",
+  "description": "US users who save recipes from TikTok/Instagram/websites feel baited by recipe-import apps: 'free' apps that open with a 7-day trial and $40/yr, 5 imports a week, charges after cancelling, imports that miss ingredients, and paid sync that only works on one platform. Many say they'd pay once, not yearly. Second pass (24 Oct): RecipeBox and Pepper moved saved libraries behind subscriptions, Recipe Keeper charges each spouse separately, and NYT Cooking added AI recipes.",
   "who": "US home cooks who save recipes from social video, baited by 'free' apps that need a $40/yr trial",
   "source": "complaints+proven-model",
   "evidenceSummary": "ReciMe (15M users, #1 US Play Food & Drink grossing) draws 125 ≤3★ US Play reviews in 30 days over its 5-imports/week paywall and trial traps.",
@@ -583,7 +777,16 @@ export const IDEAS: Idea[] = [
    "c-us-20261022-024",
    "c-us-20261022-025",
    "c-us-20261022-028",
-   "c-us-20261022-044"
+   "c-us-20261022-044",
+   "c-us-20261024-063",
+   "c-us-20261024-064",
+   "c-us-20261024-068",
+   "c-us-20261024-069",
+   "c-us-20261024-070",
+   "c-us-20261024-071",
+   "c-us-20261024-072",
+   "c-us-20261024-074",
+   "c-us-20261024-075"
   ],
   "quotes": [
    {
@@ -618,6 +821,18 @@ export const IDEAS: Idea[] = [
     "link": "https://play.google.com/store/apps/details?id=com.recime.app&reviewId=51b2a2f9-c286-4701-8561-acade1ab5867",
     "quote": "I have had them attempt to charge me several times since canceling (of which I have proof).",
     "engagement": "1★ review by 'Erin M', 3 thumbs up",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-072",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-20",
+    "source": "app_store NYT Cooking (US storefront)",
+    "link": "https://apps.apple.com/us/app/id911422904#review-14689209914",
+    "quote": "Why on earth would I want AI to write the recipes when the whole reason I use NYT Cooking is for the amazing chefs and writers? Cancelled my membership, only using my cookbooks now.",
+    "engagement": "1★ review by 'gabilovescheese', title: 'Awful AI inclusion'",
     "niche": "meal planning & recipes",
     "stream": "problem",
     "market": "US"
@@ -659,6 +874,18 @@ export const IDEAS: Idea[] = [
     "market": "US"
    },
    {
+    "id": "c-us-20261024-064",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-10",
+    "source": "google_play Honeydew (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.redhoney.eatlist&reviewId=ccc8ac69-f21e-494e-b3aa-d1598b032e48",
+    "quote": "Downloaded the app because the description said $39.99/year. Without being able to even try the app, it wanted me to subscribe for over $80/year.",
+    "engagement": "1★ review by 'Nicki McIlree', 1 thumbs up",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
     "id": "c-us-20261022-006",
     "found_date": "2026-10-22",
     "post_date": "2026-10-09",
@@ -683,6 +910,30 @@ export const IDEAS: Idea[] = [
     "market": "US"
    },
    {
+    "id": "c-us-20261024-069",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-06",
+    "source": "app_store RecipeBox (US storefront)",
+    "link": "https://apps.apple.com/us/app/id1433840494#review-14635514770",
+    "quote": "there’s no way to export the library you’ve built to another platform.",
+    "engagement": "1★ review by 'xyzzy297', title: 'Beware - they switched to payfer!'",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-071",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-06",
+    "source": "app_store Pepper (US storefront)",
+    "link": "https://apps.apple.com/us/app/id1583947369#review-14636801445",
+    "quote": "It costs $40 a year!!  If you don’t pay, all your recipes gone!",
+    "engagement": "1★ review by 'Shirl PAZ', title: 'It Costs You'",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
     "id": "c-us-20261022-044",
     "found_date": "2026-10-22",
     "post_date": "2026-10-03",
@@ -690,6 +941,42 @@ export const IDEAS: Idea[] = [
     "link": "https://x.com/jrxmey/status/2106388416703107337",
     "quote": "Why does every app have some type of subscription tier? I get it, the app costs money to uphold, but I'm not paying for a recipe app.",
     "engagement": "@jrxmey (location: Connecticut), 0 likes, 0 replies",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-063",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-03",
+    "source": "google_play ReciMe (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.recime.app&reviewId=3a4f399d-8ee2-4b26-882a-d073d073f2e6",
+    "quote": "you can save approximately 5 recipes before you need to wait for over a week to upload additional recipes.",
+    "engagement": "1★ review by 'Tammie Lynn', 1 thumbs up",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-070",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-02",
+    "source": "app_store RecipeBox (US storefront)",
+    "link": "https://apps.apple.com/us/app/id1433840494#review-14620550544",
+    "quote": "Now people who have had this app for multiple years are pigeonholed into subscribing to this app to keep our recipes.",
+    "engagement": "1★ review by 'Cal Kestis IV', title: 'App is now Paid Subscription'",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-068",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-01",
+    "source": "app_store RecipeBox (US storefront)",
+    "link": "https://apps.apple.com/us/app/id1433840494#review-14616990168",
+    "quote": "Now to access any of them I had to do a seven day free trial and then pay for a subscription.",
+    "engagement": "1★ review by 'Kiki_Niff', title: 'No longer free'",
     "niche": "meal planning & recipes",
     "stream": "problem",
     "market": "US"
@@ -726,6 +1013,30 @@ export const IDEAS: Idea[] = [
     "link": "https://play.google.com/store/apps/details?id=com.stashbox.stashcook&reviewId=65104f8b-e185-4642-b22b-5af64331205f",
     "quote": "another app that should be a one time purchase that is a subscription just to milk money out of you.",
     "engagement": "1★ review by 'Ryan Curran', 4 thumbs up",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-074",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-29",
+    "source": "app_store Recipe Keeper (US storefront)",
+    "link": "https://apps.apple.com/us/app/id974683711#review-14607723573",
+    "quote": "me and my wife would have to have separate pro accounts just to share the same recipes because we are not using the same Apple ID.",
+    "engagement": "1★ review by 'number156', title: 'Great app but…'",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-075",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-29",
+    "source": "app_store Paprika 3 (US storefront)",
+    "link": "https://apps.apple.com/us/app/id1303222868#review-14607102551",
+    "quote": "I have a lot of family recipes written that I thought I could just take a picture of and store in this app. Apparently you cannot",
+    "engagement": "2★ review by 'getting real annoyed', title: 'Family recipe'",
     "niche": "meal planning & recipes",
     "stream": "problem",
     "market": "US"
@@ -807,25 +1118,26 @@ export const IDEAS: Idea[] = [
     "market": "US"
    }
   ],
-  "distinct_people": 17,
-  "distinct_people_note": "Counted from Play reviewer names, Reddit authors and X handles in the engagement field; no cross-platform dedup (not verified).",
+  "distinct_people": 26,
+  "distinct_people_note": "Counted from App Store/Play reviewer names, Reddit authors and X handles in the engagement field; no cross-platform dedup (not verified).",
   "weekly_counts": {
    "2026-W39": 5,
-   "2026-W40": 5,
-   "2026-W41": 2,
+   "2026-W40": 10,
+   "2026-W41": 5,
    "2026-W42": 4,
-   "2026-W43": 1
+   "2026-W43": 2
   },
   "week_over_week": {
    "this_week_iso": "2026-W42",
    "this_week": 4,
    "last_week_iso": "2026-W41",
-   "last_week": 2,
-   "partial_week_W43": 1,
-   "note": "US one-off run 2026-10-22: counts by post_date over the 30-day window (2026-09-22…2026-10-21); W43 (from Mon 19 Oct) is partial. One run only, so growth reflects this run's scouting, not the market."
+   "last_week": 5,
+   "partial_week_W43": 2,
+   "new_complaints_this_run": 9,
+   "note": "US analyst 2026-10-24: counts by post_date over all linked complaints (scout windows 2026-09-22…2026-10-21 and 2026-09-24…2026-10-21); W43 (from Mon 19 Oct) is partial. Growth reflects nights of scouting, not the market."
   },
   "recurring": true,
-  "recurring_note": "recurring=true if complaints fall in 3+ consecutive ISO weeks (by post_date). This pain: longest consecutive-week run 5; first US run, so the 'later run' rule cannot apply yet.",
+  "recurring_note": "recurring=true if complaints fall in 3+ consecutive ISO weeks (by post_date). This pain: longest consecutive-week run 5. Scout runs that surfaced it: 2026-10-22, 2026-10-24.",
   "scores": {
    "frequency": 5,
    "intensity": 3,
@@ -836,11 +1148,11 @@ export const IDEAS: Idea[] = [
   },
   "score_notes": {
    "frequency": "17 complaints (10 ReciMe); proven demand: ReciMe '15 million users', #1 US Play Food & Drink grossing, ~$2M/month iOS (third-party ESTIMATE, AppRank).",
-   "intensity": "Annoyance more than pain: “Great idea but I'm TIRED of subscriptions.” (c-005); charges after cancelling (c-001, c-007) are the sharpest.",
-   "willingness_to_pay": "Mixed: ReciMe proves $30–60/yr sells, but complainers ask for one-time: “It should have a one time fee for like $19.99 but instead has an annual subscriptions.” (c-004); “I'm not paying for a recipe app.” (c-044, X, Connecticut).",
+   "intensity": "Annoyance more than pain: “Great idea but I'm TIRED of subscriptions.” (c-005); charges after cancelling (c-001, c-007) are the sharpest. 24 Oct: lock-in hurts more than price: “Now people who have had this app for multiple years are pigeonholed into subscribing to this app to keep our recipes.” (c-070, https://apps.apple.com/us/app/id1433840494#review-14620550544); “there’s no way to export the library you’ve built to another platform.” (c-069, https://apps.apple.com/us/app/id1433840494#review-14635514770)",
+   "willingness_to_pay": "Mixed: ReciMe proves $30–60/yr sells, but complainers ask for one-time: “It should have a one time fee for like $19.99 but instead has an annual subscriptions.” (c-004); “I'm not paying for a recipe app.” (c-044, X, Connecticut). 24 Oct: “It costs $40 a year!!  If you don’t pay, all your recipes gone!” (c-071, https://apps.apple.com/us/app/id1583947369#review-14636801445); “Downloaded the app because the description said $39.99/year. Without being able to even try the app, it wanted me to subscribe for over $80/year.” (c-064, https://play.google.com/store/apps/details?id=com.redhoney.eatlist&reviewId=ccc8ac69-f21e-494e-b3aa-d1598b032e48)",
    "reachability": "ReciMe grew through TikTok creator accounts (LinkedIn post, pm-us-20261022-02), i.e. paid/creator distribution; no single US community to seed (assessment).",
    "buildability": "URL import with schema.org recipe parsing is easy; reel/video extraction needs captions/transcripts plus an LLM per import (cost, accuracy: c-010, c-023). Feasible but fragile in 2 weeks (assessment).",
-   "method": "First US run."
+   "method": "First US run. Re-scored 2026-10-24 (US analyst) with 9 new complaints; total unchanged at 17."
   },
   "gates": {
    "consumer_subscription": {
@@ -859,7 +1171,7 @@ export const IDEAS: Idea[] = [
   "gate_failed": null,
   "competitor_veto": false,
   "kill_reason": null,
-  "borderline_note": "Near-miss at 17: big proven demand (ReciMe), but intensity is annoyance-level, WTP leans one-time, and video import is fragile for a 2-week build. Trial/cancel-trap complaints overlap the already-pitched Fristly space (p-011) and are not re-pitched.",
+  "borderline_note": "Near-miss at 17 (15–17 band; status changed from below-bar to near-miss under the current rule): big proven demand (ReciMe), but WTP leans one-time, lock-in anger is about incumbents, and video import is fragile for a 2-week build. Recurs across both US scout runs.",
   "competitors": [
    {
     "name": "ReciMe",
@@ -951,7 +1263,8 @@ export const IDEAS: Idea[] = [
     "Growth: ReciMe 10M users (Sep 2026, LinkedIn) → 15M (Oct 2026 release notes, AppRank/AppCurrents); #1 US Play Food & Drink grossing.",
     "Competitors rising: Honeydew, Flavorish, Pestle, Crouton, Samsung Food, and most new Mealime clones import reels.",
     "Price trend: $30–60/yr subscriptions; users push for one-time (c-004, c-009, c-025, c-028).",
-    "Review trend: 125 ReciMe ≤3★ US Play reviews in 30 days (us/work/gp_raw.json). Search trend not checked."
+    "Review trend: 125 ReciMe ≤3★ US Play reviews in 30 days (us/work/gp_raw.json). Search trend not checked.",
+    "24 Oct: more paid-switch moves — RecipeBox went subscription-only (c-068, c-069, c-070), Pepper paywalled saved recipes (c-071), Honeydew listing shows $39.99/yr but asks >$80/yr (c-064)."
    ],
    "verdict": "maybe",
    "verdictText": "maybe (assessment): a growth market supports subscriptions, but the leader is funded and distribution-driven, and complainers want one-time pricing.",
@@ -971,14 +1284,18 @@ export const IDEAS: Idea[] = [
   "price": null,
   "mvp": null,
   "killQuestion": null,
-  "description": "Shared family grocery lists break: Out of Milk stopped syncing between household phones after an update, and OurGroceries shows ads disguised as items 'someone in your household added'.",
+  "description": "Shared family grocery lists break: Out of Milk stopped syncing between household phones after an update, and OurGroceries shows ads disguised as items 'someone in your household added'. Second pass (24 Oct): Listonic auto-adds sponsored products to lists, and Out of Milk shows ads to people who bought Pro years ago.",
   "who": "US households sharing one grocery list (Play reviewers of Out of Milk, OurGroceries)",
   "source": "complaints",
-  "evidenceSummary": "3 complaints from 3 people (Google Play 3).",
+  "evidenceSummary": "7 complaints from 7 people (Google Play 7).",
   "complaint_ids": [
    "c-us-20261022-020",
    "c-us-20261022-026",
-   "c-us-20261022-027"
+   "c-us-20261022-027",
+   "c-us-20261024-059",
+   "c-us-20261024-060",
+   "c-us-20261024-061",
+   "c-us-20261024-062"
   ],
   "quotes": [
    {
@@ -994,6 +1311,30 @@ export const IDEAS: Idea[] = [
     "market": "US"
    },
    {
+    "id": "c-us-20261024-059",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-19",
+    "source": "google_play Listonic (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.l&reviewId=b0f3cfd0-1b49-4a34-9b6c-2cf94e03e958",
+    "quote": "four (4) bags of candy were added to the list by adclick.",
+    "engagement": "1★ review by 'John Millett', 0 thumbs up",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-060",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-10",
+    "source": "google_play Listonic (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.l&reviewId=7105c5b1-f854-4c94-9bd3-27ea2c43b739",
+    "quote": "I also never appreciated having sponsored products automatically added to my shopping lists.",
+    "engagement": "1★ review by 'Christine G', 1 thumbs up",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
     "id": "c-us-20261022-027",
     "found_date": "2026-10-22",
     "post_date": "2026-10-06",
@@ -1001,6 +1342,30 @@ export const IDEAS: Idea[] = [
     "link": "https://play.google.com/store/apps/details?id=com.capigami.outofmilk&reviewId=1a62e886-6d30-4f9f-87fd-620d621898d6",
     "quote": "It's very frustrating that she has to text me what she wants added to the list.",
     "engagement": "3★ review by 'Betsy O'Brien', 0 thumbs up",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-061",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-26",
+    "source": "google_play Out of Milk (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.capigami.outofmilk&reviewId=d269097a-1431-4752-9f7e-cdd6840be7f7",
+    "quote": "I have used this for at least a decade and recently it stopped syncing between my list and my spouse's.",
+    "engagement": "2★ review by 'Sarah Campbell', 0 thumbs up",
+    "niche": "meal planning & recipes",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-062",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-26",
+    "source": "google_play Out of Milk (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.capigami.outofmilk&reviewId=5cb3b180-d926-4453-8e89-e9e55f1253fc",
+    "quote": "I've suddenly started getting annoying ads even though I paid for the pro version years ago.",
+    "engagement": "1★ review by 'A Google user', 2 thumbs up",
     "niche": "meal planning & recipes",
     "stream": "problem",
     "market": "US"
@@ -1019,23 +1384,24 @@ export const IDEAS: Idea[] = [
    }
   ],
   "proven_models": [],
-  "distinct_people": 3,
-  "distinct_people_note": "Counted from Play reviewer names, Reddit authors and X handles in the engagement field; no cross-platform dedup (not verified).",
+  "distinct_people": 7,
+  "distinct_people_note": "Counted from App Store/Play reviewer names, Reddit authors and X handles in the engagement field; no cross-platform dedup (not verified).",
   "weekly_counts": {
-   "2026-W39": 1,
-   "2026-W41": 1,
-   "2026-W43": 1
+   "2026-W39": 3,
+   "2026-W41": 2,
+   "2026-W43": 2
   },
   "week_over_week": {
    "this_week_iso": "2026-W42",
    "this_week": 0,
    "last_week_iso": "2026-W41",
-   "last_week": 1,
-   "partial_week_W43": 1,
-   "note": "US one-off run 2026-10-22: counts by post_date over the 30-day window (2026-09-22…2026-10-21); W43 (from Mon 19 Oct) is partial. One run only, so growth reflects this run's scouting, not the market."
+   "last_week": 2,
+   "partial_week_W43": 2,
+   "new_complaints_this_run": 4,
+   "note": "US analyst 2026-10-24: counts by post_date over all linked complaints (scout windows 2026-09-22…2026-10-21 and 2026-09-24…2026-10-21); W43 (from Mon 19 Oct) is partial. Growth reflects nights of scouting, not the market."
   },
   "recurring": false,
-  "recurring_note": "recurring=true if complaints fall in 3+ consecutive ISO weeks (by post_date). This pain: longest consecutive-week run 1; first US run, so the 'later run' rule cannot apply yet.",
+  "recurring_note": "recurring=true if complaints fall in 3+ consecutive ISO weeks (by post_date). This pain: longest consecutive-week run 1. Scout runs that surfaced it: 2026-10-22, 2026-10-24.",
   "scores": {
    "frequency": 2,
    "intensity": 3,
@@ -1045,28 +1411,28 @@ export const IDEAS: Idea[] = [
    "total": 14
   },
   "score_notes": {
-   "frequency": "3 kept (Out of Milk had 22 low reviews in 30 days, mostly sync).",
-   "intensity": "“It's very frustrating that she has to text me what she wants added to the list.” (c-027).",
-   "willingness_to_pay": "“I'm not paying every month for a freaking list.” (c-020).",
+   "frequency": "3 kept (Out of Milk had 22 low reviews in 30 days, mostly sync). 24 Oct: +4 (7 total across two runs).",
+   "intensity": "“It's very frustrating that she has to text me what she wants added to the list.” (c-027). 24 Oct: “four (4) bags of candy were added to the list by adclick.” (c-059, https://play.google.com/store/apps/details?id=com.l&reviewId=b0f3cfd0-1b49-4a34-9b6c-2cf94e03e958); “I have used this for at least a decade and recently it stopped syncing between my list and my spouse's.” (c-061, https://play.google.com/store/apps/details?id=com.capigami.outofmilk&reviewId=d269097a-1431-4752-9f7e-cdd6840be7f7)",
+   "willingness_to_pay": "“I'm not paying every month for a freaking list.” (c-020). AnyList already shares lists free and sells Complete at $9.99/yr or $14.99/yr per household (https://www.anylist.com/features).",
    "reachability": "Play reviews only.",
    "buildability": "Real-time shared list is doable; AnyList and Apple/Google free lists exist (assessment).",
-   "method": "First US run."
+   "method": "First US run. Re-scored 2026-10-24: unchanged at 14."
   },
   "gates": {
    "consumer_subscription": {
-    "result": "not-assessed",
-    "text": "not assessed (below bar)"
+    "result": "fail",
+    "text": "fail: users refuse to pay monthly for a list (c-020 from 22 Oct) and AnyList's free sharing covers the job"
    },
    "simplest_way": {
-    "result": "not-assessed",
-    "text": "not assessed"
+    "result": "pass",
+    "text": "pass"
    },
    "us_entry": {
     "result": "not-assessed",
-    "text": "not assessed"
+    "text": "not assessed (below bar)"
    }
   },
-  "gate_failed": null,
+  "gate_failed": "consumer_subscription",
   "competitor_veto": false,
   "kill_reason": null,
   "borderline_note": null,
@@ -2308,7 +2674,7 @@ export const IDEAS: Idea[] = [
    "assessment": true,
    "trendTo": "no"
   },
-  "verdict": "killed"
+  "verdict": "near-miss"
  },
  {
   "painId": "p-079",
@@ -3921,5 +4287,1396 @@ export const IDEAS: Idea[] = [
   "gap": "Ops-heavy local service; Angi/Thumbtack/Taskrabbit own the marketplace layer.",
   "plc": null,
   "verdict": "below-bar"
+ },
+ {
+  "painId": "p-086",
+  "night": "2026-10-24",
+  "analyst_run": "2026-10-24-us",
+  "market": "US",
+  "niche": "kids' activities & school logistics",
+  "name": null,
+  "label": "School & activity message overload",
+  "pitch": null,
+  "price": null,
+  "mvp": null,
+  "killQuestion": null,
+  "description": "US parents drown in school and activity messages spread across many apps (ParentSquare, ClassDojo, Seesaw, Remind, PowerSchool, BAND, email): district noise buries classroom posts, there is no filter or search, and families with kids at different schools juggle separate accounts and miss notices. They want one feed per family that pulls out what matters.",
+  "who": "US K-12 parents, especially with 2+ kids at different schools (US App Store/Play reviewers of ParentSquare, Bloomz, ClassDojo, Seesaw, Remind, PowerSchool; r/Mommit, r/Parenting; X parents in CA, TX, CO, LA)",
+  "source": "complaints+proven-model",
+  "evidenceSummary": "23 complaints from 23 people (App Store 11, Google Play 5, X 5, Reddit 2); proven model ClassDojo Plus.",
+  "complaint_ids": [
+   "c-us-20261024-001",
+   "c-us-20261024-012",
+   "c-us-20261024-013",
+   "c-us-20261024-014",
+   "c-us-20261024-015",
+   "c-us-20261024-022",
+   "c-us-20261024-023",
+   "c-us-20261024-029",
+   "c-us-20261024-030",
+   "c-us-20261024-031",
+   "c-us-20261024-032",
+   "c-us-20261024-033",
+   "c-us-20261024-034",
+   "c-us-20261024-035",
+   "c-us-20261024-036",
+   "c-us-20261024-041",
+   "c-us-20261024-044",
+   "c-us-20261024-045",
+   "c-us-20261024-050",
+   "c-us-20261024-051",
+   "c-us-20261024-052",
+   "c-us-20261024-054",
+   "c-us-20261024-055"
+  ],
+  "quotes": [
+   {
+    "id": "c-us-20261024-036",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-21",
+    "source": "app_store ParentSquare (US storefront)",
+    "link": "https://apps.apple.com/us/app/id908126679#review-14692947217",
+    "quote": "district postings and building postings when I JUST WANT THE CLASSROOM POSTS.",
+    "engagement": "1★ review by 'MagPi1030', title: 'There’s way better parent communication apps'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-034",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-20",
+    "source": "app_store ParentSquare (US storefront)",
+    "link": "https://apps.apple.com/us/app/id908126679#review-14690251964",
+    "quote": "I have two girls that go to two different schools plus do online learning so I have I believe four different locations that messages show up.",
+    "engagement": "2★ review by '10Jem', title: 'So-so. I can’t find anything.'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-035",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-20",
+    "source": "app_store ParentSquare (US storefront)",
+    "link": "https://apps.apple.com/us/app/id908126679#review-14690607505",
+    "quote": "Now I get emails to check an app. It’s extra and I forget and I miss messages.",
+    "engagement": "1★ review by 'MomRJF', title: 'I don’t need another app'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-033",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-19",
+    "source": "app_store ParentSquare (US storefront)",
+    "link": "https://apps.apple.com/us/app/id908126679#review-14686303391",
+    "quote": "I wish I could delete about 75% of the posts that don’t apply to my family.",
+    "engagement": "3★ review by 'Molly Pifer', title: 'Works well, but no delete?'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-045",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-16",
+    "source": "reddit r/Parenting (comment)",
+    "link": "https://www.reddit.com/r/Parenting/comments/1x73vxo/skylight_calendar/ph0yza9/",
+    "quote": "Sidekick from school emails is clunky as hell. I upload to iCal and then adjust it. Which feels like too many steps.",
+    "engagement": "2 upvotes (archive snapshot), u/gore_schach",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-023",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-10",
+    "source": "app_store ClassDojo (US storefront)",
+    "link": "https://apps.apple.com/us/app/id552602056#review-14651655517",
+    "quote": "Students are in multiple classes, with no way to filter by class. Teachers use it for important announcements, but there’s no search function",
+    "engagement": "2★ review by 'elijahberto', title: 'Mediocre'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-015",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-08",
+    "source": "google_play Remind (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.remind101&reviewId=633b9141-d166-4c56-99de-3307b2c11315",
+    "quote": "It's free, that's why teachers use it. I wish there was another option that allowed more user control.",
+    "engagement": "2★ review by 'Anthony P', 1 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-022",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-07",
+    "source": "app_store ClassDojo (US storefront)",
+    "link": "https://apps.apple.com/us/app/id552602056#review-14639792457",
+    "quote": "I don’t need 50 plus emails a day about every little thing that has nothing to do with my kid.",
+    "engagement": "1★ review by 'Unhappy customer 404', title: 'Garbage'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-054",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-07",
+    "source": "x",
+    "link": "https://x.com/tacosyum1974/status/2107905479435600189",
+    "quote": "I work in tech and I hate that everything has an app. I especially hate that my kids sports use the dumb band app, then they don’t keep it updated",
+    "engagement": "@tacosyum1974 (location: Colorado, USA), 5 likes, 1 replies",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-012",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-06",
+    "source": "google_play ParentSquare (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.parentsquare.psapp&reviewId=7843a9d8-c66b-432a-af6c-87b9558cf169",
+    "quote": "awfully hard to use, especially with multiple kids. why is it so hard to find my sign ups? add them to the calendar feature you already have!",
+    "engagement": "1★ review by 'Ben Jensen', 2 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-044",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-06",
+    "source": "reddit r/Mommit",
+    "link": "https://www.reddit.com/r/Mommit/comments/1wz2avx/need_advice_for_flaky_parents_on_my_sons_birthday/",
+    "quote": "My oldest started kindergarten this year and it’s been a whirlwind of emails, texts, and other communications sent to us literally constantly.",
+    "engagement": "0 upvotes, 63 comments (archive snapshot), u/FlamingoSprinkles025",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-041",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-05",
+    "source": "app_store Here Comes the Bus (US storefront)",
+    "link": "https://apps.apple.com/us/app/id981902595#review-14630183923",
+    "quote": "We have 2 kids in different schools and it’s doesn’t work.",
+    "engagement": "1★ review by 'Alonfiiii', title: 'Doesn’t work anymore'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-013",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-02",
+    "source": "google_play PowerSchool Mobile (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.powerschool.portal&reviewId=fa2a5b5c-f65c-4fb3-9632-3d571946f618",
+    "quote": "I have two kids in two different school districts, and I have to have two different passwords and user accounts.",
+    "engagement": "3★ review by 'Allison Plante', 0 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-001",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-01",
+    "source": "google_play Bloomz (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=net.bloomz&reviewId=5310e8e3-6068-4d31-88e5-8b7895417171",
+    "quote": "I don't understand why we have to have another app for school that wants us to pay for the full version. I wish they would just pick one app and stick with it.",
+    "engagement": "3★ review by 'Book Zombie', 0 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-031",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-29",
+    "source": "app_store ParentSquare (US storefront)",
+    "link": "https://apps.apple.com/us/app/id908126679#review-14608829801",
+    "quote": "as a parent of 3, in three different schools, I would like to see a feed view that shows everything from all my children’s schools.",
+    "engagement": "3★ review by 'Aodjrdbhxs', title: 'Consolidated view'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-032",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-29",
+    "source": "app_store ParentSquare (US storefront)",
+    "link": "https://apps.apple.com/us/app/id908126679#review-14607420867",
+    "quote": "too many district wide notifications which causes important notifications from the teacher yo get lost in the shuffle.",
+    "engagement": "3★ review by 'siennamisty', title: 'Newsfeed'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-050",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-29",
+    "source": "x",
+    "link": "https://x.com/justsome_np/status/2104723906934485452",
+    "quote": "Daughter is in kindergarten and I have to have 4 different school apps, this is no exaggeration at all, it’s totally out of control",
+    "engagement": "@justsome_np (location: California), 9 likes, 3 replies",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-055",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-29",
+    "source": "x",
+    "link": "https://x.com/fosterdadlance/status/2104976558486388918",
+    "quote": "My kid graduated. I can’t stop getting daily notifications from Schoology because they deleted my access apparently the day he finished. Tech support says all I can do is mark it junk.",
+    "engagement": "@fosterdadlance (location: Los Angeles), 5 likes, 0 replies",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-030",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-28",
+    "source": "app_store ParentSquare (US storefront)",
+    "link": "https://apps.apple.com/us/app/id908126679#review-14605516064",
+    "quote": "When you have 2-4 kids in 2-3 different schools this app is a waste of time.",
+    "engagement": "1★ review by 'talyaseyes', title: 'Annoying'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-029",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-27",
+    "source": "app_store ParentSquare (US storefront)",
+    "link": "https://apps.apple.com/us/app/id908126679#review-14600906428",
+    "quote": "God forbid you have kids at different schools, you will miss notifications.",
+    "engagement": "1★ review by 'Pill rusher', title: 'Multiple Kids at Multiple Schools'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-052",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-27",
+    "source": "x",
+    "link": "https://x.com/bethanyjbabcock/status/2104139251226935790",
+    "quote": "If I could get it to monitor all the parent chats, emails and the kids’ school apps I could finally look like I have my life together.",
+    "engagement": "@bethanyjbabcock (location: Austin & San Antonio, TX), 19 likes, 6 replies",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-051",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-26",
+    "source": "x",
+    "link": "https://x.com/badbirb/status/2103660599771267385",
+    "quote": "A great application would be something that declutters all the crap the school apps send you.  School sends out 10 notices per week per child - the AI tells offers to add the kids sports games and meetings to your calendar and gives you a summary of everything else.... done.\n\nI got 6 kids and I get a literal flood of crap from the schools every week, with maybe 1 or 2 relevent things in it from 50+ messages.",
+    "engagement": "@badbirb (location: United States), 7 likes, 1 replies",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-014",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-24",
+    "source": "google_play Seesaw (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=seesaw.shadowpuppet.co.classroom&reviewId=32462a64-a19e-441c-83d3-5743fe7954dd",
+    "quote": "I have 2 kids in the same school but cannot change between the 2 so I have to choose which child I want the notifications from",
+    "engagement": "1★ review by 'Jen', 0 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   }
+  ],
+  "proven_models": [
+   {
+    "id": "pm-us-20261024-02",
+    "found_date": "2026-10-24",
+    "app": "ClassDojo Plus (school-parent messaging upsell)",
+    "country": "US",
+    "model_and_price": "Free for schools; parents upsold to ClassDojo Plus. $7.99/mo or $59.99/yr per Forbes 2022 (https://www.forbes.com/sites/alexkonrad/2022/07/21/classdojo-tencent-backed-unicorn-launches-education-virtual-world/); US reviewers tonight cite $70–100/yr and ~$10/mo (user-reported).",
+    "traction_evidence": "Profitable months after launching paid Plus; revenue tripled in 2020 with hundreds of thousands of paying families (https://techcrunch.com/2021/01/26/classdojos-second-act-comes-with-first-profits/ ; https://www.prnewswire.com/news-releases/as-education-shifts-online-classdojo-serves-51-million-students-worldwide-announces-profitability-and-new-solo-capitalist-funding-301216471.html).",
+    "us_status": "Huge US install base; parents resent that calendar sync, photo saving and history beyond 7 days sit behind Plus: https://apps.apple.com/us/app/id552602056#review-14588062550 ; https://apps.apple.com/us/app/id552602056#review-14690390628 ; https://x.com/rickasaurus/status/2105291611001241882",
+    "entry_point": "Proof that parents pay for school-communication convenience. An outside tool can't read ClassDojo data (no public parent API), so a solo dev's angle would be a cross-app parent inbox fed by email notifications (Paddle/Polar subscription). Assessment.",
+    "why_not_done_yet": "Partly being done: AI school-email assistants (Muse, Calo, ParentBench and DIY agent setups seen on X tonight) are chasing the same multi-app overload. Data access via email forwarding only. Assessment.",
+    "lifecycle_evidence": "Mature freemium squeezing the base: repeated upsell questionnaires and paywalled basics drive 1★ reviews tonight. Assessment.",
+    "stream": "proven-model",
+    "market": "US"
+   }
+  ],
+  "distinct_people": 23,
+  "distinct_people_note": "Counted from App Store/Play reviewer names, Reddit authors and X handles in the engagement field; no cross-platform dedup (not verified).",
+  "weekly_counts": {
+   "2026-W39": 4,
+   "2026-W40": 7,
+   "2026-W41": 7,
+   "2026-W42": 1,
+   "2026-W43": 4
+  },
+  "week_over_week": {
+   "this_week_iso": "2026-W42",
+   "this_week": 1,
+   "last_week_iso": "2026-W41",
+   "last_week": 7,
+   "partial_week_W43": 4,
+   "new_complaints_this_run": 23,
+   "note": "US analyst 2026-10-24: counts by post_date over all linked complaints (scout windows 2026-09-22…2026-10-21 and 2026-09-24…2026-10-21); W43 (from Mon 19 Oct) is partial. Growth reflects nights of scouting, not the market."
+  },
+  "recurring": true,
+  "recurring_note": "recurring=true if complaints fall in 3+ consecutive ISO weeks (by post_date). This pain: longest consecutive-week run 5. Scout runs that surfaced it: 2026-10-24.",
+  "scores": {
+   "frequency": 5,
+   "intensity": 4,
+   "willingness_to_pay": 3,
+   "reachability": 4,
+   "buildability": 3,
+   "total": 19
+  },
+  "score_notes": {
+   "frequency": "23 complaints, the largest cluster tonight (ParentSquare alone 8 US App Store reviews; X posts with 19 and 9 likes, c-052, c-050). Proven demand: ClassDojo Plus reached profitability with hundreds of thousands of paying families (pm-us-20261024-02, TechCrunch 2021).",
+   "intensity": "“Daughter is in kindergarten and I have to have 4 different school apps, this is no exaggeration at all, it’s totally out of control” (c-050, https://x.com/justsome_np/status/2104723906934485452); “God forbid you have kids at different schools, you will miss notifications.” (c-029, https://apps.apple.com/us/app/id908126679#review-14600906428); “Now I get emails to check an app. It’s extra and I forget and I miss messages.” (c-035, https://apps.apple.com/us/app/id908126679#review-14690607505)",
+   "willingness_to_pay": "Mixed: parents pay for convenience (ClassDojo Plus, Skylight Plus $79/yr with >50% attach per pm-us-20261024-03), and EmailSnapshot sells a digest at $9–24/mo (sources.md). But school-app complainers expect it free: “It needs to be free from the schools. Get your own app, we pay the Texas schools tons through taxes” (c-003, https://play.google.com/store/apps/details?id=com.classdojo.android&reviewId=36ab9918-c042-447e-bd02-fd2d0fb7abf7).",
+   "reachability": "Concentrated: r/Mommit, r/Parenting, r/daddit, App Store keywords 'parentsquare', 'school app'; back-to-school seasonality (assessment).",
+   "buildability": "Email-forwarding inbox + LLM extraction + daily digest + calendar feed is a 2-week MVP; reading app-only messages (ClassDojo, ParentSquare in-app) is not possible without APIs (assessment).",
+   "method": "US analyst run 2026-10-24. c-NNN = c-us-20261024-NNN."
+  },
+  "gates": {
+   "consumer_subscription": {
+    "result": "pass",
+    "text": "pass (EmailSnapshot, Skylight Plus/Assistant, Cozi Max sell this as a subscription)"
+   },
+   "simplest_way": {
+    "result": "pass",
+    "text": "pass after one-time forwarding setup: open the morning digest, done in seconds"
+   },
+   "us_entry": {
+    "result": "pass",
+    "text": "pass on mechanics (r/Mommit/r/Parenting, App Store keyword, Paddle/Polar/Lemon Squeezy in USD)"
+   }
+  },
+  "gate_failed": null,
+  "competitor_veto": true,
+  "kill_reason": "Competitor veto (score 19, all gates pass). The exact product — one AI digest of all school/activity email per family — is already sold or funded: (1) Fambot, $3.5M pre-seed (NextView, Baukunst), launched 1 Sep 2026 with 1,000+ families, free in beta, reads Gmail/Outlook/WhatsApp without forwarding; (2) Ohai.ai, Care.com founder, NEA/Eniac seed plus Muse Capital round, 67,000+ school calendars; (3) Skylight Sidekick (Calendar Plus $79/yr; Skylight Assistant $119.99/yr) on 1.7M Calendar households; (4) Cozi Max $79/yr turns emails into events; (5) indie EmailSnapshot ($9–24/mo), Parently (30 free digests), FamilyGenie (free beta). A Berlin solo dev would launch into a funded, free-in-beta field with no data access the others lack.",
+  "borderline_note": "Highest-scoring new pain tonight (19) but killed only by the competitor veto: Fambot, Ohai, Skylight Sidekick, Cozi Max and indie digests already do it.",
+  "competitors": [
+   {
+    "name": "Fambot",
+    "url": "https://fambot.com/",
+    "price": "Free while in beta (press release, 1 Sep 2026)",
+    "price_source": "https://fambot.com/press-releases/fambot-launches-ai-chief-of-staff-for-families",
+    "loves": [],
+    "hates": [],
+    "user_reviews": "not fetched tonight (launched Sep 2026)",
+    "funding": "$3.5M pre-seed, NextView + Baukunst (https://www.wsgr.com/en/insights/wilson-sonsini-advises-fambot-on-dollar35-million-pre-seed-funding.html)"
+   },
+   {
+    "name": "Skylight Calendar Plus / Skylight Assistant (Sidekick email import)",
+    "url": "https://myskylight.com/products/calendar-skylight-plus",
+    "price": "Calendar Plus $79/yr; Assistant $14.99/mo or $119.99/yr",
+    "price_source": "https://skylight.zendesk.com/hc/en-us/articles/51833126965019-Subscription",
+    "loves": [],
+    "hates": [
+     {
+      "quote": "Sidekick from school emails is clunky as hell. I upload to iCal and then adjust it. Which feels like too many steps.",
+      "who": "u/gore_schach, r/Parenting comment (c-045)",
+      "link": "https://www.reddit.com/r/Parenting/comments/1x73vxo/skylight_calendar/ph0yza9/"
+     }
+    ],
+    "funding": "Bootstrapped; $75M credit facility; 1.7M Calendar households (pm-us-20261024-03, PR Newswire)"
+   },
+   {
+    "name": "Ohai.ai",
+    "url": "https://www.prnewswire.com/news-releases/ohaiai-raises-strategic-investment-led-by-muse-capital-celebrity-and-executive-mothers-to-save-parents-hours-of-mental-load-302533511.html",
+    "price": "not checked tonight",
+    "price_source": null,
+    "loves": [],
+    "hates": [],
+    "funding": "NEA, Eniac, LifeX seed + Muse Capital strategic round (Aug 2025)"
+   },
+   {
+    "name": "Cozi Max",
+    "url": "https://www.cozi.com/compare-plans/",
+    "price": "Gold $39/yr; Max $79/yr (AI email-to-calendar)",
+    "price_source": "https://www.cozi.com/compare-plans/",
+    "loves": [],
+    "hates": [],
+    "funding": "not checked; 399,369 US App Store ratings per a third-party comparison (gethomsy.com, 24 Sep 2026)"
+   },
+   {
+    "name": "EmailSnapshot",
+    "url": "https://emailsnapshot.com/",
+    "price": "$9/mo Personal, $18/mo Family, $24/mo Pro (7-day trial)",
+    "price_source": "https://emailsnapshot.com/",
+    "loves": [],
+    "hates": [],
+    "user_reviews": "only on-site testimonials (not independent)",
+    "funding": "solo founder per site"
+   }
+  ],
+  "gap": "Only app-locked messages (ClassDojo/ParentSquare in-app posts that never hit email) remain uncovered, and nobody, including a solo dev, can read those without school-app APIs. Everything reachable via email is already covered by funded players.",
+  "plc": {
+   "stage": "introduction",
+   "evidence": [
+    "Category age: AI school-email digests are new — Fambot launched 1 Sep 2026 (TechCrunch https://techcrunch.com/2026/09/01/fambot-introduces-an-ai-chief-of-staff-for-families/); Ohai school-calendar sync launched Aug 2025 (PR Newswire link above).",
+    "Competitor count/trend: rising — Fambot, Ohai, Skylight Sidekick, Cozi Max, EmailSnapshot, Parently, FamilyGenie, plus 'AI school-email assistants (Muse, Calo, ParentBench)' seen on X by the scout (pm-us-20261024-02).",
+    "Recent funding: Fambot $3.5M pre-seed (Sep 2026); Ohai strategic round (Aug 2025); Skylight credit facility expanded to $75M (pm-us-20261024-03).",
+    "Price trend: up — Skylight Plus $39→$79/yr with >50% attach (gtmsauce link in pm-us-20261024-03); new $119.99/yr Assistant tier; Cozi added a $79/yr Max tier.",
+    "Review trend: 23 school-comms complaints in 30 days tonight. Search trend not checked (no Google Trends access)."
+   ],
+   "verdict": "maybe",
+   "verdictText": "maybe (assessment): the stage supports paid subscriptions (price rises stick), but funded and incumbent players got there first; parents must still be educated that a digest exists.",
+   "assessment": true,
+   "stageText": "introduction→growth"
+  },
+  "verdict": "near-miss"
+ },
+ {
+  "painId": "p-087",
+  "night": "2026-10-24",
+  "analyst_run": "2026-10-24-us",
+  "market": "US",
+  "niche": "kids' activities & school logistics",
+  "name": null,
+  "label": "ClassDojo Plus resentment",
+  "pitch": null,
+  "price": null,
+  "mvp": null,
+  "killQuestion": null,
+  "description": "US parents resent ClassDojo pushing ClassDojo Plus (~$70–100/yr user-reported): upsell questionnaires before reading a teacher's message, and calendar sync, photo saving and history beyond 7 days behind the paywall, for an app the school chose.",
+  "who": "US parents whose child's teacher uses ClassDojo (US App Store/Play reviewers; X)",
+  "source": "complaints",
+  "evidenceSummary": "8 complaints from 8 people (Google Play 4, App Store 3, X 1).",
+  "complaint_ids": [
+   "c-us-20261024-002",
+   "c-us-20261024-003",
+   "c-us-20261024-004",
+   "c-us-20261024-005",
+   "c-us-20261024-021",
+   "c-us-20261024-024",
+   "c-us-20261024-025",
+   "c-us-20261024-053"
+  ],
+  "quotes": [
+   {
+    "id": "c-us-20261024-025",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-20",
+    "source": "app_store ClassDojo (US storefront)",
+    "link": "https://apps.apple.com/us/app/id552602056#review-14690390628",
+    "quote": "After a giant tuition payment to a school, the last thing I want to hear from a 3rd party app company is that they would also like $10/month.",
+    "engagement": "1★ review by 'ff0000d', title: 'please stop'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-005",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-19",
+    "source": "google_play ClassDojo (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.classdojo.android&reviewId=84a2226d-6d20-4703-a003-c1f096de09dc",
+    "quote": "I can't afford to pay $70.00 a year or more to make it more user friendly than the bare bones basic version.",
+    "engagement": "2★ review by 'Victoria Christison', 0 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-024",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-13",
+    "source": "app_store ClassDojo (US storefront)",
+    "link": "https://apps.apple.com/us/app/id552602056#review-14661394509",
+    "quote": "I cannot see anything prior to the past 7 days unless I pay.",
+    "engagement": "1★ review by 'Constant Promotions- Unhappy', title: 'SO many ads, NOT truly free'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-004",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-07",
+    "source": "google_play ClassDojo (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.classdojo.android&reviewId=1bd8a891-f8ca-4b45-a2c6-e0c71029fb24",
+    "quote": "it feels like I have to walk by a beggar who will only take $70 or $100 every time I want to talk to my kid's teacher.",
+    "engagement": "2★ review by 'Zakk Broadbent', 1 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-003",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-02",
+    "source": "google_play ClassDojo (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.classdojo.android&reviewId=36ab9918-c042-447e-bd02-fd2d0fb7abf7",
+    "quote": "It needs to be free from the schools. Get your own app, we pay the Texas schools tons through taxes",
+    "engagement": "1★ review by 'Wesley Franks', 2 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-053",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-30",
+    "source": "x",
+    "link": "https://x.com/rickasaurus/status/2105291611001241882",
+    "quote": "The @ClassDojo grift is getting out of control. If they keep pushing we’re going to start pushing the school board to adopt different software.",
+    "engagement": "@rickasaurus (location: NYC), 0 likes, 0 replies",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-002",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-24",
+    "source": "google_play ClassDojo (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.classdojo.android&reviewId=48fe082d-2057-4f3d-9556-73078e9fdf7a",
+    "quote": "I get a notification from my son's teacher but then I get prompted with 30 questions from the app about what I want to work on with my son before I can read the message.",
+    "engagement": "1★ review by 'Troy', 2 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-021",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-24",
+    "source": "app_store ClassDojo (US storefront)",
+    "link": "https://apps.apple.com/us/app/id552602056#review-14588062550",
+    "quote": "syncing your calendar or adding events from the app requires a paid subscription. All of these features could be done with free software.",
+    "engagement": "2★ review by 'DanManMan', title: 'Aggressively pushes for subscription'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   }
+  ],
+  "proven_models": [],
+  "distinct_people": 8,
+  "distinct_people_note": "Counted from App Store/Play reviewer names, Reddit authors and X handles in the engagement field; no cross-platform dedup (not verified).",
+  "weekly_counts": {
+   "2026-W39": 2,
+   "2026-W40": 2,
+   "2026-W41": 1,
+   "2026-W42": 1,
+   "2026-W43": 2
+  },
+  "week_over_week": {
+   "this_week_iso": "2026-W42",
+   "this_week": 1,
+   "last_week_iso": "2026-W41",
+   "last_week": 1,
+   "partial_week_W43": 2,
+   "new_complaints_this_run": 8,
+   "note": "US analyst 2026-10-24: counts by post_date over all linked complaints (scout windows 2026-09-22…2026-10-21 and 2026-09-24…2026-10-21); W43 (from Mon 19 Oct) is partial. Growth reflects nights of scouting, not the market."
+  },
+  "recurring": true,
+  "recurring_note": "recurring=true if complaints fall in 3+ consecutive ISO weeks (by post_date). This pain: longest consecutive-week run 5. Scout runs that surfaced it: 2026-10-24.",
+  "scores": {
+   "frequency": 4,
+   "intensity": 4,
+   "willingness_to_pay": 1,
+   "reachability": 3,
+   "buildability": 1,
+   "total": 13
+  },
+  "score_notes": {
+   "frequency": "8 complaints in 30 days; ClassDojo has a huge US base (pm-us-20261024-02).",
+   "intensity": "“it feels like I have to walk by a beggar who will only take $70 or $100 every time I want to talk to my kid's teacher.” (c-004, https://play.google.com/store/apps/details?id=com.classdojo.android&reviewId=1bd8a891-f8ca-4b45-a2c6-e0c71029fb24); “I get a notification from my son's teacher but then I get prompted with 30 questions from the app about what I want to work on with my son before I can read the message.” (c-002, https://play.google.com/store/apps/details?id=com.classdojo.android&reviewId=48fe082d-2057-4f3d-9556-73078e9fdf7a)",
+   "willingness_to_pay": "They refuse to pay a third party for school contact: “After a giant tuition payment to a school, the last thing I want to hear from a 3rd party app company is that they would also like $10/month.” (c-025, https://apps.apple.com/us/app/id552602056#review-14690390628); “It needs to be free from the schools. Get your own app, we pay the Texas schools tons through taxes” (c-003, https://play.google.com/store/apps/details?id=com.classdojo.android&reviewId=36ab9918-c042-447e-bd02-fd2d0fb7abf7)",
+   "reachability": "Parents are everywhere but the only lever is the school's choice of app (c-053, school board).",
+   "buildability": "No public parent API to ClassDojo data; a replacement must be adopted by teachers, not sold to parents (assessment).",
+   "method": "US analyst run 2026-10-24."
+  },
+  "gates": {
+   "consumer_subscription": {
+    "result": "fail",
+    "text": "fail: the complaint is about being asked to pay; the product decision sits with schools"
+   },
+   "simplest_way": {
+    "result": "not-assessed",
+    "text": "n/a"
+   },
+   "us_entry": {
+    "result": "fail",
+    "text": "fail: B2B/school adoption"
+   }
+  },
+  "gate_failed": "consumer_subscription",
+  "competitor_veto": false,
+  "kill_reason": "Below bar (13) and fails the consumer-subscription gate; overlaps p-086 for the only buildable angle.",
+  "borderline_note": null,
+  "competitors": [],
+  "gap": null,
+  "plc": null,
+  "verdict": "below-bar"
+ },
+ {
+  "painId": "p-088",
+  "night": "2026-10-24",
+  "analyst_run": "2026-10-24-us",
+  "market": "US",
+  "niche": "kids' activities & school logistics",
+  "name": null,
+  "label": "GameChanger & Hudl price hikes",
+  "pitch": null,
+  "price": null,
+  "mvp": null,
+  "killQuestion": null,
+  "description": "US youth-sports families feel squeezed by GameChanger (and Hudl): free viewing cut, Premium up to ~$100/yr, ads shown even to paying subscribers, home teams charging extra per game, and facilities pushing their own cameras instead of parents' equipment.",
+  "who": "US parents and grandparents of youth baseball/softball and school-sports players (US App Store/Play reviewers of GameChanger and Hudl; r/GameChangerApp)",
+  "source": "complaints+proven-model",
+  "evidenceSummary": "11 complaints from 11 people (Google Play 6, App Store 3, Reddit 2); proven model GameChanger.",
+  "complaint_ids": [
+   "c-us-20261024-006",
+   "c-us-20261024-007",
+   "c-us-20261024-008",
+   "c-us-20261024-009",
+   "c-us-20261024-010",
+   "c-us-20261024-011",
+   "c-us-20261024-026",
+   "c-us-20261024-027",
+   "c-us-20261024-028",
+   "c-us-20261024-047",
+   "c-us-20261024-049"
+  ],
+  "quotes": [
+   {
+    "id": "c-us-20261024-049",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-20",
+    "source": "reddit r/GameChangerApp",
+    "link": "https://www.reddit.com/r/GameChangerApp/comments/1xb3b09/mevo_multicam_at_facility_with_gamechanger_qr_code/",
+    "quote": "It's ridiculous we're no longer allowed to use our own equipment",
+    "engagement": "4 upvotes, 13 comments (archive snapshot), u/Content_Ad8098",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-010",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-18",
+    "source": "google_play GameChanger (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.gc.teammanager&reviewId=c5a444b9-cb07-47d4-b707-1ea552fe6f0d",
+    "quote": "I didn't realize that you get absolutely NOTHING for free anymore. You can't even listen to the game without paying now?",
+    "engagement": "1★ review by 'Dana fuller', 1 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-028",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-18",
+    "source": "app_store GameChanger (US storefront)",
+    "link": "https://apps.apple.com/us/app/id1308415878#review-14682371674",
+    "quote": "I pay $99 for this app. I don’t pay to watch your stupid ads.",
+    "engagement": "1★ review by 'Mtn Thyme', title: 'ADS????'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-047",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-18",
+    "source": "reddit r/GameChangerApp",
+    "link": "https://www.reddit.com/r/GameChangerApp/comments/1x94fyc/ads/",
+    "quote": "So people already pay too much for this pos app and now you add advertising onto live video?",
+    "engagement": "38 upvotes, 16 comments (archive snapshot), u/6828OldPascoK5",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-011",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-17",
+    "source": "google_play Hudl (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.hudl.hudroid&reviewId=a39f3cb7-fa13-48fc-9950-d7eda4908170",
+    "quote": "I paid full subscription but only get to see half the season games because the home team has the option to charge more money to see the game.",
+    "engagement": "1★ review by 'Alex Crabtree', 0 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-009",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-13",
+    "source": "google_play GameChanger (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.gc.teammanager&reviewId=e0d1670e-e3d8-4d43-bbf6-4e5d48e92c96",
+    "quote": "they need to make family free. I don't wanna pay 250$ a season!",
+    "engagement": "3★ review by 'Arlo Gammill', 1 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-007",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-11",
+    "source": "google_play GameChanger (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.gc.teammanager&reviewId=1b0f1d38-b36b-413a-8fb2-4afaea7ec076",
+    "quote": "My choice now is either to get a $90 charge for a yearly Premium subscription or cancel",
+    "engagement": "1★ review by 'John Bodnar', 0 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-008",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-11",
+    "source": "google_play GameChanger (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.gc.teammanager&reviewId=306ea2ec-1712-4938-9614-3ffd4c3ea9a1",
+    "quote": "Charging $100/yr for Premium Subscription to get your own kid's stats is absurd!",
+    "engagement": "1★ review by 'Eddy Jackson', 0 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-027",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-04",
+    "source": "app_store GameChanger (US storefront)",
+    "link": "https://apps.apple.com/us/app/id1308415878#review-14626719184",
+    "quote": "Bring back free streaming, and quit raising the price.",
+    "engagement": "1★ review by 'sgtguthrie', title: 'Dick’s ruined it'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-006",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-28",
+    "source": "google_play GameChanger (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.gc.teammanager&reviewId=9d889fe1-1cbe-4af3-be6f-3ca8f5e6d3d9",
+    "quote": "Pay for family plan because can't watch games without paying anymore. Ads shown every half inning.",
+    "engagement": "1★ review by 'Wes Fawcett', 0 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-026",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-26",
+    "source": "app_store GameChanger (US storefront)",
+    "link": "https://apps.apple.com/us/app/id1308415878#review-14596959960",
+    "quote": "Looks like the recent version has started showing ads in the live stream even for paid subscribers.  That’s after they raised the price for the annual subscription too.",
+    "engagement": "3★ review by 'bluedonkey', title: 'Ads for Paid Subscribers Now?'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   }
+  ],
+  "proven_models": [
+   {
+    "id": "pm-us-20261024-01",
+    "found_date": "2026-10-24",
+    "app": "GameChanger (youth sports scoring + live streaming)",
+    "country": "US",
+    "model_and_price": "Free team/scoring app; families pay to watch and see stats. Plus $39.99/yr, Premium $99.99/yr; free viewing limited to 5 games (https://help.gc.com/hc/en-us/articles/28521445314957-Individual-Subscription-FAQs). Reviews tonight also cite monthly family plans (~$25/mo, user-reported).",
+    "traction_evidence": "Owned by DICK'S Sporting Goods; FY25 revenue close to $150M, ~40% CAGR since 2017, ~10M unique active users, 4M+ average MAU (https://youthsportsbusinessreport.com/dicks-youth-sports-ecosystem-holds-the-line-as-foot-locker-losses-force-a-guidance-cut/ ; https://www.investing.com/news/analyst-ratings/baird-reiterates-dicks-sporting-goods-stock-rating-on-gamechanger-growth-93CH-4803257 ; 10-K https://www.sec.gov/Archives/edgar/data/1089063/000108906326000016/dks_arx2025.pdf). Price went from ~$60 to ~$100/yr in 2025 (https://www.reddit.com/r/GameChangerApp/comments/1krxs3r/price_nearly_doubling_from_60_to_100year/). X claim of US top-grossing #35 is unverified (https://x.com/consumerxai/status/2105661280552120604).",
+    "us_status": "Dominant in US youth baseball/softball; parents and grandparents angry about price hikes and ads for paying users: https://apps.apple.com/us/app/id1308415878#review-14682371674 ; https://www.reddit.com/r/GameChangerApp/comments/1x94fyc/ads/ . GameChanger posted on r/GameChangerApp on ~23 Oct that ads were removed from Premium (still on Free/Plus).",
+    "entry_point": "Proof that US parents pay $40–100/yr to follow their own kid. A Berlin solo dev can't take on streaming/scoring network effects; a narrow adjacent tool (lineup/rotation planner for volunteer coaches, RSVP history) sold via Paddle/Polar is the only realistic wedge. Assessment.",
+    "why_not_done_yet": "Done; network effect (teams score in GC so families must follow) plus Dick's distribution. Competitor veto for anything head-on. Assessment.",
+    "lifecycle_evidence": "Mature/monetising phase: price doubling, ads layered on paid tiers, facility camera deals (QR codes replacing parents' own cameras: https://www.reddit.com/r/GameChangerApp/comments/1xb3b09/mevo_multicam_at_facility_with_gamechanger_qr_code/). Assessment.",
+    "stream": "proven-model",
+    "market": "US"
+   }
+  ],
+  "distinct_people": 11,
+  "distinct_people_note": "Counted from App Store/Play reviewer names, Reddit authors and X handles in the engagement field; no cross-platform dedup (not verified).",
+  "weekly_counts": {
+   "2026-W39": 1,
+   "2026-W40": 2,
+   "2026-W41": 2,
+   "2026-W42": 5,
+   "2026-W43": 1
+  },
+  "week_over_week": {
+   "this_week_iso": "2026-W42",
+   "this_week": 5,
+   "last_week_iso": "2026-W41",
+   "last_week": 2,
+   "partial_week_W43": 1,
+   "new_complaints_this_run": 11,
+   "note": "US analyst 2026-10-24: counts by post_date over all linked complaints (scout windows 2026-09-22…2026-10-21 and 2026-09-24…2026-10-21); W43 (from Mon 19 Oct) is partial. Growth reflects nights of scouting, not the market."
+  },
+  "recurring": true,
+  "recurring_note": "recurring=true if complaints fall in 3+ consecutive ISO weeks (by post_date). This pain: longest consecutive-week run 5. Scout runs that surfaced it: 2026-10-24.",
+  "scores": {
+   "frequency": 5,
+   "intensity": 4,
+   "willingness_to_pay": 3,
+   "reachability": 3,
+   "buildability": 1,
+   "total": 16
+  },
+  "score_notes": {
+   "frequency": "11 complaints; r/GameChangerApp ads thread 38 upvotes / 16 comments (c-047).",
+   "intensity": "“Charging $100/yr for Premium Subscription to get your own kid's stats is absurd!” (c-008, https://play.google.com/store/apps/details?id=com.gc.teammanager&reviewId=306ea2ec-1712-4938-9614-3ffd4c3ea9a1); “I pay $99 for this app. I don’t pay to watch your stupid ads.” (c-028, https://apps.apple.com/us/app/id1308415878#review-14682371674)",
+   "willingness_to_pay": "Families do pay ($39.99–$99.99/yr per GameChanger FAQ in pm-us-20261024-01) but resent it: “they need to make family free. I don't wanna pay 250$ a season!” (c-009, https://play.google.com/store/apps/details?id=com.gc.teammanager&reviewId=e0d1670e-e3d8-4d43-bbf6-4e5d48e92c96)",
+   "reachability": "r/GameChangerApp, r/Baseball parents; seasonal (assessment).",
+   "buildability": "Live streaming + team scoring network effect; not a solo 2-week MVP (assessment).",
+   "method": "US analyst run 2026-10-24."
+  },
+  "gates": {
+   "consumer_subscription": {
+    "result": "pass",
+    "text": "pass for the incumbent"
+   },
+   "simplest_way": {
+    "result": "not-assessed",
+    "text": "n/a"
+   },
+   "us_entry": {
+    "result": "fail",
+    "text": "fail: needs team-level adoption against a DICK'S-owned network"
+   }
+  },
+  "gate_failed": "us_entry/buildability",
+  "competitor_veto": true,
+  "kill_reason": "Score 16 (near-miss band) but fails the US-entry/buildability gate and would be vetoed anyway: GameChanger (DICK'S, ~10M unique active users per scout links) and Hudl own scoring and streaming; a solo app cannot get teams to switch.",
+  "borderline_note": "16/25: strong paying demand and anger, but the job is locked by a DICK'S-owned network; fails US-entry/buildability.",
+  "competitors": [],
+  "gap": null,
+  "plc": {
+   "stage": "growth",
+   "evidence": [
+    "Revenue/growth: GameChanger FY25 revenue close to $150M, ~40% CAGR since 2017 (https://youthsportsbusinessreport.com/dicks-youth-sports-ecosystem-holds-the-line-as-foot-locker-losses-force-a-guidance-cut/ , scout link).",
+    "Price trend: ~$60→~$100/yr in 2025 (https://www.reddit.com/r/GameChangerApp/comments/1krxs3r/price_nearly_doubling_from_60_to_100year/); ads layered on paid tiers (c-026, c-028, c-047).",
+    "Competitor trend: facility camera deals with GameChanger QR codes (c-049); Hudl in school sports (c-011).",
+    "Search trend not checked (no Google Trends access)."
+   ],
+   "verdict": "no",
+   "verdictText": "no for a solo entrant (assessment): the stage clearly supports paid subscriptions — for the network owner, not a newcomer.",
+   "assessment": true,
+   "stageText": "growth (incumbent monetising)"
+  },
+  "verdict": "killed"
+ },
+ {
+  "painId": "p-089",
+  "night": "2026-10-24",
+  "analyst_run": "2026-10-24-us",
+  "market": "US",
+  "niche": "kids' activities & school logistics",
+  "name": null,
+  "label": "Team-app ads, RSVP & fees",
+  "pitch": null,
+  "price": null,
+  "mvp": null,
+  "killQuestion": null,
+  "description": "US parents and volunteer coaches hate ad-heavy, clunky team and activity apps (TeamSnap, SportsEngine, SignUpGenius, Spond, Playground): full-screen video ads even for paying teams, lost threads, no RSVP change history, duplicate-email limits for siblings, and 3.25% fees to pay tuition.",
+  "who": "US youth-sports parents, team managers and volunteer coaches (US Play/App Store reviewers of TeamSnap, SportsEngine, SignUpGenius, Spond, Playground; r/GameChangerApp)",
+  "source": "complaints+proven-model",
+  "evidenceSummary": "10 complaints from 10 people (Google Play 5, App Store 4, Reddit 1); proven model Spond.",
+  "complaint_ids": [
+   "c-us-20261024-016",
+   "c-us-20261024-017",
+   "c-us-20261024-018",
+   "c-us-20261024-019",
+   "c-us-20261024-020",
+   "c-us-20261024-037",
+   "c-us-20261024-038",
+   "c-us-20261024-039",
+   "c-us-20261024-040",
+   "c-us-20261024-048"
+  ],
+  "quotes": [
+   {
+    "id": "c-us-20261024-040",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-21",
+    "source": "app_store TeamSnap (US storefront)",
+    "link": "https://apps.apple.com/us/app/id393048976#review-14694996060",
+    "quote": "Teams already pay to use this, it is ridiculous to have these ads.",
+    "engagement": "1★ review by 'Brosef4891', title: 'Ads are unbearable and dangerous'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-019",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-18",
+    "source": "google_play Spond (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.spond.spond&reviewId=f97dcc85-b541-41e7-b709-6898882d489b",
+    "quote": "there can't be any duplicate emails (silly for parents with multiple children on a team).",
+    "engagement": "1★ review by 'Shawn Richarz', 0 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-018",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-16",
+    "source": "google_play TeamSnap (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.teamsnap.teamsnap&reviewId=5bc35446-1923-4449-a03e-5138cc1d0c60",
+    "quote": "they expect every single member of your club to get a paid subscription to avoid their extreme quantity of ads.",
+    "engagement": "2★ review by 'TRr4M', 0 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-037",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-16",
+    "source": "app_store SignUpGenius (US storefront)",
+    "link": "https://apps.apple.com/us/app/id1314654833#review-14674050073",
+    "quote": "Video ads hijack the screen between most actions.",
+    "engagement": "1★ review by 'Joooooooshua', title: 'Not an App, just an Ad farm'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-017",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-14",
+    "source": "google_play TeamSnap (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.teamsnap.teamsnap&reviewId=8b98d694-bd4a-4ea4-b6fe-66b338c1d2ef",
+    "quote": "The full-screen ads with sound are HORRIBLE!",
+    "engagement": "1★ review by 'Chris Highet', 5 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-016",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-13",
+    "source": "google_play TeamSnap (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.teamsnap.teamsnap&reviewId=41ae22b9-a2f9-40e2-a94c-bf30e3103042",
+    "quote": "It loses message threads, can't integrate web/app, has no billing functionality in the app, doesn't push RSVP updates",
+    "engagement": "1★ review by 'Raf Bini', 38 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-038",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-04",
+    "source": "app_store SportsEngine (US storefront)",
+    "link": "https://apps.apple.com/us/app/id499597400#review-14628505780",
+    "quote": "I don’t like having to sit through ads to view a schedule.",
+    "engagement": "1★ review by 'Ryan0067', title: 'As a coach and a parent, I hate this.'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-048",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-04",
+    "source": "reddit r/GameChangerApp",
+    "link": "https://www.reddit.com/r/GameChangerApp/comments/1wxocan/feature_request_rsvp_change_history/",
+    "quote": "I’m so tired of thinking we have enough or don’t have enough and then people change their status and then ensuing questions.",
+    "engagement": "20 upvotes, 7 comments (archive snapshot), u/papacarm",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-020",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-29",
+    "source": "google_play Playground (US storefront)",
+    "link": "https://play.google.com/store/apps/details?id=com.afterschooldevelopment.carline&reviewId=162b579d-7b86-43f1-9db0-4431cf5ca1db",
+    "quote": "I really don't like having to pay extra just to pay my kids tuition! 3.25% is crazy!",
+    "engagement": "2★ review by 'Shelley Martin', 0 thumbs up",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-039",
+    "found_date": "2026-10-24",
+    "post_date": "2026-09-27",
+    "source": "app_store TeamSnap (US storefront)",
+    "link": "https://apps.apple.com/us/app/id393048976#review-14599685016",
+    "quote": "important details get buried in lengthy team chats that parents don’t have time to scroll through",
+    "engagement": "3★ review by 'SMONT123456789', title: 'Missing Essential Game-Day Features'",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   }
+  ],
+  "proven_models": [
+   {
+    "id": "pm-us-20261024-04",
+    "found_date": "2026-10-24",
+    "app": "Spond (free team/club app, monetised via payments)",
+    "country": "Norway",
+    "model_and_price": "Free for teams and parents, no ads; revenue from payment processing fees on dues/fees collected in the app and club add-ons (https://stripe.com/customers/spond).",
+    "traction_evidence": "4M+ monthly active users; 1.5M UK users (https://stripe.com/customers/spond). FY25 revenue NOK 137.6M, loss NOK 35M; raised NOK 42.5M in July 2026 (https://www.mainsights.io/ma-news/verdane-backed-sportstech-spond-raises-new-capital-from-existing-investors-to-fund-further-growth-investments). US site live (https://www.spond.com/en-us/our-mission/).",
+    "us_status": "Present but small in the US (estimate); the US incumbent TeamSnap is hated for ads and missing in-app billing: https://play.google.com/store/apps/details?id=com.teamsnap.teamsnap&reviewId=41ae22b9-a2f9-40e2-a94c-bf30e3103042 ; https://apps.apple.com/us/app/id393048976#review-14694996060 . RSVP-history pain also in GameChanger: https://www.reddit.com/r/GameChangerApp/comments/1wxocan/feature_request_rsvp_change_history/",
+    "entry_point": "Shows an ad-free free-first model can beat ad-heavy incumbents. But it is a payments/marketplace model, not a consumer subscription, and needs payment licensing/Stripe Connect-style rails; poor fit for a Berlin solo dev selling via Paddle/Polar/Lemon Squeezy. Assessment.",
+    "why_not_done_yet": "Spond itself plus TeamSnap, SportsEngine, GameChanger, Heja, BAND cover it; two-sided team adoption is slow. Competitor veto. Assessment.",
+    "lifecycle_evidence": "Scaling, still loss-making (FY25 loss NOK 35M). Fact per mainsights link; stage label is an assessment.",
+    "stream": "proven-model",
+    "market": "US"
+   }
+  ],
+  "distinct_people": 10,
+  "distinct_people_note": "Counted from App Store/Play reviewer names, Reddit authors and X handles in the engagement field; no cross-platform dedup (not verified).",
+  "weekly_counts": {
+   "2026-W39": 1,
+   "2026-W40": 3,
+   "2026-W42": 5,
+   "2026-W43": 1
+  },
+  "week_over_week": {
+   "this_week_iso": "2026-W42",
+   "this_week": 5,
+   "last_week_iso": "2026-W41",
+   "last_week": 0,
+   "partial_week_W43": 1,
+   "new_complaints_this_run": 10,
+   "note": "US analyst 2026-10-24: counts by post_date over all linked complaints (scout windows 2026-09-22…2026-10-21 and 2026-09-24…2026-10-21); W43 (from Mon 19 Oct) is partial. Growth reflects nights of scouting, not the market."
+  },
+  "recurring": false,
+  "recurring_note": "recurring=true if complaints fall in 3+ consecutive ISO weeks (by post_date). This pain: longest consecutive-week run 2. Scout runs that surfaced it: 2026-10-24.",
+  "scores": {
+   "frequency": 4,
+   "intensity": 3,
+   "willingness_to_pay": 2,
+   "reachability": 3,
+   "buildability": 2,
+   "total": 14
+  },
+  "score_notes": {
+   "frequency": "10 complaints; top TeamSnap review has 38 thumbs up (c-016).",
+   "intensity": "“The full-screen ads with sound are HORRIBLE!” (c-017, https://play.google.com/store/apps/details?id=com.teamsnap.teamsnap&reviewId=8b98d694-bd4a-4ea4-b6fe-66b338c1d2ef); “I’m so tired of thinking we have enough or don’t have enough and then people change their status and then ensuing questions.” (c-048, https://www.reddit.com/r/GameChangerApp/comments/1wxocan/feature_request_rsvp_change_history/)",
+   "willingness_to_pay": "They already pay and object to more: “Teams already pay to use this, it is ridiculous to have these ads.” (c-040, https://apps.apple.com/us/app/id393048976#review-14694996060); Spond shows the winning model is free (pm-us-20261024-04).",
+   "reachability": "Team managers, not parents, choose the app (assessment).",
+   "buildability": "Two-sided team adoption plus payments (assessment).",
+   "method": "US analyst run 2026-10-24."
+  },
+  "gates": {
+   "consumer_subscription": {
+    "result": "fail",
+    "text": "fail: team tool chosen by managers, free leader (Spond), payments model"
+   },
+   "simplest_way": {
+    "result": "not-assessed",
+    "text": "n/a"
+   },
+   "us_entry": {
+    "result": "fail",
+    "text": "fail: team adoption"
+   }
+  },
+  "gate_failed": "consumer_subscription",
+  "competitor_veto": false,
+  "kill_reason": "Below bar (14) and fails the consumer-subscription gate; Spond (free, ad-free) and TeamSnap/SportsEngine/BAND cover it.",
+  "borderline_note": null,
+  "competitors": [],
+  "gap": null,
+  "plc": null,
+  "verdict": "below-bar"
+ },
+ {
+  "painId": "p-090",
+  "night": "2026-10-24",
+  "analyst_run": "2026-10-24-us",
+  "market": "US",
+  "niche": "kids' activities & school logistics",
+  "name": null,
+  "label": "Family calendar with work-calendar sync",
+  "pitch": null,
+  "price": null,
+  "mvp": null,
+  "killQuestion": null,
+  "description": "US parents want one family calendar that two-way syncs with work Google/Outlook calendars and includes chores, without paying for business tiers or hardware add-ons.",
+  "who": "US dads and moms coordinating a household calendar (r/daddit, r/Parenting Skylight thread)",
+  "source": "complaints+proven-model",
+  "evidenceSummary": "3 complaints from 3 people (Reddit 3); proven model Skylight.",
+  "complaint_ids": [
+   "c-us-20261024-042",
+   "c-us-20261024-043",
+   "c-us-20261024-046"
+  ],
+  "quotes": [
+   {
+    "id": "c-us-20261024-042",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-18",
+    "source": "reddit r/daddit",
+    "link": "https://www.reddit.com/r/daddit/comments/1x8re8x/project_2_the_great_calendar_task_sync/",
+    "quote": "I need something more robust with family and calendar syncing capacity.",
+    "engagement": "1 upvotes, 12 comments (archive snapshot), u/MllM88",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-043",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-18",
+    "source": "reddit r/daddit (comment)",
+    "link": "https://www.reddit.com/r/daddit/comments/1x8re8x/project_2_the_great_calendar_task_sync/phf5f2s/",
+    "quote": "the 2 way sync between google and a personal calendar is the real pain point. i've never found anything that handles that cleanly without paying for some business tier plan.",
+    "engagement": "1 upvotes (archive snapshot), u/Positive-Demand-5583",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   },
+   {
+    "id": "c-us-20261024-046",
+    "found_date": "2026-10-24",
+    "post_date": "2026-10-16",
+    "source": "reddit r/Parenting (comment)",
+    "link": "https://www.reddit.com/r/Parenting/comments/1x73vxo/skylight_calendar/ph15bj2/",
+    "quote": "You do need a subscription for the chores part of the calendar which is annoying",
+    "engagement": "1 upvotes (archive snapshot), u/coheed9867",
+    "niche": "kids' activities & school logistics",
+    "stream": "problem",
+    "market": "US"
+   }
+  ],
+  "proven_models": [
+   {
+    "id": "pm-us-20261024-03",
+    "found_date": "2026-10-24",
+    "app": "Skylight (family calendar hardware + Plus subscription)",
+    "country": "US",
+    "model_and_price": "Hardware calendar/frame plus Skylight Plus subscription; Plus raised from $39 to $79/yr, and more than 50% of Calendar buyers subscribe (https://gtmsauce.com/tactics/skylight-raise-the-yearly-plan-from-39-to-79-not-the-99-tests-favored).",
+    "traction_evidence": "Bootstrapped; 12M customers and 1.7M Calendar households as of 30 Sep 2026; credit facility expanded to $75M (https://www.prnewswire.com/news-releases/skylight-expands-credit-facility-to-75-million-to-help-families-share-the-load-through-every-stage-of-life-302893571.html).",
+    "us_status": "Big in the US; parents note the subscription for chores and that the school-email import (Sidekick) is clunky: https://www.reddit.com/r/Parenting/comments/1x73vxo/skylight_calendar/ph15bj2/ ; two-way calendar sync remains a pain: https://www.reddit.com/r/daddit/comments/1x8re8x/project_2_the_great_calendar_task_sync/phf5f2s/",
+    "entry_point": "Proof that US families pay ~$79/yr for a shared family calendar layer. Software-only (no hardware) is the only solo-dev route; Paddle/Polar subscription. Assessment.",
+    "why_not_done_yet": "Crowded: Cozi, FamilyWall, Hearth, Skylight app, plus AI assistants; family organizers already heavily covered in pains.json. Likely competitor veto. Assessment.",
+    "lifecycle_evidence": "Growth with pricing power (price doubled while attach rate stayed >50%). Assessment.",
+    "stream": "proven-model",
+    "market": "US"
+   }
+  ],
+  "distinct_people": 3,
+  "distinct_people_note": "Counted from App Store/Play reviewer names, Reddit authors and X handles in the engagement field; no cross-platform dedup (not verified).",
+  "weekly_counts": {
+   "2026-W42": 3
+  },
+  "week_over_week": {
+   "this_week_iso": "2026-W42",
+   "this_week": 3,
+   "last_week_iso": "2026-W41",
+   "last_week": 0,
+   "partial_week_W43": 0,
+   "new_complaints_this_run": 3,
+   "note": "US analyst 2026-10-24: counts by post_date over all linked complaints (scout windows 2026-09-22…2026-10-21 and 2026-09-24…2026-10-21); W43 (from Mon 19 Oct) is partial. Growth reflects nights of scouting, not the market."
+  },
+  "recurring": false,
+  "recurring_note": "recurring=true if complaints fall in 3+ consecutive ISO weeks (by post_date). This pain: longest consecutive-week run 1. Scout runs that surfaced it: 2026-10-24.",
+  "scores": {
+   "frequency": 4,
+   "intensity": 3,
+   "willingness_to_pay": 4,
+   "reachability": 3,
+   "buildability": 3,
+   "total": 17
+  },
+  "score_notes": {
+   "frequency": "Only 3 complaints tonight, but proven demand is large: Skylight 1.7M Calendar households and >50% Plus attach (pm-us-20261024-03, scout links); Cozi 399,369 US ratings (third-party, sources.md).",
+   "intensity": "“the 2 way sync between google and a personal calendar is the real pain point. i've never found anything that handles that cleanly without paying for some business tier plan.” (c-043, https://www.reddit.com/r/daddit/comments/1x8re8x/project_2_the_great_calendar_task_sync/phf5f2s/)",
+   "willingness_to_pay": "Skylight Plus $79/yr, Cozi Gold $39/yr, FamilyWall $44.99/yr (sources.md); but “You do need a subscription for the chores part of the calendar which is annoying” (c-046, https://www.reddit.com/r/Parenting/comments/1x73vxo/skylight_calendar/ph15bj2/)",
+   "reachability": "r/daddit, r/Parenting, r/Mommit (assessment).",
+   "buildability": "Two-way Google/Outlook sync is fiddly but possible in 2 weeks for one provider (assessment).",
+   "method": "US analyst run 2026-10-24."
+  },
+  "gates": {
+   "consumer_subscription": {
+    "result": "pass",
+    "text": "pass"
+   },
+   "simplest_way": {
+    "result": "pass",
+    "text": "pass (open app, today's family agenda)"
+   },
+   "us_entry": {
+    "result": "pass",
+    "text": "pass on mechanics"
+   }
+  },
+  "gate_failed": null,
+  "competitor_veto": true,
+  "kill_reason": "Near-miss at 17 and would also face a competitor veto: Cozi (free / Gold $39 / Max $79), Skylight app (Calendar Plus $79), FamilyWall ($44.99), TimeTree ($44.99), Fami, plus Google Calendar free.",
+  "borderline_note": "17/25: proven paying demand (Skylight) but only 3 complaints and a crowded field.",
+  "competitors": [
+   {
+    "name": "Cozi",
+    "url": "https://www.cozi.com/compare-plans/",
+    "price": "Free; Gold $39/yr; Max $79/yr",
+    "price_source": "https://www.cozi.com/compare-plans/",
+    "loves": [],
+    "hates": [],
+    "funding": "not checked"
+   },
+   {
+    "name": "Skylight app (Calendar Plus)",
+    "url": "https://myskylight.com/products/calendar-skylight-plus",
+    "price": "$79/yr",
+    "price_source": "https://skylight.zendesk.com/hc/en-us/articles/51833126965019-Subscription",
+    "loves": [],
+    "hates": [
+     {
+      "quote": "You do need a subscription for the chores part of the calendar which is annoying",
+      "who": "u/coheed9867, r/Parenting (c-046)",
+      "link": "https://www.reddit.com/r/Parenting/comments/1x73vxo/skylight_calendar/ph15bj2/"
+     }
+    ],
+    "funding": "Bootstrapped + $75M credit facility (pm-us-20261024-03)"
+   },
+   {
+    "name": "FamilyWall / TimeTree",
+    "url": "https://gethomsy.com/blog/comparisons/best-family-organizer-apps-2026",
+    "price": "$44.99/yr each (third-party comparison)",
+    "price_source": "https://gethomsy.com/blog/comparisons/best-family-organizer-apps-2026",
+    "loves": [],
+    "hates": [],
+    "funding": "not checked"
+   }
+  ],
+  "gap": "Cheap reliable two-way sync with work calendars; Cozi's Google sync is still read-only per a third-party review (https://www.usecalendara.com/blog/cozi-pricing-2026). Narrow, and Skylight/Fambot already sync.",
+  "plc": {
+   "stage": "growth",
+   "evidence": [
+    "Category age: Cozi is long-established (399,369 US ratings, third-party); Skylight 12M customers (pm-us-20261024-03).",
+    "Price trend: up — Skylight Plus $39→$79 with >50% attach; Cozi added Max $79 (sources.md).",
+    "Competitor count: 8+ paid family organizers priced $9.99–$79/yr (gethomsy.com comparison).",
+    "Search trend not checked."
+   ],
+   "verdict": "maybe",
+   "verdictText": "maybe (assessment): paid subscriptions clearly work, but the market is crowded and needs a sharp wedge.",
+   "assessment": true,
+   "stageText": "growth→maturity"
+  },
+  "verdict": "killed"
+ },
+ {
+  "painId": "p-091",
+  "night": "2026-10-24",
+  "analyst_run": "2026-10-24-us",
+  "market": "US",
+  "niche": "kids' activities & school logistics",
+  "name": null,
+  "label": "Lineup tool for volunteer coaches",
+  "pitch": null,
+  "price": null,
+  "mvp": null,
+  "killQuestion": null,
+  "description": "US volunteer youth baseball/softball coaches need fair-play position rotations and lineup cards each game and still build them in Google Sheets; paid lineup apps exist (Dugout Edge).",
+  "who": "US Little League and rec-league volunteer coaches (r/LittleLeague)",
+  "source": "proven-model",
+  "evidenceSummary": "0 complaints from 0 people (); proven model Dugout Edge.",
+  "complaint_ids": [],
+  "quotes": [],
+  "proven_models": [
+   {
+    "id": "pm-us-20261024-06",
+    "found_date": "2026-10-24",
+    "app": "Dugout Edge (youth baseball/softball coach lineup tool)",
+    "country": "US",
+    "model_and_price": "Free tier; Premium $10/mo or $60/yr (https://www.dugoutedge.com/brand-facts).",
+    "traction_evidence": "Company claims 10,000+ coaches and launched live scoring in Aug 2026 (https://www.dugoutedge.com/brand-facts); paying-user count unknown. A Little League coach says they signed up monthly: https://www.reddit.com/r/LittleLeague/comments/1wsw4un/position_rotation_for_minors_divisions/ (thread). Weak paid-traction evidence.",
+    "us_status": "US volunteer coaches still build lineups in Google Sheets and dislike existing apps (same r/LittleLeague thread above); GameChanger is adding lineup features.",
+    "entry_point": "Small, buildable coach tool (fair-play rotations, lineup cards) with Paddle/Polar subscription; seasonal demand. Assessment.",
+    "why_not_done_yet": "Already done by Dugout Edge, GameChanger lineups, and others; seasonal churn and US-only sport. Assessment.",
+    "lifecycle_evidence": "Early: a small paid niche tool expanding into scoring. Assessment.",
+    "stream": "proven-model",
+    "market": "US"
+   }
+  ],
+  "distinct_people": 0,
+  "distinct_people_note": "",
+  "weekly_counts": {},
+  "week_over_week": {
+   "this_week_iso": "2026-W42",
+   "this_week": 0,
+   "last_week_iso": "2026-W41",
+   "last_week": 0,
+   "note": "Proven-model-only entry; no linked complaints in us/complaints.jsonl (the r/LittleLeague thread is cited by the scout but was not logged as a complaint)."
+  },
+  "recurring": false,
+  "recurring_note": "No linked complaints.",
+  "scores": {
+   "frequency": 2,
+   "intensity": 2,
+   "willingness_to_pay": 2,
+   "reachability": 4,
+   "buildability": 5,
+   "total": 15
+  },
+  "score_notes": {
+   "frequency": "No complaint ids; Dugout Edge claims 10,000+ coaches (company claim, https://www.dugoutedge.com/brand-facts); paying count unknown.",
+   "intensity": "Weekly chore during season, low emotional pain (assessment).",
+   "willingness_to_pay": "One coach on r/LittleLeague said they signed up monthly (scout link https://www.reddit.com/r/LittleLeague/comments/1wsw4un/position_rotation_for_minors_divisions/); weak evidence.",
+   "reachability": "r/LittleLeague, coach Facebook groups, App Store 'lineup' keyword (assessment).",
+   "buildability": "Rotation rules + printable card is a 1–2 week build (assessment).",
+   "method": "US analyst run 2026-10-24; proven-model stream."
+  },
+  "gates": {
+   "consumer_subscription": {
+    "result": "borderline",
+    "text": "borderline: seasonal (spring), churn after season (assessment)"
+   },
+   "simplest_way": {
+    "result": "pass",
+    "text": "pass (pick who's here, rotation generated)"
+   },
+   "us_entry": {
+    "result": "pass",
+    "text": "pass on mechanics"
+   }
+  },
+  "gate_failed": null,
+  "competitor_veto": true,
+  "kill_reason": "15/25 near-miss; Dugout Edge and GameChanger lineups already cover it and demand is seasonal with weak paid-traction evidence.",
+  "borderline_note": "15/25: very buildable but tiny, seasonal and already served.",
+  "competitors": [],
+  "gap": null,
+  "plc": {
+   "stage": "introduction",
+   "evidence": [
+    "Dugout Edge: free tier + $60/yr Premium, 10,000+ coaches claimed, added live scoring Aug 2026 (https://www.dugoutedge.com/brand-facts, scout link).",
+    "Incumbent moving in: GameChanger adding lineup features (pm-us-20261024-06).",
+    "Coaches still use Google Sheets (r/LittleLeague thread, scout link). Search trend not checked."
+   ],
+   "verdict": "maybe",
+   "verdictText": "maybe→no (assessment): early niche, seasonal, the market must be educated and GameChanger is closing the gap.",
+   "assessment": true,
+   "trendTo": "no"
+  },
+  "verdict": "killed"
  }
 ];

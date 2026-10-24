@@ -32,16 +32,16 @@ export type GateKey = "consumer_subscription" | "simplest_way" | "us_entry";
 export type GateResult = { result: "pass" | "weak-pass" | "borderline" | "fail" | "not-assessed"; text: string };
 
 export type QuoteRef = { quote: string; who: string; link: string };
-export type Competitor = { name: string; url: string | null; price: string; price_source: string | null; loves: QuoteRef[]; hates: QuoteRef[]; loves_hates_note?: string; funding: string };
+export type Competitor = { name: string; url: string | null; price: string; price_source: string | null; loves: QuoteRef[]; hates: QuoteRef[]; loves_hates_note?: string; user_reviews?: string; funding: string };
 
 export type PlcStage = "introduction" | "growth" | "maturity" | "decline";
 export type PlcVerdict = "yes" | "maybe" | "no";
-export type Plc = { stage: PlcStage; evidence: string[]; verdict: PlcVerdict; trendTo?: PlcVerdict; verdictText: string; assessment: true };
+export type Plc = { stage: PlcStage; stageText?: string; evidence: string[]; verdict: PlcVerdict; trendTo?: PlcVerdict; verdictText: string; assessment: true };
 
 /** Display verdict, derived by lib/verdict.ts:pipelineVerdict(), never read from pains.json `status`. */
 export type PipelineVerdict = "winner" | "near-miss" | "killed" | "below-bar";
 
-export type WeekOverWeek = { this_week_iso: string; this_week: number; last_week_iso: string; last_week: number; partial_week_W43?: number; note: string };
+export type WeekOverWeek = { this_week_iso: string; this_week: number; last_week_iso: string; last_week: number; partial_week_W43?: number; new_complaints_this_run?: number; note: string };
 
 export type Idea = {
   painId: string;

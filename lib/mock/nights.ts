@@ -7,6 +7,26 @@ export const STEP_ORDER: StepKey[] = ["scout", "analyst", "builder", "brief"];
 /** US runs, real counts from log.md and the briefs. Newest first. */
 export const NIGHTS: NightRun[] = [
   {
+    date: "2026-10-24",
+    market: "US",
+    niches: ["kids' activities & school logistics", "meal planning & recipes (second pass)"],
+    steps: { scout: "done", analyst: "done", builder: "done", brief: "done" },
+    scout: {
+      complaints: 81,
+      provenModels: 6,
+      bySource: { google_play: 29, app_store: 32, reddit: 14, x: 6, hn: 0, trustpilot: 0, forums: 0 },
+      blocked: [
+        { source: "Trustpilot", reason: "403 (classdojo.com, teamsnap.com)" },
+        { source: "babycenter.com", reason: "202 bot challenge" },
+        { source: "Reddit www", reason: "403 (Arctic Shift used; transient 422s retried OK)" },
+      ],
+    },
+    analyst: { newPainIds: ["p-086", "p-087", "p-088", "p-089", "p-090", "p-091"], survivors: 0 },
+    builder: { winnerPainId: null, poc: null },
+    briefPath: "briefs/2026-10-24.md",
+    note: "5th night in a row with no winner; the 26 meal-planning complaints were merged into p-072, p-073 and p-074 (22 Oct)",
+  },
+  {
     date: "2026-10-23",
     market: "US",
     niches: ["home maintenance & homeowners", "home fitness & workout logging"],
