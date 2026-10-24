@@ -18,7 +18,7 @@ SHA=$(git rev-parse --short HEAD)
 ) || { echo "deploy: build failed, see /tmp/vi-pages-build.log" >&2; exit 1; }
 touch out/.nojekyll
 scripts/sync-run-videos.sh
-n=$(grep -o '"date"' out/videos/manifest.json | wc -l)
+n=$( (grep -o '"date"' out/videos/manifest.json || true) | wc -l)
 WT=$(mktemp -d /tmp/ghp-XXXX)
 git worktree add -q --detach "$WT" origin/gh-pages
 trap 'git worktree remove --force "$WT" >/dev/null 2>&1 || true' EXIT
