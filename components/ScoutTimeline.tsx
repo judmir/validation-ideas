@@ -1,6 +1,7 @@
 "use client";
 import { COMPETITION_HELP, FALLBACK_LABEL } from "@/lib/competition";
 import Link from "next/link";
+import RunVideo from "./RunVideo";
 import { useEffect, useState, type ReactNode } from "react";
 import type { PipelineVerdict } from "@/lib/types";
 import { RULES } from "@/lib/types";
@@ -66,6 +67,7 @@ export default function ScoutTimeline({ nights, legacy, tests, stats, chart }: {
               return (
                 <Node key={n.date} date={shortDate(n.date)} sub={live ? `${sub} · live` : n.label ? `${sub} · ${n.label}` : sub} accent={live || sub === "Today"} dot={live ? "running" : i === 0 && !query ? "latest" : "past"} last={i === shown.length - 1 && !legacyShown.length}>
                   <NightBlock line={n.line} all={n.pains} shown={pains} t={t} loaded={loaded} expandAll={!!query} />
+                  <RunVideo date={n.date} className="mt-3" />
                 </Node>
               );
             })}

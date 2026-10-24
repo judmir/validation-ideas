@@ -1,3 +1,4 @@
+import RunVideo from "./RunVideo";
 import type { Idea, NightRun } from "@/lib/types";
 import { SourceBars, StepPills } from "./NightParts";
 import { IconChevronRight } from "./icons";
@@ -15,6 +16,7 @@ export default function NightCard({ night, ideas, winner }: { night: NightRun; i
         <b className="font-semibold tabular-nums text-zinc-50">{night.scout.complaints}</b> complaints · <b className="font-semibold tabular-nums text-zinc-50">{night.scout.provenModels}</b> proven models · <b className="font-semibold tabular-nums text-zinc-50">{ideas.length}</b> new pains · <b className="font-semibold tabular-nums text-zinc-50">{night.analyst.survivors}</b> survivors · {winner ? `winner ${winner.name ?? winner.painId}` : "no winner"}
       </p>
       {night.note && <p className="mt-1 text-[12px] text-zinc-400">{night.note}.</p>}
+      <RunVideo date={night.date} className="-mx-1 mt-4 bg-tile-2 sm:mx-0" />
       <details className="group mt-4 border-t border-white/[0.06] pt-3">
         <summary className="flex cursor-pointer list-none items-center gap-2 text-[13px] font-semibold text-zinc-300 hover:text-zinc-50">
           <span className="min-w-0 flex-1">Sources{night.scout.blocked.length ? <span className="font-medium text-zinc-400"> · {night.scout.blocked.length} blocked</span> : null}</span>

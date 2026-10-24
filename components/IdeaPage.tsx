@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import RunVideo from "./RunVideo";
 import { useEffect, type ReactNode } from "react";
 import { RULES, type Complaint, type Idea } from "@/lib/types";
 import { failedGates, gateDef } from "@/lib/gates";
@@ -32,7 +33,8 @@ import ReportTab from "./validate/ReportTab";
 import { IconArrowLeft, IconChevronRight, IconExternal, IconLock } from "./icons";
 import MockedPill from "./MockedPill";
 
-export type RunInfo = { date: string; label: string | null; line: string; note: string | null; ideas: { id: string; title: string; score: number }[] };
+/** winner: this idea is the night's winner (incl. a fallback winner), so its page shows the run video. */
+export type RunInfo = { date: string; label: string | null; line: string; note: string | null; winner: boolean; ideas: { id: string; title: string; score: number }[] };
 
 const TABS = ["evidence", "validate", "report"];
 const VERDICT_WORD = { winner: "Winner", "near-miss": "Near-miss", killed: "Killed", "below-bar": "Below the bar" } as const;
@@ -74,6 +76,8 @@ export default function IdeaPage({ idea, run }: { idea: Idea; run: RunInfo }) {
         </div>
         <Metrics idea={idea} run={run} v={v} loaded={loaded} validates={validates} />
       </div>
+
+      {run.winner && <RunVideo date={run.date} />}
 
       <TabBar
         tabs={[{ id: "evidence", label: "Evidence" }, { id: "validate", label: "Validate", badge: lock ?? (idea.demo ? <MockedPill /> : undefined) }, { id: "report", label: "Report", badge: lock ?? (idea.demo ? <MockedPill /> : undefined) }]}
