@@ -27,7 +27,7 @@ export default function NightsPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <StatCell label="Nights since winner" value={NIGHTS_SINCE_WINNER} unit={`last: ${LAST_WINNER.name} (DE), ${shortDate(LAST_WINNER.date)}`} note={US_WINNER_NOTE} />
+        <StatCell label="Nights since winner" value={NIGHTS_SINCE_WINNER} unit={`last: ${LAST_WINNER.name}, ${shortDate(LAST_WINNER.date)}`} note={US_WINNER_NOTE} />
         <StatCell label="US runs" value={NIGHTS.length} unit="0 winners" />
         <StatCell label="US complaints" value={US_COMPLAINTS} unit="scouted" />
         <StatCell label="Blocked sources" value={blocked} unit={`in ${NIGHTS.length} runs`} />

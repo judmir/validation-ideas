@@ -40,7 +40,7 @@ export default function Home() {
   });
   const stats = {
     pains: ALL_IDEAS.length, runs: NIGHTS.length, sinceWinner: NIGHTS_SINCE_WINNER, usWinnerNote: US_WINNER_NOTE, complaints: US_COMPLAINTS,
-    best: { score: BEST_THIS_WEEK.scores.total, id: BEST_THIS_WEEK.painId }, lastWinner: `${LAST_WINNER.name} (DE), ${shortDate(LAST_WINNER.date)}`,
+    best: { score: BEST_THIS_WEEK.scores.total, id: BEST_THIS_WEEK.painId }, lastWinner: `${LAST_WINNER.name}, ${shortDate(LAST_WINNER.date)}`,
   };
   return (
     <div className="space-y-6">

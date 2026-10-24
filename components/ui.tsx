@@ -269,7 +269,7 @@ export function StatCell({ label, value, unit, note }: { label: string; value: R
         <span className="text-[32px] font-medium leading-none tracking-tight tabular-nums text-zinc-50 sm:text-[36px]">{value}</span>
         {unit && <span className="truncate text-[12px] font-medium text-zinc-300">{unit}</span>}
       </div>
-      {note && <div className="mt-1.5 truncate text-[11px] text-zinc-400">{note}</div>}
+      {note && <div className="mt-1.5 text-[11px] leading-snug text-zinc-400">{note}</div>}
     </div>
   );
 }
