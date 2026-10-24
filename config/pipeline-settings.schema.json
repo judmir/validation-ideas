@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/judmir/validation-ideas/blob/main/config/pipeline-settings.schema.json",
   "title": "Validation Ideas pipeline settings",
-  "description": "Shape of pipeline_settings_versions.settings in Supabase (source of truth; routines read pipeline_settings_latest). config/pipeline-settings.json mirrors the live version (v3) and is the offline fallback. TS type: lib/settings.ts.",
+  "description": "Shape of pipeline_settings_versions.settings in Supabase (source of truth; routines read pipeline_settings_latest). config/pipeline-settings.json mirrors the live version (v4) and is the offline fallback. TS type: lib/settings.ts.",
   "type": "object",
   "additionalProperties": false,
   "required": [

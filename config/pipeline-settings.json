@@ -1,14 +1,14 @@
 {
   "poc": {
     "enabled": true,
-    "ready_by": "07:20",
+    "ready_by": "05:00",
     "private_only": true,
     "max_per_night": 1
   },
   "report": {
     "run_video": {
       "enabled": true,
-      "ready_by": "07:30",
+      "ready_by": "06:00",
       "subtitles": false,
       "voiceover": true
     }

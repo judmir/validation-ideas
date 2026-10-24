@@ -23,8 +23,8 @@ const KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 const LOCAL = process.env.NEXT_PUBLIC_SETTINGS_LOCAL === "1";
 export const MODE: StoreMode = LOCAL ? "local" : URL_ && KEY ? "supabase" : "offline";
 
-/** The offline fallback: config/pipeline-settings.json mirrors live version 3. */
-export const SEED_VERSION: SettingsVersion = { version: 3, settings: SEED, note: "Judi 2026-10-24: add Run video ON/OFF (default ON)", created_at: "2026-10-24T21:54:27.44643+00:00" };
+/** The offline fallback: config/pipeline-settings.json mirrors live version 4. */
+export const SEED_VERSION: SettingsVersion = { version: 4, settings: SEED, note: "Judi 2026-10-25: whole chain ready by 06:00; video is the last step of the final report", created_at: "2026-10-24T22:03:49.657066+00:00" };
 
 let client: Promise<SupabaseClient> | null = null;
 function sb() {

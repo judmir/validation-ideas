@@ -1,6 +1,6 @@
 // Pipeline settings. Source of truth: Supabase table pipeline_settings_versions (append-only; the view
 // pipeline_settings_latest is the current version, which the nightly routines read).
-// config/pipeline-settings.json mirrors the current live version (v3) and is the offline fallback.
+// config/pipeline-settings.json mirrors the current live version (v4) and is the offline fallback.
 // Shape: config/pipeline-settings.schema.json. Reading/saving lives in lib/settings-store.ts.
 import raw from "@/config/pipeline-settings.json";
 import { GATE_IDS, type GateId } from "./gates";
