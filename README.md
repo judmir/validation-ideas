@@ -49,3 +49,21 @@ NEXT_PUBLIC_BASE_PATH=/validation-ideas npm run build
 Sign-in is a Supabase email magic link (no GitHub OAuth). In the Supabase dashboard, Authentication → URL Configuration, add
 `https://judmir.github.io/validation-ideas/settings/` to the Redirect URLs (plus e.g. `http://localhost:4180/settings/` for local builds).
 After the first sign-in, App ideas adds that user to `settings_admins`; until then a save shows "Signed in, but not an admin yet".
+
+## Run videos (gh-pages only)
+
+App ideas renders a narrated MP4 per scout night at `/workspace/run-videos/<YYYY-MM-DD>/scout-run-<YYYY-MM-DD>.mp4`.
+The MP4s are **never committed to main** (`public/videos/` is git-ignored). At deploy time `scripts/sync-run-videos.sh` copies
+each one into `out/videos/<date>.mp4` (refusing any file of 95 MB or more, since GitHub's limit is 100 MB) and writes
+`out/videos/manifest.json` (`{date, src, bytes, duration_s}` per video; durations via ffprobe). So the videos live only in the
+gh-pages branch. The site fetches `${basePath}/videos/manifest.json` at runtime and shows a "Watch run video" player on that
+night's scout run (home timeline and /nights) and on its winning idea page (incl. a fallback winner). No manifest or no entry: no player.
+
+Deploy (main as on origin, plus all videos) in one command; a new night's video needs no main commit:
+
+```bash
+scripts/deploy-pages.sh
+```
+
+It refuses to run unless HEAD is origin/main with a clean tree, sources `/workspace/.vi-supabase.env` in a subshell for the
+build, runs `NEXT_PUBLIC_BASE_PATH=/validation-ideas npm run build`, adds `.nojekyll`, syncs the videos and pushes one new gh-pages commit.
