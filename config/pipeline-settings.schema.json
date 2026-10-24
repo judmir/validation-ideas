@@ -1,0 +1,487 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/judmir/validation-ideas/blob/main/config/pipeline-settings.schema.json",
+  "title": "Validation Ideas pipeline settings",
+  "description": "Source of truth for the nightly pipeline rules. Edited by hand (or via the /settings page's copied diff); nightly routines read the raw file from main. The TS type is lib/settings.ts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "updated",
+    "scouting",
+    "scoring",
+    "winner",
+    "poc",
+    "validation",
+    "schedule"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "const": 1
+    },
+    "updated": {
+      "type": "string",
+      "format": "date"
+    },
+    "scouting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "markets",
+        "germany_paused_since",
+        "complaint_lookback_days",
+        "complaints_per_night",
+        "proven_models_enabled",
+        "proven_models_per_night",
+        "sources",
+        "exclude_regulated_finance_medical",
+        "niche_rotation"
+      ],
+      "properties": {
+        "markets": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "us",
+            "germany"
+          ],
+          "properties": {
+            "us": {
+              "type": "boolean"
+            },
+            "germany": {
+              "type": "boolean"
+            }
+          }
+        },
+        "germany_paused_since": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "complaint_lookback_days": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 365
+        },
+        "complaints_per_night": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            }
+          }
+        },
+        "proven_models_enabled": {
+          "type": "boolean"
+        },
+        "proven_models_per_night": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        "sources": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "app_store",
+            "google_play",
+            "reddit_arctic_shift",
+            "x",
+            "hacker_news",
+            "trustpilot",
+            "niche_forums"
+          ],
+          "properties": {
+            "app_store": {
+              "type": "boolean"
+            },
+            "google_play": {
+              "type": "boolean"
+            },
+            "reddit_arctic_shift": {
+              "type": "boolean"
+            },
+            "x": {
+              "type": "boolean"
+            },
+            "hacker_news": {
+              "type": "boolean"
+            },
+            "trustpilot": {
+              "type": "boolean"
+            },
+            "niche_forums": {
+              "type": "boolean"
+            }
+          }
+        },
+        "exclude_regulated_finance_medical": {
+          "type": "boolean"
+        },
+        "niche_rotation": {
+          "type": "string",
+          "description": "Read-only note: where niches come from."
+        }
+      }
+    },
+    "scoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "criterion_scale",
+        "weights",
+        "winning_bar",
+        "near_miss_band",
+        "competitor_veto",
+        "gates",
+        "principles"
+      ],
+      "properties": {
+        "criterion_scale": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "const": 1
+            },
+            "max": {
+              "const": 5
+            }
+          }
+        },
+        "weights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "frequency",
+            "intensity",
+            "willingness_to_pay",
+            "reachability",
+            "buildability"
+          ],
+          "properties": {
+            "frequency": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 5,
+              "multipleOf": 0.5
+            },
+            "intensity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 5,
+              "multipleOf": 0.5
+            },
+            "willingness_to_pay": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 5,
+              "multipleOf": 0.5
+            },
+            "reachability": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 5,
+              "multipleOf": 0.5
+            },
+            "buildability": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 5,
+              "multipleOf": 0.5
+            }
+          },
+          "description": "Weight per criterion (1 = default). Max score = 5 \u00d7 sum of weights."
+        },
+        "winning_bar": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 25,
+          "description": "Bar out of 25 at 1\u00d7 weights; scaled to the weighted max."
+        },
+        "near_miss_band": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 25
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 25
+            }
+          },
+          "description": "Out of 25 at 1\u00d7 weights; scaled like the bar."
+        },
+        "competitor_veto": {
+          "type": "boolean",
+          "description": "A separate check, not a gate."
+        },
+        "gates": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "consumer_subscription",
+            "buildable_2wk",
+            "us_entry",
+            "plc_fit"
+          ],
+          "properties": {
+            "consumer_subscription": {
+              "type": "boolean"
+            },
+            "buildable_2wk": {
+              "type": "boolean"
+            },
+            "us_entry": {
+              "type": "boolean"
+            },
+            "plc_fit": {
+              "type": "boolean"
+            }
+          },
+          "description": "Gate ids must match lib/gates.ts."
+        },
+        "principles": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "simplest_way"
+          ],
+          "properties": {
+            "simplest_way": {
+              "type": "boolean",
+              "description": "Build principle (flag only), not a gate."
+            }
+          }
+        }
+      }
+    },
+    "winner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ideas_per_brief",
+        "never_repeat",
+        "near_tie_prefers_plc",
+        "fallback_enabled",
+        "fallback"
+      ],
+      "properties": {
+        "ideas_per_brief": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "never_repeat": {
+          "const": true,
+          "description": "Locked on."
+        },
+        "near_tie_prefers_plc": {
+          "type": "boolean"
+        },
+        "fallback_enabled": {
+          "type": "boolean",
+          "description": "Always build at least one demo: if nothing clears the bar, build the best unique idea with real evidence, labelled 'Fallback (below bar)'."
+        },
+        "fallback": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min_score",
+            "allow_vetoed",
+            "allow_plc_maybe",
+            "allow_plc_no"
+          ],
+          "properties": {
+            "min_score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 25
+            },
+            "allow_vetoed": {
+              "type": "boolean"
+            },
+            "allow_plc_maybe": {
+              "type": "boolean"
+            },
+            "allow_plc_no": {
+              "const": false,
+              "description": "Locked: a PLC 'no' is never allowed."
+            }
+          }
+        }
+      }
+    },
+    "poc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nightly",
+        "max_builds_per_night",
+        "ready_by",
+        "private_only"
+      ],
+      "properties": {
+        "nightly": {
+          "type": "boolean"
+        },
+        "max_builds_per_night": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "ready_by": {
+          "type": "string",
+          "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "private_only": {
+          "const": true,
+          "description": "Locked: no launch, sign-ups, payments or emails."
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "ad_budget_eur",
+        "min_visitors",
+        "strong_price_click_pct",
+        "kill_price_click_pct",
+        "two_button_page"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "proposed",
+            "active"
+          ]
+        },
+        "ad_budget_eur": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            }
+          }
+        },
+        "min_visitors": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "strong_price_click_pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "kill_price_click_pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "two_button_page": {
+          "type": "boolean"
+        }
+      }
+    },
+    "schedule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timezone",
+        "scout",
+        "analyst",
+        "builder",
+        "brief",
+        "weekly",
+        "note"
+      ],
+      "properties": {
+        "timezone": {
+          "const": "Europe/Berlin"
+        },
+        "scout": {
+          "type": "string",
+          "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "analyst": {
+          "type": "string",
+          "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "builder": {
+          "type": "string",
+          "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "brief": {
+          "type": "string",
+          "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "weekly": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "description": "Read-only on the page; time changes go through App ideas."
+    }
+  }
+}
