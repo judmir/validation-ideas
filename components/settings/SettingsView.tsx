@@ -552,7 +552,7 @@ function Time({ path, label }: { path: string; label: string }) {
   const { draft, set, editable } = useS();
   return (
     <Row path={path} label={label}>
-      <input type="time" disabled={!editable} aria-label={label} value={getPath(draft, path) as string} onChange={(e) => e.target.value && set(path, e.target.value)} className={`${inputCls} w-28 [color-scheme:dark]`} />
+      <input type="time" disabled={!editable} aria-label={label} value={getPath(draft, path) as string} onChange={(e) => e.target.value && set(path, e.target.value)} className={`${inputCls.replace("w-20", "").replace("text-right", "text-left")} w-auto min-w-[9.5rem] [color-scheme:dark]`} />
     </Row>
   );
 }
