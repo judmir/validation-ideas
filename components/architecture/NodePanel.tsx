@@ -12,7 +12,8 @@ const SETTINGS_SECTION: Record<string, { id: string; title: string }[]> = {
   weekly: [{ id: "schedule", title: "Schedule" }],
   landing: [{ id: "validation", title: "Validation" }],
   meta: [{ id: "validation", title: "Validation" }],
-  report: [{ id: "validation", title: "Validation" }],
+  report: [{ id: "validation", title: "Validation" }, { id: "report", title: "Report / Run video" }],
+  "run-video": [{ id: "report", title: "Report / Run video" }],
 };
 
 const STATUS_BADGE = { active: "violet", paused: "slate", proposed: "light" } as const;

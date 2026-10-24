@@ -117,6 +117,22 @@ export const NODES: ArchNode[] = [
     mob: { x: 82, y: 285 },
   },
   {
+    id: "run-video",
+    title: "Run video",
+    time: "~07:00",
+    schedule: "Nightly ~07:00, after the demo build; ready by 07:30",
+    status: "active",
+    since: "2026-10-24",
+    summary: "App ideas renders a short narrated video of the night's scout run, then pings dev to deploy it.",
+    details: [
+      "Reads settings.report.run_video: enabled (off = the step skips), voiceover, subtitles, ready_by.",
+      "2–4 minute MP4, under 40 MB. Deployed to gh-pages only; the player shows on that night's scout run and winner page.",
+    ],
+    outputs: ["/workspace/run-videos/<date>/scout-run-<date>.mp4", "ping to dev to deploy"],
+    desk: { x: 755, y: 220 },
+    mob: { x: 82, y: 422 },
+  },
+  {
     id: "brief",
     title: "Morning brief",
     time: "07:30",
@@ -203,7 +219,9 @@ export const EDGES: ArchEdge[] = [
   { id: "de-analyst", from: "de-scout", to: "analyst", kind: "paused", desk: { from: "right", to: "left", toShift: 10 }, mob: { from: "bottom", to: "right", toShift: -12 } },
   { id: "analyst-builder", from: "analyst", to: "builder", kind: "run", mob: { from: "bottom", to: "top" } },
   { id: "analyst-gbrain", from: "analyst", to: "gbrain", kind: "filing", desk: { from: "bottom", to: "top" }, mob: { from: "right", to: "top", fromShift: 12 } },
-  { id: "builder-brief", from: "builder", to: "brief", kind: "run", mob: { from: "bottom", to: "top" } },
+  { id: "builder-brief", from: "builder", to: "brief", kind: "run", desk: { from: "right", to: "left", fromShift: -12 }, mob: { from: "bottom", to: "top" } },
+  { id: "builder-runvideo", from: "builder", to: "run-video", kind: "run", desk: { from: "right", to: "left", fromShift: 14 }, mob: { from: "bottom", to: "top" } },
+  { id: "runvideo-brief", from: "run-video", to: "brief", kind: "run", desk: { from: "top", to: "bottom", toShift: -30 }, mob: { from: "bottom", to: "top" } },
   { id: "builder-gbrain", from: "builder", to: "gbrain", kind: "filing", desk: { from: "bottom", to: "right", fromShift: -40 }, mob: { from: "right", to: "bottom", fromShift: -12 } },
   { id: "builder-landing", from: "builder", to: "landing", kind: "proposed", desk: { from: "bottom", to: "top", fromShift: 20, toShift: 20 }, mob: { from: "right", to: "left", fromShift: 12 } },
   { id: "landing-meta", from: "landing", to: "meta", kind: "proposed", mob: { from: "bottom", to: "top" } },
@@ -227,7 +245,8 @@ export interface NightStep {
 export const NIGHT_STEPS: NightStep[] = [
   { time: "00:30", node: "us-scout", title: "US scout", short: "Scout", caption: "Collects US complaints, then proven subscription models, and hands both files to the analyst.", edges: ["us-analyst"] },
   { time: "03:00", node: "analyst", title: "Analyst", short: "Analyst", caption: "Scores each US entry out of 25 (bar 18), applies the veto and gates, and files to GBrain.", edges: ["analyst-builder", "analyst-gbrain"] },
-  { time: "04:30", node: "builder", title: "Builder", short: "Builder", caption: "Builds at most one private POC. The proposed loop would hand it to a validation page and ads.", edges: ["builder-brief", "builder-gbrain", "builder-landing", "landing-meta", "meta-report"] },
+  { time: "04:30", node: "builder", title: "Builder", short: "Builder", caption: "Builds one private POC demo (a fallback below the bar if nothing clears it). The proposed loop would hand it to a validation page and ads.", edges: ["builder-brief", "builder-gbrain", "builder-landing", "landing-meta", "meta-report"] },
+  { time: "07:00", node: "run-video", title: "Run video", short: "Video", caption: "If the Run video setting is on, a narrated MP4 of the night is rendered and dev is pinged to deploy it.", edges: ["builder-runvideo", "runvideo-brief"] },
   { time: "07:30", node: "brief", title: "Morning brief", short: "Brief", caption: "Judi gets the brief. On Sundays it rolls up into the weekly.", edges: ["report-brief", "brief-weekly"] },
 ];
 
