@@ -2,7 +2,8 @@
 // lib/architecture.ts that it touched, so the /architecture page can highlight them.
 
 export type ChangeType = "added" | "changed" | "removed" | "paused" | "proposed";
-export type ChangeStatus = "live" | "proposed" | "awaiting-ok";
+/** building = shipped in code, waiting on its first real output (e.g. the first run video). */
+export type ChangeStatus = "live" | "proposed" | "awaiting-ok" | "building";
 
 export interface ChangeEntry {
   id: string;
@@ -133,6 +134,19 @@ export const CHANGELOG: ChangeEntry[] = [
     status: "live",
     before: ["Any strong overlap with an existing app → veto", "No demo on a night without a winner"],
     after: ["1–3 strong US competitors = demand signal (+1 with a wedge)", "Veto only at 4+ or a funded leader solving it well", "Always one demo per night: “Fallback (below bar)”"],
+  },
+  {
+    id: "run-video",
+    date: "2026-10-24",
+    version: "Run video",
+    title: "Run video per night",
+    description:
+      "Each scout night can get a short narrated video (2–4 minutes) made by App ideas. The player appears on that night's scout run and on its winning idea page, including a fallback winner. Videos are published with the site to gh-pages only, never committed to main; a night without a video shows nothing. Building until the first video is deployed.",
+    affected: ["report"],
+    type: "added",
+    status: "building",
+    before: ["Night results only as text: the brief and the Ideas board"],
+    after: ["Narrated MP4 per night, listed in videos/manifest.json", "'Watch run video' on the night and its winner page"],
   },
 ];
 

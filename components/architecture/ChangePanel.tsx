@@ -8,6 +8,7 @@ const STATUS: Record<ChangeStatus, { label: string; cls: string }> = {
   live: { label: "Live", cls: "bg-[#bbf7d0] text-[#14532d]" },
   proposed: { label: "Proposed", cls: "bg-accent-pale text-[#2a1f6b]" },
   "awaiting-ok": { label: "Awaiting OK", cls: "bg-[#fdba74] text-[#431407]" },
+  building: { label: "Building", cls: "bg-[#fde68a] text-[#713f12]" },
 };
 
 const idLabel = (id: string) => {
