@@ -39,7 +39,7 @@ summary::-webkit-details-marker { display: none; }
 @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
 /* Architecture page */
-@keyframes hlpulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+@keyframes hlpulse { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
 .hl-pulse { animation: hlpulse 1.5s ease-in-out infinite; }
 .arch-glow { filter: drop-shadow(0 0 10px rgb(139 124 246 / 0.5)); }
 .arch-node:focus { outline: none; }
@@ -54,3 +54,5 @@ summary::-webkit-details-marker { display: none; }
   .hl-pulse, .dash-flow, .step-progress, .sheet-up { animation: none; }
   .hl-pulse { opacity: 0.9; }
 }
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
