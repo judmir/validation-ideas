@@ -5,6 +5,14 @@
     "private_only": true,
     "max_per_night": 1
   },
+  "report": {
+    "run_video": {
+      "enabled": true,
+      "ready_by": "07:30",
+      "subtitles": false,
+      "voiceover": true
+    }
+  },
   "winner": {
     "fallback": {
       "label": "Fallback (below bar)",

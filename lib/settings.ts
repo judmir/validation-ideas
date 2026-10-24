@@ -1,6 +1,6 @@
 // Pipeline settings. Source of truth: Supabase table pipeline_settings_versions (append-only; the view
 // pipeline_settings_latest is the current version, which the nightly routines read).
-// config/pipeline-settings.json mirrors the current live version (v2) and is the offline fallback.
+// config/pipeline-settings.json mirrors the current live version (v3) and is the offline fallback.
 // Shape: config/pipeline-settings.schema.json. Reading/saving lives in lib/settings-store.ts.
 import raw from "@/config/pipeline-settings.json";
 import { GATE_IDS, type GateId } from "./gates";
@@ -58,6 +58,8 @@ export interface PipelineSettings {
   };
   poc: { enabled: boolean; max_per_night: number; ready_by: string; private_only: boolean };
   validation: { status: string; ad_budget_eur: Range; min_visitors: number; strong_price_click_pct: number; kill_price_click_pct: number; two_button_page: boolean };
+  /** v3: the nightly narrated run video (~07:00). */
+  report: { run_video: { enabled: boolean; voiceover: boolean; subtitles: boolean; ready_by: string } };
   schedule: { timezone: string; us_scout: string; analyst: string; builder: string; brief: string; weekly: string; read_only: boolean };
 }
 

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/judmir/validation-ideas/blob/main/config/pipeline-settings.schema.json",
   "title": "Validation Ideas pipeline settings",
-  "description": "Shape of pipeline_settings_versions.settings in Supabase (source of truth; routines read pipeline_settings_latest). config/pipeline-settings.json mirrors the live version (v2) and is the offline fallback. TS type: lib/settings.ts.",
+  "description": "Shape of pipeline_settings_versions.settings in Supabase (source of truth; routines read pipeline_settings_latest). config/pipeline-settings.json mirrors the live version (v3) and is the offline fallback. TS type: lib/settings.ts.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -11,7 +11,8 @@
     "winner",
     "poc",
     "validation",
-    "schedule"
+    "schedule",
+    "report"
   ],
   "properties": {
     "scouting": {
@@ -508,6 +509,41 @@
         },
         "read_only": {
           "const": true
+        }
+      }
+    },
+    "report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_video"
+      ],
+      "properties": {
+        "run_video": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "enabled",
+            "voiceover",
+            "subtitles",
+            "ready_by"
+          ],
+          "description": "v3: nightly narrated run video (~07:00, after the demo build). enabled=false skips the step.",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "voiceover": {
+              "type": "boolean"
+            },
+            "subtitles": {
+              "type": "boolean"
+            },
+            "ready_by": {
+              "type": "string",
+              "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+            }
+          }
         }
       }
     }
