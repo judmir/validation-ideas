@@ -3,7 +3,7 @@ import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, NIGHTS, ideasOfNight } f
 import { BEST_THIS_WEEK, NIGHTS_SINCE_WINNER, US_COMPLAINTS, US_WINNER_NOTE } from "@/lib/mock/derived";
 import { TESTS } from "@/lib/mock/tests";
 import { shortDate } from "@/lib/format";
-import { GATE_LABEL, failedGates } from "@/lib/verdict";
+import { failedGates, gateDef } from "@/lib/gates";
 
 const shortDesc = (s: string) => {
   const first = s.replace(/\s*\([^)]*\)/g, "").split(/[:;]|\.\s/)[0].replace(/\.$/, "").trim();
@@ -21,7 +21,7 @@ export default function Home() {
       pains: ordered.map((i, k) => ({
         id: i.painId, title: i.name ?? i.label ?? shortDesc(i.description), sub: i.pitch ?? i.who,
         score: i.scores.total, verdict: i.verdict, veto: i.competitor_veto, demo: !!i.demo, rank: k + 1, linkable: true,
-        failedGates: failedGates(i).map((g) => ({ label: GATE_LABEL[g], text: i.gates[g].text })),
+        failedGates: failedGates(i).map((g) => ({ label: gateDef(g.id).label, text: g.text })),
       })),
     };
   });

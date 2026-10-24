@@ -2,7 +2,8 @@
 import Link from "next/link";
 import { useEffect, type ReactNode } from "react";
 import { RULES, type Complaint, type Idea } from "@/lib/types";
-import { GATE_LABEL, VETOED_TITLE, failedGates } from "@/lib/verdict";
+import { VETOED_TITLE } from "@/lib/verdict";
+import { failedGates, gateDef } from "@/lib/gates";
 
 /** Near-miss sub-line: distance to the bar, then what stopped it (veto, failed gate) from the data. */
 function nearLine(idea: Idea) {
@@ -10,7 +11,7 @@ function nearLine(idea: Idea) {
   const parts = [t >= RULES.passBar ? "Over the bar" : `${RULES.passBar - t} below the bar`];
   if (idea.competitor_veto) parts.push(VETOED_TITLE);
   const g = failedGates(idea);
-  if (g.length) parts.push(`fails ${g.map((k) => GATE_LABEL[k]).join(", ")}`);
+  if (g.length) parts.push(`fails ${g.map((x) => gateDef(x.id).label).join(", ")}`);
   return parts.join(" · ");
 }
 import { eur0, formatDate, int, shortDate, wk } from "@/lib/format";
@@ -61,7 +62,7 @@ export default function IdeaPage({ idea, run }: { idea: Idea; run: RunInfo }) {
           <div className="mt-3 flex flex-wrap gap-1.5">
             {idea.demo ? <Tag warm>Simulated winner</Tag> : idea.verdict === "winner" ? <Tag warm>Winner</Tag> : null}
             {idea.verdict === "near-miss" && idea.competitor_veto && <span title={VETOED_TITLE}><Tag>Vetoed · {VETOED_TITLE}</Tag></span>}
-            {idea.verdict === "near-miss" && failedGates(idea).map((g) => <span key={g} title={idea.gates[g].text}><Tag>Fails gate: {GATE_LABEL[g]}</Tag></span>)}
+            {idea.verdict === "near-miss" && failedGates(idea).map((g) => <span key={g.id} title={g.text}><Tag>Fails gate: {gateDef(g.id).label}</Tag></span>)}
             <Tag>{idea.painId}</Tag>
             <Tag>Night {shortDate(idea.night)}</Tag>
           </div>
@@ -156,7 +157,7 @@ function Evidence({ idea, run }: { idea: Idea; run: RunInfo }) {
         <Card className="min-w-0">
           <h3 className="label">Verdict</h3>
           <p className={`mt-2 text-[17px] font-semibold ${idea.verdict === "killed" ? "text-[#fca5a5]" : idea.verdict === "near-miss" ? "text-[#fcd34d]" : "text-zinc-50"}`}>
-            {VERDICT_WORD[idea.verdict]}{idea.competitor_veto ? (idea.verdict === "near-miss" ? ` · ${VETOED_TITLE}` : " · competitor veto") : ""}{idea.verdict === "near-miss" && failedGates(idea).length ? ` · fails ${failedGates(idea).map((g) => GATE_LABEL[g]).join(", ")} gate` : ""}
+            {VERDICT_WORD[idea.verdict]}{idea.competitor_veto ? (idea.verdict === "near-miss" ? ` · ${VETOED_TITLE}` : " · competitor veto") : ""}{idea.verdict === "near-miss" && failedGates(idea).length ? ` · fails ${failedGates(idea).map((g) => gateDef(g.id).label).join(", ")} gate` : ""}
           </p>
           {note ? <p className="mt-1.5 text-[14px] leading-relaxed text-zinc-300">{note}</p> : <p className="mt-1.5 text-[13px] text-zinc-400">Score {idea.scores.total}/{RULES.maxScore}, under the {RULES.nearMissMin}–{RULES.passBar - 1} near-miss band.</p>}
 

@@ -606,16 +606,13 @@ export const IDEAS: Idea[] = [
     "result": "pass",
     "text": "pass (Plan to Eat and Ollie sell US subscriptions; Mealime had Pro)"
    },
-   "simplest_way": {
-    "result": "pass",
-    "text": "pass (open app, tap 5 dinners, list is done)"
-   },
    "us_entry": {
     "result": "pass",
     "text": "pass on mechanics (US subreddits, Meta ads, Paddle/Polar/Lemon Squeezy in USD) but the entry channel is flooded (see kill_reason)"
    }
   },
   "gate_failed": null,
+  "simplest_way": "pass (open app, tap 5 dinners, list is done)",
   "competitor_veto": true,
   "kill_reason": "Killed by the competitor check, not by score. 20+ Mealime replacements in 30 days, free Meals Hub (Albertsons), Plan to Eat since 2008, Ollie ($7.5M seed) owns AI planning.",
   "borderline_note": "Near-miss: 19/25 (re-scored 24 Oct), all gates pass, killed only by the competitor veto (20+ fresh Mealime clones, free Meals Hub, Plan to Eat, creator meal plans). Recurs across both US scout runs (22 and 24 Oct).",
@@ -1159,16 +1156,13 @@ export const IDEAS: Idea[] = [
     "result": "weak-pass",
     "text": "weak pass (ReciMe sells annual; complainers prefer one-time)"
    },
-   "simplest_way": {
-    "result": "pass",
-    "text": "pass (share a reel to the app, card appears)"
-   },
    "us_entry": {
     "result": "pass",
     "text": "pass on mechanics; distribution depends on TikTok/creator marketing (assessment)"
    }
   },
   "gate_failed": null,
+  "simplest_way": "pass (share a reel to the app, card appears)",
   "competitor_veto": false,
   "kill_reason": null,
   "borderline_note": "Near-miss at 17 (15–17 band; status changed from below-bar to near-miss under the current rule): big proven demand (ReciMe), but WTP leans one-time, lock-in anger is about incumbents, and video import is fragile for a 2-week build. Recurs across both US scout runs.",
@@ -1423,16 +1417,13 @@ export const IDEAS: Idea[] = [
     "result": "fail",
     "text": "fail: users refuse to pay monthly for a list (c-020 from 22 Oct) and AnyList's free sharing covers the job"
    },
-   "simplest_way": {
-    "result": "pass",
-    "text": "pass"
-   },
    "us_entry": {
     "result": "not-assessed",
     "text": "not assessed (below bar)"
    }
   },
   "gate_failed": "consumer_subscription",
+  "simplest_way": "pass",
   "competitor_veto": false,
   "kill_reason": null,
   "borderline_note": null,
@@ -1721,16 +1712,13 @@ export const IDEAS: Idea[] = [
     "result": "fail",
     "text": "fail (users reject a subscription for this)"
    },
-   "simplest_way": {
-    "result": "not-assessed",
-    "text": "n/a"
-   },
    "us_entry": {
     "result": "not-assessed",
     "text": "n/a"
    }
   },
   "gate_failed": "buildability / consumer_subscription",
+  "simplest_way": null,
   "competitor_veto": false,
   "kill_reason": null,
   "borderline_note": null,
@@ -1881,16 +1869,13 @@ export const IDEAS: Idea[] = [
     "result": "fail",
     "text": "fail (users want free or one-time; free CARFAX Car Care)"
    },
-   "simplest_way": {
-    "result": "pass",
-    "text": "pass (enter mileage, see what's due)"
-   },
    "us_entry": {
     "result": "pass",
     "text": "pass on mechanics"
    }
   },
   "gate_failed": "consumer_subscription",
+  "simplest_way": "pass (enter mileage, see what's due)",
   "competitor_veto": false,
   "kill_reason": null,
   "borderline_note": "Near-miss at 16: very buildable, but fails the subscription gate (one-time/free expectation) and CARFAX Car Care is free.",
@@ -2082,16 +2067,13 @@ export const IDEAS: Idea[] = [
     "result": "fail",
     "text": "fail"
    },
-   "simplest_way": {
-    "result": "not-assessed",
-    "text": "n/a"
-   },
    "us_entry": {
     "result": "not-assessed",
     "text": "n/a"
    }
   },
   "gate_failed": "buildability",
+  "simplest_way": null,
   "competitor_veto": false,
   "kill_reason": null,
   "borderline_note": null,
@@ -2515,16 +2497,13 @@ export const IDEAS: Idea[] = [
     "result": "borderline",
     "text": "borderline pass: Hevy Pro and Strong Pro prove US lifters pay recurring (“So good I paid the $29 for the yearly”, Strong review), but this cluster explicitly asks for one-time pricing (c-069, c-070, c-079, c-087)"
    },
-   "simplest_way": {
-    "result": "pass",
-    "text": "pass (open app, today's sets prefilled, tap done)"
-   },
    "us_entry": {
     "result": "pass",
     "text": "pass on mechanics (r/Stronglifts5x5, App Store search, Paddle/Polar/Lemon Squeezy in USD)"
    }
   },
   "gate_failed": null,
+  "simplest_way": "pass (open app, today's sets prefilled, tap done)",
   "competitor_veto": true,
   "kill_reason": "Competitor veto (score 20). Hevy free, no ads, 99,319 US ratings at 4.92★; Strong free tier; Boostcamp no paywall; Liftosaur free; Oct 2026 indie pay-once launches (Maintenea, RepDay).",
   "borderline_note": "Highest score tonight (20) but killed only by the competitor veto; the cluster wants one-time pricing.",
@@ -2920,16 +2899,13 @@ export const IDEAS: Idea[] = [
     "result": "pass",
     "text": "pass (Fitbod, Ladder sell US subscriptions)"
    },
-   "simplest_way": {
-    "result": "pass",
-    "text": "pass (open app, today's workout is there)"
-   },
    "us_entry": {
     "result": "borderline",
     "text": "maybe (reachable via r/fitbod, but the channel is ad-driven by funded players)"
    }
   },
   "gate_failed": null,
+  "simplest_way": "pass (open app, today's workout is there)",
   "competitor_veto": false,
   "kill_reason": null,
   "borderline_note": "Near-miss at 17: proven paying demand, but buildability (exercise library, adaptive engine) and heavy funded competition hold it below 18; LLM substitution is a real threat.",
@@ -3262,16 +3238,13 @@ export const IDEAS: Idea[] = [
     "result": "fail",
     "text": "fail (users want free tracking; NRC is free)"
    },
-   "simplest_way": {
-    "result": "pass",
-    "text": "pass (tap start)"
-   },
    "us_entry": {
     "result": "pass",
     "text": "pass on mechanics"
    }
   },
   "gate_failed": "consumer_subscription",
+  "simplest_way": "pass (tap start)",
   "competitor_veto": false,
   "kill_reason": null,
   "borderline_note": "Near-miss at 16 and fails the subscription gate: loud and reachable, but users want free tracking and NRC/Strava free tiers cover it.",
@@ -3445,16 +3418,13 @@ export const IDEAS: Idea[] = [
     "result": "not-assessed",
     "text": "not assessed (below bar)"
    },
-   "simplest_way": {
-    "result": "not-assessed",
-    "text": "not assessed"
-   },
    "us_entry": {
     "result": "not-assessed",
     "text": "not assessed"
    }
   },
   "gate_failed": "buildability",
+  "simplest_way": null,
   "competitor_veto": false,
   "kill_reason": null,
   "borderline_note": null,
@@ -3654,16 +3624,13 @@ export const IDEAS: Idea[] = [
     "result": "fail",
     "text": "fail (users reject subscriptions here, c-017)"
    },
-   "simplest_way": {
-    "result": "not-assessed",
-    "text": "n/a"
-   },
    "us_entry": {
     "result": "not-assessed",
     "text": "n/a"
    }
   },
   "gate_failed": "buildability / consumer_subscription",
+  "simplest_way": null,
   "competitor_veto": false,
   "kill_reason": null,
   "borderline_note": null,
@@ -3771,16 +3738,13 @@ export const IDEAS: Idea[] = [
     "result": "fail",
     "text": "fail (low WTP; calendar substitute)"
    },
-   "simplest_way": {
-    "result": "pass",
-    "text": "pass"
-   },
    "us_entry": {
     "result": "pass",
     "text": "pass on mechanics"
    }
   },
   "gate_failed": "consumer_subscription",
+  "simplest_way": "pass",
   "competitor_veto": false,
   "kill_reason": null,
   "borderline_note": null,
@@ -4019,16 +3983,13 @@ export const IDEAS: Idea[] = [
     "result": "fail",
     "text": "fail (claims are episodic; a subscription log is a weak proxy)"
    },
-   "simplest_way": {
-    "result": "borderline",
-    "text": "maybe (photo + date per appliance)"
-   },
    "us_entry": {
     "result": "pass",
     "text": "pass on mechanics"
    }
   },
   "gate_failed": "consumer_subscription",
+  "simplest_way": "maybe (photo + date per appliance)",
   "competitor_veto": false,
   "kill_reason": null,
   "borderline_note": "Near-miss at 16, fails the subscription gate: the most intense home pain tonight, but episodic and adversarial; the proof-log wedge has weak proven demand.",
@@ -4270,16 +4231,13 @@ export const IDEAS: Idea[] = [
     "result": "fail",
     "text": "fail (service business)"
    },
-   "simplest_way": {
-    "result": "not-assessed",
-    "text": "n/a"
-   },
    "us_entry": {
     "result": "fail",
     "text": "fail (needs local presence)"
    }
   },
   "gate_failed": "buildability / us_entry",
+  "simplest_way": null,
   "competitor_veto": false,
   "kill_reason": null,
   "borderline_note": null,
@@ -4664,16 +4622,13 @@ export const IDEAS: Idea[] = [
     "result": "pass",
     "text": "pass (EmailSnapshot, Skylight Plus/Assistant, Cozi Max sell this as a subscription)"
    },
-   "simplest_way": {
-    "result": "pass",
-    "text": "pass after one-time forwarding setup: open the morning digest, done in seconds"
-   },
    "us_entry": {
     "result": "pass",
     "text": "pass on mechanics (r/Mommit/r/Parenting, App Store keyword, Paddle/Polar/Lemon Squeezy in USD)"
    }
   },
   "gate_failed": null,
+  "simplest_way": "pass after one-time forwarding setup: open the morning digest, done in seconds",
   "competitor_veto": true,
   "kill_reason": "Competitor veto (score 19, all gates pass). The exact product — one AI digest of all school/activity email per family — is already sold or funded: (1) Fambot, $3.5M pre-seed (NextView, Baukunst), launched 1 Sep 2026 with 1,000+ families, free in beta, reads Gmail/Outlook/WhatsApp without forwarding; (2) Ohai.ai, Care.com founder, NEA/Eniac seed plus Muse Capital round, 67,000+ school calendars; (3) Skylight Sidekick (Calendar Plus $79/yr; Skylight Assistant $119.99/yr) on 1.7M Calendar households; (4) Cozi Max $79/yr turns emails into events; (5) indie EmailSnapshot ($9–24/mo), Parently (30 free digests), FamilyGenie (free beta). A Berlin solo dev would launch into a funded, free-in-beta field with no data access the others lack.",
   "borderline_note": "Highest-scoring new pain tonight (19) but killed only by the competitor veto: Fambot, Ohai, Skylight Sidekick, Cozi Max and indie digests already do it.",
@@ -4915,16 +4870,13 @@ export const IDEAS: Idea[] = [
     "result": "fail",
     "text": "fail: the complaint is about being asked to pay; the product decision sits with schools"
    },
-   "simplest_way": {
-    "result": "not-assessed",
-    "text": "n/a"
-   },
    "us_entry": {
     "result": "fail",
     "text": "fail: B2B/school adoption"
    }
   },
   "gate_failed": "consumer_subscription",
+  "simplest_way": null,
   "competitor_veto": false,
   "kill_reason": "Below bar (13) and fails the consumer-subscription gate; overlaps p-086 for the only buildable angle.",
   "borderline_note": null,
@@ -5153,16 +5105,13 @@ export const IDEAS: Idea[] = [
     "result": "pass",
     "text": "pass for the incumbent"
    },
-   "simplest_way": {
-    "result": "not-assessed",
-    "text": "n/a"
-   },
    "us_entry": {
     "result": "fail",
     "text": "fail: needs team-level adoption against a DICK'S-owned network"
    }
   },
   "gate_failed": "us_entry/buildability",
+  "simplest_way": null,
   "competitor_veto": true,
   "kill_reason": "Score 16 (near-miss band) but fails the US-entry/buildability gate and would be vetoed anyway: GameChanger (DICK'S, ~10M unique active users per scout links) and Hudl own scoring and streaming; a solo app cannot get teams to switch.",
   "borderline_note": "16/25: strong paying demand and anger, but the job is locked by a DICK'S-owned network; fails US-entry/buildability.",
@@ -5389,16 +5338,13 @@ export const IDEAS: Idea[] = [
     "result": "fail",
     "text": "fail: team tool chosen by managers, free leader (Spond), payments model"
    },
-   "simplest_way": {
-    "result": "not-assessed",
-    "text": "n/a"
-   },
    "us_entry": {
     "result": "fail",
     "text": "fail: team adoption"
    }
   },
   "gate_failed": "consumer_subscription",
+  "simplest_way": null,
   "competitor_veto": false,
   "kill_reason": "Below bar (14) and fails the consumer-subscription gate; Spond (free, ad-free) and TeamSnap/SportsEngine/BAND cover it.",
   "borderline_note": null,
@@ -5519,16 +5465,13 @@ export const IDEAS: Idea[] = [
     "result": "pass",
     "text": "pass"
    },
-   "simplest_way": {
-    "result": "pass",
-    "text": "pass (open app, today's family agenda)"
-   },
    "us_entry": {
     "result": "pass",
     "text": "pass on mechanics"
    }
   },
   "gate_failed": null,
+  "simplest_way": "pass (open app, today's family agenda)",
   "competitor_veto": true,
   "kill_reason": "Near-miss at 17 and would also face a competitor veto: Cozi (free / Gold $39 / Max $79), Skylight app (Calendar Plus $79), FamilyWall ($44.99), TimeTree ($44.99), Fami, plus Google Calendar free.",
   "borderline_note": "17/25: proven paying demand (Skylight) but only 3 complaints and a crowded field.",
@@ -5650,16 +5593,13 @@ export const IDEAS: Idea[] = [
     "result": "borderline",
     "text": "borderline: seasonal (spring), churn after season (assessment)"
    },
-   "simplest_way": {
-    "result": "pass",
-    "text": "pass (pick who's here, rotation generated)"
-   },
    "us_entry": {
     "result": "pass",
     "text": "pass on mechanics"
    }
   },
   "gate_failed": null,
+  "simplest_way": "pass (pick who's here, rotation generated)",
   "competitor_veto": true,
   "kill_reason": "15/25 near-miss; Dugout Edge and GameChanger lineups already cover it and demand is seasonal with weak paid-traction evidence.",
   "borderline_note": "15/25: very buildable but tiny, seasonal and already served.",

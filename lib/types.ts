@@ -27,7 +27,8 @@ export type ScoreKey = "frequency" | "intensity" | "willingness_to_pay" | "reach
 export type Scores = Record<ScoreKey, number> & { total: number };
 export type ScoreNotes = Partial<Record<ScoreKey | "method", string>>;
 
-export type GateKey = "consumer_subscription" | "simplest_way" | "us_entry";
+/** Gate text fields present in pains.json. The 4 gates themselves are defined in lib/gates.ts. */
+export type GateKey = "consumer_subscription" | "us_entry";
 /** text = raw pains.json string; result is parsed from it ("not-assessed" covers "n/a" / "not assessed"). */
 export type GateResult = { result: "pass" | "weak-pass" | "borderline" | "fail" | "not-assessed"; text: string };
 
@@ -75,6 +76,8 @@ export type Idea = {
   score_notes: ScoreNotes;
   gates: Record<GateKey, GateResult>;
   gate_failed?: string | null;
+  /** Build principle note (not a gate), from pains.json gates.simplest_way. */
+  simplest_way: string | null;
   competitor_veto: boolean; // normalised: true if killed by the competitor check
   kill_reason: string | null;
   borderline_note: string | null;
