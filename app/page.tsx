@@ -3,6 +3,7 @@ import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, NIGHTS, ideasOfNight } f
 import { BEST_THIS_WEEK, NIGHTS_SINCE_WINNER, US_COMPLAINTS, US_WINNER_NOTE } from "@/lib/mock/derived";
 import { TESTS } from "@/lib/mock/tests";
 import { shortDate } from "@/lib/format";
+import { GATE_LABEL, failedGates } from "@/lib/verdict";
 
 const shortDesc = (s: string) => {
   const first = s.replace(/\s*\([^)]*\)/g, "").split(/[:;]|\.\s/)[0].replace(/\.$/, "").trim();
@@ -20,6 +21,7 @@ export default function Home() {
       pains: ordered.map((i, k) => ({
         id: i.painId, title: i.name ?? i.label ?? shortDesc(i.description), sub: i.pitch ?? i.who,
         score: i.scores.total, verdict: i.verdict, veto: i.competitor_veto, demo: !!i.demo, rank: k + 1, linkable: true,
+        failedGates: failedGates(i).map((g) => ({ label: GATE_LABEL[g], text: i.gates[g].text })),
       })),
     };
   });
@@ -28,7 +30,7 @@ export default function Home() {
     // The pitched winner (Fristly) leads its night; then by score.
     pains: LEGACY.filter((p) => p.night === n.date).sort((a, b) => Number(b.pitched) - Number(a.pitched) || b.scores.total - a.scores.total).map((p, k) => ({
       id: p.painId, title: p.name ?? shortDesc(p.description), sub: p.who, score: p.scores.total, verdict: p.verdict,
-      veto: false, demo: false, rank: k + 1, linkable: false, pitched: p.pitched,
+      veto: false, demo: false, rank: k + 1, linkable: false, pitched: p.pitched, failedGates: [],
     })),
   }));
   const dates = [...new Set([...NIGHTS.map((n) => n.date), ...LEGACY_NIGHTS.map((n) => n.date)])].sort();
