@@ -40,8 +40,9 @@ export default function TopBar() {
           <LogoMark size={24} />
           <span className="truncate text-[15px] font-semibold tracking-tight text-zinc-50">Validation Ideas</span>
         </Link>
-        <div className="ml-auto flex shrink-0 items-center gap-2">
-          <Link href="/nights/" aria-current={path.startsWith("/nights") ? "page" : undefined} className={`rounded-full px-3 py-2 text-[13px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-light ${path.startsWith("/nights") ? "text-zinc-50" : "text-zinc-400 hover:text-zinc-100"}`}>Nights</Link>
+        <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
+          <Link href="/nights/" aria-current={path.startsWith("/nights") ? "page" : undefined} className={`rounded-full px-2.5 py-2 text-[13px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-light sm:px-3 ${path.startsWith("/nights") ? "text-zinc-50" : "text-zinc-400 hover:text-zinc-100"}`}>Nights</Link>
+          <Link href="/architecture/" aria-current={path.startsWith("/architecture") ? "page" : undefined} className={`rounded-full px-2.5 py-2 text-[13px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-light sm:px-3 ${path.startsWith("/architecture") ? "text-zinc-50" : "text-zinc-400 hover:text-zinc-100"}`}>Architecture</Link>
           <label className="hidden h-10 w-56 items-center gap-2 rounded-full bg-tile pl-3.5 pr-1.5 text-zinc-400 focus-within:ring-2 focus-within:ring-accent/60 sm:flex lg:w-64">
             <IconSearch size={15} className="shrink-0" />
             <input ref={desk} value={q} onChange={(e) => search(e.target.value)} placeholder="Search scouts" aria-label="Search scouts" className={field + " text-[13px]"} />
