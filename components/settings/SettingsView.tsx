@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { GATES } from "@/lib/gates";
+import { COMPETITION_HELP } from "@/lib/competition";
 import { BASE_MAX, GATE_SETTING_KEY, SEED, SCORE_KEYS, autoNote, changedPaths, diffLines, getPath, maxScore, scaled, setPath, type PipelineSettings, type SourceId } from "@/lib/settings";
 import { MODE, SEED_VERSION, SaveError, loadVersions, loadViewer, resetLocal, saveVersion, sendMagicLink, signOut, type SettingsVersion, type Viewer } from "@/lib/settings-store";
 import { IconLock, IconX } from "@/components/icons";
@@ -309,7 +310,16 @@ function Scoring() {
       </Group>
       <Num path="scoring.winning_bar" label="Winning bar (of 25 at 1×)" min={0} max={25} suffix="/ 25" />
       <RangeNum path="scoring.near_miss_band" label="Near-miss band (of 25 at 1×)" min={0} max={25} />
-      <Toggle path="scoring.competitor_veto" label="Competitor veto" help="A separate check, not a gate: overlap with an existing app vetoes the idea." />
+      <Group label="Competition">
+        <p className="px-3 pb-1 text-[12px] leading-snug text-zinc-400">{COMPETITION_HELP}</p>
+        <Segmented path="scoring.competition.mode" label="Mode" options={[{ v: "signal", l: "Demand signal" }, { v: "veto", l: "Veto" }]} help="Signal: competitors count as proof of demand. Veto: the old rule, any strong overlap kills." />
+        <RangeNum path="scoring.competition.sweet_spot" label="Sweet spot (strong US competitors)" min={0} max={20} />
+        <Stepper path="scoring.competition.sweet_spot_bonus" label="Sweet-spot bonus" min={0} max={5} prefix="+" help="Added to the score when the idea names a wedge." />
+        <Toggle path="scoring.competition.require_wedge" label="Bonus needs a named wedge" />
+        <Stepper path="scoring.competition.veto_at_competitors" label="Veto at competitors" min={1} max={20} suffix="+" />
+        <Toggle path="scoring.competition.veto_if_funded_leader_solves_well" label="Veto if a funded leader already solves it well" />
+        <Text path="scoring.competition.zero_competitors" label="Zero competitors" help="What the analyst notes when there are none." />
+      </Group>
       <Group label="Gates (from lib/gates.ts)">
         {GATES.map((g) => <Toggle key={g.id} path={`scoring.gates.${GATE_SETTING_KEY[g.id]}`} label={g.label} help={g.id === "plc_fit" ? `${g.description} A PLC “no” (declining market) kills.` : g.description} />)}
       </Group>
@@ -329,17 +339,20 @@ function Winner() {
       <div className={`rounded-2xl p-4 ring-1 ring-inset transition-colors ${hl ? "bg-[#fbbf24]/[0.08] ring-[#fbbf24]/50" : "bg-accent/[0.1] ring-accent/40"}`} data-path="winner.fallback.enabled" data-changed={hl || undefined}>
         <div className="flex items-start gap-3">
           <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2"><span className="text-[15px] font-semibold text-zinc-50">Always build at least one demo</span><span className="rounded-full bg-accent px-2 py-px text-[11px] font-semibold text-accent-ink">New</span>{hl && <Was path="winner.fallback.enabled" />}</div>
-            <p className="mt-1 text-[13px] leading-relaxed text-zinc-300">If nothing clears the bar, the builder still picks the best unique idea with real evidence and builds its POC, labelled <b className="font-semibold text-warm">Fallback (below bar)</b>.</p>
+            <div className="flex flex-wrap items-center gap-2"><span className="text-[15px] font-semibold text-zinc-50">Always build one demo per night</span><span className="rounded-full bg-accent px-2 py-px text-[11px] font-semibold text-accent-ink">New</span>{hl && <Was path="winner.fallback.enabled" />}</div>
+            <p className="mt-1 text-[13px] leading-relaxed text-zinc-300">If nothing clears the bar, the builder still picks the best unique idea with real evidence and builds its POC, labelled <b className="font-semibold text-warm">{draft.winner.fallback.label}</b>.</p>
           </div>
-          <Switch path="winner.fallback.enabled" label="Always build at least one demo" />
+          <Switch path="winner.fallback.enabled" label="Always build one demo per night" />
         </div>
         {on && (
           <div className="mt-3 space-y-1 border-t border-white/[0.08] pt-3">
-            <Num path="winner.fallback.min_score" label="Min fallback score" min={0} max={25} suffix="/ 25" />
-            <Toggle path="winner.fallback.allow_vetoed" label="Allow vetoed ideas" />
+            <Toggle path="winner.fallback.always_one_per_night" label="Exactly one every night" help="Even on a night with no idea near the bar." />
+            <Stepper path="winner.fallback.min_score" label="Min fallback score" min={0} max={25} suffix="/ 25" help="0 = any score, as long as the evidence is real." />
+            <Toggle path="winner.fallback.prefer_not_vetoed" label="Prefer ideas that aren't vetoed" />
+            <Toggle path="winner.fallback.allow_vetoed_as_last_resort" label="Vetoed ideas as a last resort" />
             <Toggle path="winner.fallback.allow_plc_maybe" label="Allow PLC “maybe”" />
-            <LockedRow label="Allow PLC “no”" value="Never: a declining market is a kill." />
+            <Toggle path="winner.fallback.allow_plc_no" label="Allow PLC “no”" help="Never: a declining market is a kill." locked />
+            <ReadOnly label="Label" value={draft.winner.fallback.label} />
           </div>
         )}
       </div>
@@ -388,18 +401,6 @@ function Schedule() {
         ))}
       </div>
     </Section>
-  );
-}
-
-function LockedRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl px-3 py-2.5">
-      <div className="min-w-0 flex-1 basis-48">
-        <div className="flex flex-wrap items-center gap-1.5 text-[14px] font-medium text-zinc-100">{label}<span className="inline-flex items-center gap-1 rounded-full bg-white/[0.07] px-2 py-px text-[11px] font-semibold text-zinc-400"><IconLock size={10} /> Locked</span></div>
-        <div className="mt-0.5 text-[12px] text-zinc-400">{value}</div>
-      </div>
-      <span className="relative h-7 w-12 shrink-0 rounded-full bg-white/[0.14] opacity-50" aria-hidden><span className="absolute left-1 top-1 h-5 w-5 rounded-full bg-white" /></span>
-    </div>
   );
 }
 
@@ -536,5 +537,45 @@ function ReadOnly({ label, value, mono }: { label: string; value: string; mono?:
       <div className="text-[14px] font-medium text-zinc-100">{label} <span className="ml-1 rounded-full bg-white/[0.07] px-2 py-px text-[11px] font-semibold text-zinc-400">Read-only</span></div>
       <span className={`text-[13px] text-zinc-300 ${mono ? "font-mono text-[12px]" : ""}`}>{value}</span>
     </div>
+  );
+}
+
+function Stepper({ path, label, min, max, prefix, suffix, help }: { path: string; label: string; min: number; max: number; prefix?: string; suffix?: string; help?: string }) {
+  const { draft, set, editable } = useS();
+  const v = getPath(draft, path) as number;
+  const btn = "grid h-9 w-9 place-items-center rounded-xl bg-white/[0.07] text-[16px] font-semibold text-zinc-100 hover:bg-white/[0.12] disabled:cursor-default disabled:opacity-40";
+  return (
+    <Row path={path} label={label} help={help}>
+      <div className="flex items-center gap-1" role="group" aria-label={label}>
+        <button type="button" className={btn} disabled={!editable || v <= min} onClick={() => set(path, Math.max(min, v - 1))} aria-label={`Decrease ${label}`}>−</button>
+        <span className="min-w-[3.25rem] text-center text-[15px] font-semibold tabular-nums text-zinc-50" aria-live="polite">{prefix}{v}{suffix ? ` ${suffix}` : ""}</span>
+        <button type="button" className={btn} disabled={!editable || v >= max} onClick={() => set(path, Math.min(max, v + 1))} aria-label={`Increase ${label}`}>+</button>
+      </div>
+    </Row>
+  );
+}
+
+function Segmented({ path, label, options, help }: { path: string; label: string; options: { v: string; l: string }[]; help?: string }) {
+  const { draft, set, editable } = useS();
+  const v = getPath(draft, path) as string;
+  return (
+    <Row path={path} label={label} help={help}>
+      <div role="radiogroup" aria-label={label} className="flex rounded-full bg-black/25 p-1 ring-1 ring-inset ring-white/[0.08]">
+        {options.map((o) => (
+          <button key={o.v} type="button" role="radio" aria-checked={v === o.v} disabled={!editable} onClick={() => set(path, o.v)}
+            className={`h-8 rounded-full px-3.5 text-[13px] font-semibold transition-colors disabled:cursor-default ${v === o.v ? "bg-accent text-accent-ink" : "text-zinc-300 hover:text-zinc-50"}`}>{o.l}</button>
+        ))}
+      </div>
+    </Row>
+  );
+}
+
+function Text({ path, label, help }: { path: string; label: string; help?: string }) {
+  const { draft, set, editable } = useS();
+  return (
+    <Row path={path} label={label} help={help}>
+      <input type="text" aria-label={label} disabled={!editable} value={(getPath(draft, path) as string) ?? ""} maxLength={120} onChange={(e) => set(path, e.target.value)}
+        className="h-9 w-64 max-w-full rounded-xl bg-black/25 px-3 text-[13px] text-zinc-50 ring-1 ring-inset ring-white/[0.08] focus:outline-none focus:ring-2 focus:ring-accent disabled:cursor-default" />
+    </Row>
   );
 }
