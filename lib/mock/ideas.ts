@@ -736,6 +736,14 @@ export const IDEAS: Idea[] = [
    "verdictText": "maybe (assessment): demand and willingness to pay are real, but in a mature category the wedge must be clear, and the obvious wedge was taken by 20+ entrants within a month.",
    "assessment": true
   },
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": "old-rule",
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "near-miss"
  },
  {
@@ -1264,6 +1272,14 @@ export const IDEAS: Idea[] = [
    "verdictText": "maybe (assessment): a growth market supports subscriptions, but the leader is funded and distribution-driven, and complainers want one-time pricing.",
    "assessment": true
   },
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": null,
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "near-miss"
  },
  {
@@ -1441,6 +1457,14 @@ export const IDEAS: Idea[] = [
   ],
   "gap": null,
   "plc": null,
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": null,
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "below-bar"
  },
  {
@@ -1725,6 +1749,14 @@ export const IDEAS: Idea[] = [
   "competitors": [],
   "gap": "Hardware/OEM-locked; not a software opportunity for Judi.",
   "plc": null,
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": null,
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "below-bar"
  },
  {
@@ -1941,6 +1973,14 @@ export const IDEAS: Idea[] = [
    "verdictText": "no (assessment): mature, free leader, and users reject subscriptions for logging.",
    "assessment": true
   },
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": null,
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "near-miss"
  },
  {
@@ -2080,6 +2120,14 @@ export const IDEAS: Idea[] = [
   "competitors": [],
   "gap": "Not a solo-dev opportunity.",
   "plc": null,
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": null,
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "below-bar"
  },
  {
@@ -2653,6 +2701,14 @@ export const IDEAS: Idea[] = [
    "assessment": true,
    "trendTo": "no"
   },
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": "old-rule",
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "near-miss"
  },
  {
@@ -2979,6 +3035,14 @@ export const IDEAS: Idea[] = [
    "verdictText": "maybe (assessment): growth supports a subscription, but the entrant needs a clear wedge (home-gym equipment awareness) against funded, ad-heavy leaders.",
    "assessment": true
   },
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": null,
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "near-miss"
  },
  {
@@ -3305,6 +3369,14 @@ export const IDEAS: Idea[] = [
    "verdictText": "no (assessment) for a simple tracker subscription: mature, free leaders; plan coaching (Runna) is a growth sub-segment already consolidated by Strava.",
    "assessment": true
   },
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": null,
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "near-miss"
  },
  {
@@ -3431,6 +3503,14 @@ export const IDEAS: Idea[] = [
   "competitors": [],
   "gap": "Content/hardware business; not for Judi.",
   "plc": null,
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": null,
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "below-bar"
  },
  {
@@ -3637,6 +3717,14 @@ export const IDEAS: Idea[] = [
   "competitors": [],
   "gap": "Vendor-locked; not a software opportunity for Judi.",
   "plc": null,
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": null,
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "below-bar"
  },
  {
@@ -3751,6 +3839,14 @@ export const IDEAS: Idea[] = [
   "competitors": [],
   "gap": "Free calendars/insurer apps cover it; proven-model evidence of paid demand is weak.",
   "plc": null,
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": null,
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "below-bar"
  },
  {
@@ -4039,6 +4135,14 @@ export const IDEAS: Idea[] = [
    "assessment": true,
    "trendTo": "maybe"
   },
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": null,
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "near-miss"
  },
  {
@@ -4244,6 +4348,14 @@ export const IDEAS: Idea[] = [
   "competitors": [],
   "gap": "Ops-heavy local service; Angi/Thumbtack/Taskrabbit own the marketplace layer.",
   "plc": null,
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": null,
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "below-bar"
  },
  {
@@ -4702,6 +4814,14 @@ export const IDEAS: Idea[] = [
    "assessment": true,
    "stageText": "introduction→growth"
   },
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": "old-rule",
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "near-miss"
  },
  {
@@ -4883,6 +5003,14 @@ export const IDEAS: Idea[] = [
   "competitors": [],
   "gap": null,
   "plc": null,
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": null,
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "below-bar"
  },
  {
@@ -5130,6 +5258,14 @@ export const IDEAS: Idea[] = [
    "assessment": true,
    "stageText": "growth (incumbent monetising)"
   },
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": "old-rule",
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "near-miss"
  },
  {
@@ -5351,6 +5487,14 @@ export const IDEAS: Idea[] = [
   "competitors": [],
   "gap": null,
   "plc": null,
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": null,
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "below-bar"
  },
  {
@@ -5524,6 +5668,14 @@ export const IDEAS: Idea[] = [
    "assessment": true,
    "stageText": "growth→maturity"
   },
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": "old-rule",
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "near-miss"
  },
  {
@@ -5617,6 +5769,14 @@ export const IDEAS: Idea[] = [
    "assessment": true,
    "trendTo": "no"
   },
+  "competition": {
+   "count": null,
+   "wedge": null,
+   "demand_signal": false,
+   "veto": "old-rule",
+   "checked": false
+  },
+  "fallback": false,
   "verdict": "near-miss"
  }
 ];

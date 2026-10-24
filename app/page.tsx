@@ -1,3 +1,4 @@
+import { vetoTag } from "@/lib/competition";
 import ScoutTimeline, { type LegacyNight, type NightMeta } from "@/components/ScoutTimeline";
 import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, NIGHTS, ideasOfNight } from "@/lib/mock";
 import { BEST_THIS_WEEK, NIGHTS_SINCE_WINNER, US_COMPLAINTS, US_WINNER_NOTE } from "@/lib/mock/derived";
@@ -20,7 +21,7 @@ export default function Home() {
       line: `${n.scout.complaints} complaints + ${n.scout.provenModels} proven models · ${n.niches.join(" + ")}${n.builder.winnerPainId ? "" : " · no winner"}.`,
       pains: ordered.map((i, k) => ({
         id: i.painId, title: i.name ?? i.label ?? shortDesc(i.description), sub: i.pitch ?? i.who,
-        score: i.scores.total, verdict: i.verdict, veto: i.competitor_veto, demo: !!i.demo, rank: k + 1, linkable: true,
+        score: i.scores.total, verdict: i.verdict, veto: i.competitor_veto, vetoTag: vetoTag(i), demandSignal: i.competition.demand_signal, fallback: i.fallback, demo: !!i.demo, rank: k + 1, linkable: true,
         failedGates: failedGates(i).map((g) => ({ label: gateDef(g.id).label, text: g.text })),
       })),
     };

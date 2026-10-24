@@ -1,5 +1,16 @@
 // Mock-data shapes for the nightly startup-research pipeline. Fields copied verbatim from
 // pains.json / us/*.jsonl keep their snake_case names so a later loader can map 1:1.
+export type Competition = {
+  /** Strong US competitors; null = not checked. */
+  count: number | null;
+  wedge: string | null;
+  /** +1 sweet-spot bonus applied (1–3 strong competitors and a named wedge), as recorded in the data. */
+  demand_signal: boolean;
+  /** Why it was vetoed: new rule (4+ competitors / funded leader) or an older overlap veto. */
+  veto: null | "count" | "funded_leader" | "old-rule";
+  checked: boolean;
+};
+
 export type Stream = "problem" | "proven-model";
 export type Provenance = "complaints" | "complaints+proven-model" | "proven-model";
 export type Rating = 1 | 2 | 3 | 4 | 5;
@@ -79,6 +90,10 @@ export type Idea = {
   /** Build principle note (not a gate), from pains.json gates.simplest_way. */
   simplest_way: string | null;
   competitor_veto: boolean; // normalised: true if killed by the competitor check
+  /** Competition as a demand signal (settings v2). Only from data that has it (24/25 Oct run onward); never derived. */
+  competition: Competition;
+  /** Built as the night's 'Fallback (below bar)' demo (pains.json or brief says so). */
+  fallback: boolean;
   kill_reason: string | null;
   borderline_note: string | null;
   competitors: Competitor[];

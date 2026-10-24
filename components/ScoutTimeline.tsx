@@ -1,4 +1,5 @@
 "use client";
+import { COMPETITION_HELP, FALLBACK_LABEL } from "@/lib/competition";
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
 import type { PipelineVerdict } from "@/lib/types";
@@ -12,7 +13,7 @@ import { StageMeter, StatCell, StatusPill } from "./ui";
 import { IconChevronRight } from "./icons";
 import MockedPill from "./MockedPill";
 
-export type PainRow = { id: string; title: string; sub: string; score: number; verdict: PipelineVerdict; veto: boolean; demo: boolean; rank: number; linkable: boolean; pitched?: boolean;
+export type PainRow = { id: string; title: string; sub: string; score: number; verdict: PipelineVerdict; veto: boolean; vetoTag?: { text: string; title: string } | null; demandSignal?: boolean; fallback?: boolean; demo: boolean; rank: number; linkable: boolean; pitched?: boolean;
   /** Failed gates (label + raw pains.json text), shown as a "Fails gate" tag on near-misses. */
   failedGates: { label: string; text: string }[] };
 export type NightMeta = { date: string; label: string | null; line: string; pains: PainRow[] };
@@ -179,11 +180,23 @@ function FailsGateTag({ gates, full }: { gates: PainRow["failedGates"]; full?: b
   return <span title={title} aria-label={`Fails gate: ${names}`} className="shrink-0 cursor-help whitespace-nowrap rounded-full border border-[#fbbf24]/40 px-2 py-px text-[11px] font-semibold text-[#fcd34d]">{full ? `Fails gate: ${names}` : "Fails gate"}</span>;
 }
 function NearTags({ row, full }: { row: PainRow; full?: boolean }) {
-  if (row.verdict !== "near-miss") return null;
-  return <>{row.veto && <VetoedTag />}{row.failedGates.length > 0 && <FailsGateTag gates={row.failedGates} full={full} />}</>;
+  return (
+    <>
+      {row.demandSignal && <DemandTag />}
+      {row.verdict === "near-miss" && row.veto && <VetoedTag tag={row.vetoTag ?? { text: "Vetoed", title: VETOED_TITLE }} />}
+      {row.verdict === "near-miss" && row.failedGates.length > 0 && <FailsGateTag gates={row.failedGates} full={full} />}
+    </>
+  );
 }
-function VetoedTag() {
-  return <span title={VETOED_TITLE} aria-label={`Vetoed: ${VETOED_TITLE}`} className="shrink-0 cursor-help rounded-full border border-[#fbbf24]/40 px-2 py-px text-[11px] font-semibold text-[#fcd34d]">Vetoed</span>;
+function VetoedTag({ tag }: { tag: { text: string; title: string } }) {
+  return <span title={tag.title} aria-label={`${tag.text}: ${tag.title}`} className="shrink-0 cursor-help whitespace-nowrap rounded-full border border-[#fbbf24]/40 px-2 py-px text-[11px] font-semibold text-[#fcd34d]">{tag.text}</span>;
+}
+/** Shown only where the data records the +1 sweet-spot bonus. */
+export function DemandTag() {
+  return <span title={COMPETITION_HELP} className="shrink-0 cursor-help whitespace-nowrap rounded-full bg-[#4ade80]/12 px-2 py-px text-[11px] font-semibold text-[#86efac] ring-1 ring-inset ring-[#4ade80]/30">Demand signal</span>;
+}
+export function FallbackBadge() {
+  return <span title="Nothing cleared the bar, so the builder built the best unique idea with real evidence (settings v2: always one demo per night)." className="shrink-0 cursor-help whitespace-nowrap rounded-full bg-accent/15 px-2 py-px text-[11px] font-semibold text-accent-light ring-1 ring-inset ring-accent/35">{FALLBACK_LABEL}</span>;
 }
 function reasonOf(r: PainRow) {
   if (r.verdict === "near-miss" && r.score >= RULES.passBar) return `Near-miss · ${r.score} ≥ bar ${RULES.passBar}`;
@@ -208,6 +221,7 @@ function TopCard({ row, t, loaded }: { row: PainRow; t: { v: ValidationState; bu
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-accent-light">Top pick</span>
             {row.demo && <MockedPill label="Mocked winner" />}
+            {row.fallback && <FallbackBadge />}
             {stage ? (
               loaded ? <><StatusPill stage={stage} /><StageMeter stage={stage} /></> : <span className="h-5 w-16 animate-pulse rounded-full bg-white/[0.06]" />
             ) : (
@@ -259,7 +273,7 @@ function RunnerUp({ row }: { row: PainRow }) {
     <>
       <span className="w-5 shrink-0 text-[12px] font-semibold tabular-nums text-zinc-400">#{row.rank}</span>
       <div className="min-w-0 flex-1">
-        <div className="flex min-w-0 items-center gap-2"><span className="truncate text-[14px] font-semibold text-zinc-200">{row.title}</span><NearTags row={row} /></div>
+        <div className="flex min-w-0 items-center gap-2"><span className="truncate text-[14px] font-semibold text-zinc-200">{row.title}</span>{row.fallback && <FallbackBadge />}<NearTags row={row} /></div>
         <div className="truncate text-[12px] text-zinc-400">{row.sub}</div>
       </div>
       <span className="shrink-0 text-[15px] font-semibold tabular-nums text-zinc-300">{row.score}</span>
