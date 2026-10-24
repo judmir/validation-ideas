@@ -1,5 +1,6 @@
 // Architecture of the nightly pipeline, as data. The /architecture page draws this by hand in SVG,
 // so adding or moving a node is a data change, not a diagram change.
+import { GATES } from "./gates";
 
 export type NodeStatus = "active" | "paused" | "proposed";
 
@@ -88,9 +89,10 @@ export const NODES: ArchNode[] = [
     summary: "Clusters complaints into pains, scores the US entries out of 25 and labels each one.",
     details: [
       "Writes pains.json. Scores US entries out of 25; the bar is 18.",
-      "Veto: overlap with an existing app kills the idea.",
-      "Gates: buildable in 2 weeks · consumer subscription · product-life-cycle fit (a declining market is a kill).",
-      "Winner: 18+ and passes every gate.",
+      // The gates come from lib/gates.ts, the one shared definition.
+      ...GATES.map((g) => `Gate · ${g.label}: ${g.description}`),
+      "Competitor veto (a separate check, not a gate): overlap with an existing app kills the idea.",
+      `Winner: 18+, all ${GATES.length} gates pass and no veto. A gate with no data shows “Not checked”, never a pass.`,
       "Near-miss: 15–17, or killed only by the veto or a gate (tagged “Vetoed” or “Fails gate: …”).",
       "Below bar: under 15.",
     ],
