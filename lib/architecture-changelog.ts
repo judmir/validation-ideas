@@ -162,6 +162,20 @@ export const CHANGELOG: ChangeEntry[] = [
     before: ["No video step in the night", "No setting to turn run videos off"],
     after: ["Run video step ~07:00 (reads settings.report.run_video)", "Settings → Report / Run video: on/off, voiceover, subtitles, ready by 07:30"],
   },
+  {
+    id: "chain-0600",
+    date: "2026-10-25",
+    version: "Settings v4",
+    title: "Chain moved earlier; run video is now the last step of the final report; all ready by 06:00",
+    description:
+      "The whole night runs earlier: US scout ~00:30, analyst ~01:30, builder ~02:30 with the POC due by 05:00 (was 07:20), and the final report at ~05:05. The run video is no longer a separate step: it is the last step of the final report, written as .mp4.tmp, checked with ffprobe and renamed to .mp4, then dev is pinged to deploy. Everything is ready by 06:00 (was 07:30). Settings version 4 holds the new ready-by times.",
+    affected: ["analyst", "builder", "brief", "run-video"],
+    typeById: { analyst: "changed", builder: "changed", brief: "changed", "run-video": "removed" },
+    type: "changed",
+    status: "live",
+    before: ["Analyst 03:00, builder 04:30, POC ready by 07:20", "Separate run-video step ~07:00", "Morning brief 07:30"],
+    after: ["Analyst ~01:30, builder ~02:30, POC due by 05:00", "Final report + run video ~05:05 (video last: .mp4.tmp → ffprobe → .mp4 → ping dev)", "Everything ready by 06:00"],
+  },
 ];
 
 export const LATEST = CHANGELOG[CHANGELOG.length - 1];
