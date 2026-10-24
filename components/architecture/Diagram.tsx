@@ -52,7 +52,7 @@ const Diagram = forwardRef<SVGSVGElement, DiagramProps>(function Diagram(
       </defs>
 
       {/* Proposed validation loop lane */}
-      <ProposedLane layout={layout} />
+      <ProposedLane layout={layout} opacity={Math.max(...["landing", "meta", "report"].map(op))} />
 
       {/* Edges */}
       {EDGES.map((e) => {
@@ -112,7 +112,7 @@ function Packets({ d, proposed, id }: { d: string; proposed: boolean; id: string
   );
 }
 
-function ProposedLane({ layout }: { layout: "desk" | "mob" }) {
+function ProposedLane({ layout, opacity }: { layout: "desk" | "mob"; opacity: number }) {
   const ids = ["landing", "meta", "report"];
   const L = LAYOUT[layout];
   const ns = NODES.filter((n) => ids.includes(n.id)).map((n) => n[layout]);
@@ -122,7 +122,7 @@ function ProposedLane({ layout }: { layout: "desk" | "mob" }) {
   const y1 = Math.min(...ns.map((p) => p.y)) - L.nodeH / 2 - pad;
   const y2 = Math.max(...ns.map((p) => p.y)) + L.nodeH / 2 + pad;
   return (
-    <g aria-hidden>
+    <g aria-hidden opacity={opacity} style={{ transition: "opacity .4s" }}>
       <rect x={x1} y={y1} width={x2 - x1} height={y2 - y1} rx={22} fill="rgb(139 124 246 / 0.04)" stroke="rgb(139 124 246 / 0.25)" strokeDasharray="5 7" />
       <text x={x2 - 8} y={y2 + 17} textAnchor="end" fontSize={10.5} fontWeight={600} letterSpacing="0.08em" fill="#8b7cf6">PROPOSED · VALIDATION LOOP</text>
     </g>
