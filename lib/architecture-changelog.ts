@@ -148,6 +148,20 @@ export const CHANGELOG: ChangeEntry[] = [
     before: ["Night results only as text: the brief and the Ideas board"],
     after: ["Narrated MP4 per night, listed in videos/manifest.json", "'Watch run video' on the night and its winner page"],
   },
+  {
+    id: "run-video-setting",
+    date: "2026-10-24",
+    version: "Settings v3",
+    title: "Run video ON/OFF setting + nightly run-video step (07:00)",
+    description:
+      "Settings version 3 adds report.run_video: a switch for the nightly narrated run video (on by default), with voiceover, subtitles and a ready-by time (07:30). A new run-video step runs around 07:00, after the demo build and before the morning brief; when the switch is off the step skips. It writes the MP4 and pings dev to deploy it.",
+    affected: ["report", "run-video", "builder-runvideo", "runvideo-brief"],
+    typeById: { report: "changed", "run-video": "added", "builder-runvideo": "added", "runvideo-brief": "added" },
+    type: "added",
+    status: "live",
+    before: ["No video step in the night", "No setting to turn run videos off"],
+    after: ["Run video step ~07:00 (reads settings.report.run_video)", "Settings → Report / Run video: on/off, voiceover, subtitles, ready by 07:30"],
+  },
 ];
 
 export const LATEST = CHANGELOG[CHANGELOG.length - 1];
