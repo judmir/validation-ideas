@@ -26,12 +26,17 @@ if [ -d "$SRC" ]; then
       refused=1
       continue
     fi
-    cp "$f" "$OUT/videos/$date.mp4"
     dur=null
     if command -v ffprobe >/dev/null 2>&1; then
       d=$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$f" 2>/dev/null || true)
-      [[ "$d" =~ ^[0-9]+(\.[0-9]+)?$ ]] && dur=$(printf '%.1f' "$d")
+      # No readable duration = unfinished or broken render (e.g. no moov atom yet): skip it, don't publish.
+      if ! [[ "$d" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+        echo "sync-run-videos: SKIPPED $f (ffprobe can't read it; render unfinished or broken)" >&2
+        continue
+      fi
+      dur=$(printf '%.1f' "$d")
     fi
+    cp "$f" "$OUT/videos/$date.mp4"
     entries+=("{\"date\":\"$date\",\"src\":\"$date.mp4\",\"bytes\":$bytes,\"duration_s\":$dur}")
     echo "sync-run-videos: $date ($((bytes / 1024)) KB, ${dur}s)"
   done
