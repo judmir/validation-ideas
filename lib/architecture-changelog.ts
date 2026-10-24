@@ -106,6 +106,20 @@ export const CHANGELOG: ChangeEntry[] = [
     before: ["Vetoed or gate-failed entries scoring 15+ were shown as killed"],
     after: ["15–17, or killed only by veto/gate → Near-miss", "Tags from data: Vetoed / Fails gate: <gate>", "Under 15 → Below bar; declining market still a kill"],
   },
+  {
+    id: "settings",
+    date: "2026-10-24",
+    version: "v4",
+    title: "Settings page: pipeline rules editable",
+    description:
+      "The pipeline's rules (scouting, scoring, winner pick incl. the 'always build one demo' fallback, POC build, proposed validation, schedule) now live as versioned settings in Supabase. The Settings page shows the latest version to everyone; an admin signs in with an email link and saves a new version after reviewing a diff. Nothing is overwritten.",
+    affected: ["builder"],
+    type: "changed",
+    status: "live",
+    commit: "a40ef00",
+    before: ["Rules hard-coded in the routine prompts"],
+    after: ["Rules in Supabase pipeline_settings_versions (append-only)", "Edited on /settings by an admin, with a diff and history"],
+  },
 ];
 
 export const LATEST = CHANGELOG[CHANGELOG.length - 1];
