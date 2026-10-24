@@ -37,3 +37,20 @@ summary::-webkit-details-marker { display: none; }
 @keyframes tick { 0% { background-color: rgb(139 124 246 / 0.22); } 100% { background-color: transparent; } }
 .tick { animation: tick 0.9s ease-out; }
 @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* Architecture page */
+@keyframes hlpulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+.hl-pulse { animation: hlpulse 1.5s ease-in-out infinite; }
+.arch-glow { filter: drop-shadow(0 0 10px rgb(139 124 246 / 0.5)); }
+.arch-node:focus { outline: none; }
+.arch-node:focus-visible rect.base { stroke: #dcd6fe; stroke-width: 2.5; }
+@keyframes dashflow { to { stroke-dashoffset: -28; } }
+.dash-flow { animation: dashflow 1.2s linear infinite; }
+@keyframes stepprog { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.step-progress { animation-name: stepprog; animation-timing-function: linear; animation-fill-mode: forwards; }
+@keyframes sheetup { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+.sheet-up { animation: sheetup 0.22s ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .hl-pulse, .dash-flow, .step-progress, .sheet-up { animation: none; }
+  .hl-pulse { opacity: 0.9; }
+}

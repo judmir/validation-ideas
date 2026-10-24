@@ -44,7 +44,7 @@ export const STATUS_LABEL: Record<NodeStatus, string> = { active: "Active", paus
 
 /** Layout canvases (SVG user units) and node size per layout. */
 export const LAYOUT = {
-  desk: { w: 1080, h: 400, nodeW: 156, nodeH: 62 },
+  desk: { w: 1080, h: 412, nodeW: 156, nodeH: 62 },
   mob: { w: 340, h: 718, nodeW: 146, nodeH: 58 },
 } as const;
 
@@ -69,7 +69,6 @@ export const NODES: ArchNode[] = [
   {
     id: "de-scout",
     title: "German scout",
-    time: "paused",
     schedule: "Was nightly; paused since 22 Oct",
     status: "paused",
     statusNote: "since 22 Oct",
@@ -155,7 +154,6 @@ export const NODES: ArchNode[] = [
   {
     id: "landing",
     title: "Validation page",
-    time: "proposed",
     schedule: "Per winner, once approved",
     status: "proposed",
     since: "2026-10-22",
@@ -172,7 +170,6 @@ export const NODES: ArchNode[] = [
   {
     id: "meta",
     title: "Meta ads",
-    time: "proposed",
     schedule: "Per validation page",
     status: "proposed",
     since: "2026-10-22",
@@ -188,7 +185,6 @@ export const NODES: ArchNode[] = [
   {
     id: "report",
     title: "Report",
-    time: "proposed",
     schedule: "When an ad test ends",
     status: "proposed",
     since: "2026-10-22",
@@ -218,6 +214,8 @@ export interface NightStep {
   time: string;
   node: string;
   title: string;
+  /** Shorter title for the phone timeline. */
+  short: string;
   caption: string;
   /** Edges that carry data during this step. */
   edges: string[];
@@ -225,10 +223,10 @@ export interface NightStep {
 
 /** One night, step by step. */
 export const NIGHT_STEPS: NightStep[] = [
-  { time: "00:30", node: "us-scout", title: "US scout", caption: "Collects US complaints, then proven subscription models, and hands both files to the analyst.", edges: ["us-analyst"] },
-  { time: "03:00", node: "analyst", title: "Analyst", caption: "Scores each US entry out of 25 (bar 18), applies the veto and gates, and files to GBrain.", edges: ["analyst-builder", "analyst-gbrain"] },
-  { time: "04:30", node: "builder", title: "Builder", caption: "Builds at most one private POC. The proposed loop would hand it to a validation page and ads.", edges: ["builder-brief", "builder-gbrain", "builder-landing", "landing-meta", "meta-report"] },
-  { time: "07:30", node: "brief", title: "Morning brief", caption: "Judi gets the brief. On Sundays it rolls up into the weekly.", edges: ["report-brief", "brief-weekly"] },
+  { time: "00:30", node: "us-scout", title: "US scout", short: "Scout", caption: "Collects US complaints, then proven subscription models, and hands both files to the analyst.", edges: ["us-analyst"] },
+  { time: "03:00", node: "analyst", title: "Analyst", short: "Analyst", caption: "Scores each US entry out of 25 (bar 18), applies the veto and gates, and files to GBrain.", edges: ["analyst-builder", "analyst-gbrain"] },
+  { time: "04:30", node: "builder", title: "Builder", short: "Builder", caption: "Builds at most one private POC. The proposed loop would hand it to a validation page and ads.", edges: ["builder-brief", "builder-gbrain", "builder-landing", "landing-meta", "meta-report"] },
+  { time: "07:30", node: "brief", title: "Morning brief", short: "Brief", caption: "Judi gets the brief. On Sundays it rolls up into the weekly.", edges: ["report-brief", "brief-weekly"] },
 ];
 
 export const nodeById = (id: string) => NODES.find((n) => n.id === id);
