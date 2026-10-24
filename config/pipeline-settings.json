@@ -1,79 +1,92 @@
 {
-  "$schema": "./pipeline-settings.schema.json",
-  "version": 1,
-  "updated": "2026-10-24",
-  "scouting": {
-    "markets": { "us": true, "germany": false },
-    "germany_paused_since": "2026-10-22",
-    "complaint_lookback_days": 30,
-    "complaints_per_night": { "min": 40, "max": 80 },
-    "proven_models_enabled": true,
-    "proven_models_per_night": { "min": 3, "max": 8 },
-    "sources": {
-      "app_store": true,
-      "google_play": true,
-      "reddit_arctic_shift": true,
-      "x": true,
-      "hacker_news": true,
-      "trustpilot": true,
-      "niche_forums": true
-    },
-    "exclude_regulated_finance_medical": true,
-    "niche_rotation": "from us/search-plan.md"
-  },
-  "scoring": {
-    "criterion_scale": { "min": 1, "max": 5 },
-    "weights": {
-      "frequency": 1,
-      "intensity": 1,
-      "willingness_to_pay": 1,
-      "reachability": 1,
-      "buildability": 1
-    },
-    "winning_bar": 18,
-    "near_miss_band": { "min": 15, "max": 17 },
-    "competitor_veto": true,
-    "gates": {
-      "consumer_subscription": true,
-      "buildable_2wk": true,
-      "us_entry": true,
-      "plc_fit": true
-    },
-    "principles": { "simplest_way": true }
+  "poc": {
+    "enabled": true,
+    "ready_by": "07:20",
+    "private_only": true,
+    "max_per_night": 1
   },
   "winner": {
-    "ideas_per_brief": 3,
-    "never_repeat": true,
-    "near_tie_prefers_plc": true,
-    "fallback_enabled": false,
     "fallback": {
+      "enabled": false,
       "min_score": 15,
       "allow_vetoed": false,
-      "allow_plc_maybe": true,
-      "allow_plc_no": false
+      "allow_plc_maybe": true
+    },
+    "no_repeats": true,
+    "ideas_per_brief": 3,
+    "prefer_stronger_plc_on_tie": true
+  },
+  "scoring": {
+    "gates": {
+      "us_entry_point": true,
+      "buildable_2_weeks": true,
+      "plc_decline_kills": true,
+      "simplest_way_flag": true,
+      "consumer_subscription": true
+    },
+    "criteria": {
+      "frequency": 1,
+      "intensity": 1,
+      "buildability": 1,
+      "reachability": 1,
+      "willingness_to_pay": 1
+    },
+    "max_score": 25,
+    "winning_bar": 18,
+    "near_miss_band": {
+      "max": 17,
+      "min": 15
+    },
+    "competitor_veto": true,
+    "criterion_scale": {
+      "max": 5,
+      "min": 1
     }
   },
-  "poc": {
-    "nightly": true,
-    "max_builds_per_night": 1,
-    "ready_by": "07:20",
-    "private_only": true
+  "schedule": {
+    "brief": "07:30",
+    "weekly": "Sun 09:00",
+    "analyst": "03:00",
+    "builder": "04:30",
+    "timezone": "Europe/Berlin",
+    "us_scout": "00:30",
+    "read_only": true
+  },
+  "scouting": {
+    "markets": {
+      "DE": false,
+      "US": true
+    },
+    "sources": {
+      "x": true,
+      "app_store": true,
+      "trustpilot": true,
+      "google_play": true,
+      "hacker_news": true,
+      "niche_forums": true,
+      "reddit_arctic_shift": true
+    },
+    "proven_models": {
+      "max": 8,
+      "min": 3,
+      "enabled": true
+    },
+    "complaints_per_night": {
+      "max": 80,
+      "min": 40
+    },
+    "complaint_lookback_days": 30,
+    "exclude_regulated_finance_medical": true
   },
   "validation": {
     "status": "proposed",
-    "ad_budget_eur": { "min": 30, "max": 50 },
     "min_visitors": 100,
-    "strong_price_click_pct": 3,
+    "ad_budget_eur": {
+      "max": 50,
+      "min": 30
+    },
+    "two_button_page": true,
     "kill_price_click_pct": 1,
-    "two_button_page": true
-  },
-  "schedule": {
-    "timezone": "Europe/Berlin",
-    "scout": "00:30",
-    "analyst": "03:00",
-    "builder": "04:30",
-    "brief": "07:30",
-    "weekly": "Sun 09:00",
-    "note": "time changes go through App ideas"
+    "strong_price_click_pct": 3
   }
 }

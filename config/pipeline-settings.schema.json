@@ -2,12 +2,10 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/judmir/validation-ideas/blob/main/config/pipeline-settings.schema.json",
   "title": "Validation Ideas pipeline settings",
-  "description": "Source of truth for the nightly pipeline rules. Edited by hand (or via the /settings page's copied diff); nightly routines read the raw file from main. The TS type is lib/settings.ts.",
+  "description": "Shape of pipeline_settings_versions.settings in Supabase (the source of truth; routines read pipeline_settings_latest). config/pipeline-settings.json is version 1 and the offline fallback. TS type: lib/settings.ts.",
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "version",
-    "updated",
     "scouting",
     "scoring",
     "winner",
@@ -16,99 +14,31 @@
     "schedule"
   ],
   "properties": {
-    "$schema": {
-      "type": "string"
-    },
-    "version": {
-      "const": 1
-    },
-    "updated": {
-      "type": "string",
-      "format": "date"
-    },
     "scouting": {
       "type": "object",
       "additionalProperties": false,
       "required": [
         "markets",
-        "germany_paused_since",
-        "complaint_lookback_days",
-        "complaints_per_night",
-        "proven_models_enabled",
-        "proven_models_per_night",
         "sources",
-        "exclude_regulated_finance_medical",
-        "niche_rotation"
+        "proven_models",
+        "complaints_per_night",
+        "complaint_lookback_days",
+        "exclude_regulated_finance_medical"
       ],
       "properties": {
         "markets": {
           "type": "object",
           "additionalProperties": false,
           "required": [
-            "us",
-            "germany"
+            "US",
+            "DE"
           ],
           "properties": {
-            "us": {
+            "US": {
               "type": "boolean"
             },
-            "germany": {
+            "DE": {
               "type": "boolean"
-            }
-          }
-        },
-        "germany_paused_since": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "format": "date"
-        },
-        "complaint_lookback_days": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 365
-        },
-        "complaints_per_night": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "min",
-            "max"
-          ],
-          "properties": {
-            "min": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 1000
-            },
-            "max": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 1000
-            }
-          }
-        },
-        "proven_models_enabled": {
-          "type": "boolean"
-        },
-        "proven_models_per_night": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "min",
-            "max"
-          ],
-          "properties": {
-            "min": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 100
-            },
-            "max": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 100
             }
           }
         },
@@ -148,29 +78,29 @@
             }
           }
         },
-        "exclude_regulated_finance_medical": {
-          "type": "boolean"
+        "proven_models": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "enabled",
+            "min",
+            "max"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "min": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
         },
-        "niche_rotation": {
-          "type": "string",
-          "description": "Read-only note: where niches come from."
-        }
-      }
-    },
-    "scoring": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "criterion_scale",
-        "weights",
-        "winning_bar",
-        "near_miss_band",
-        "competitor_veto",
-        "gates",
-        "principles"
-      ],
-      "properties": {
-        "criterion_scale": {
+        "complaints_per_night": {
           "type": "object",
           "additionalProperties": false,
           "required": [
@@ -179,14 +109,39 @@
           ],
           "properties": {
             "min": {
-              "const": 1
+              "type": "integer",
+              "minimum": 0
             },
             "max": {
-              "const": 5
+              "type": "integer",
+              "minimum": 0
             }
           }
         },
-        "weights": {
+        "complaint_lookback_days": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 365
+        },
+        "exclude_regulated_finance_medical": {
+          "type": "boolean"
+        }
+      }
+    },
+    "scoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "criteria",
+        "criterion_scale",
+        "max_score",
+        "winning_bar",
+        "near_miss_band",
+        "competitor_veto",
+        "gates"
+      ],
+      "properties": {
+        "criteria": {
           "type": "object",
           "additionalProperties": false,
           "required": [
@@ -228,13 +183,32 @@
               "multipleOf": 0.5
             }
           },
-          "description": "Weight per criterion (1 = default). Max score = 5 \u00d7 sum of weights."
+          "description": "Weight per criterion (1 = default)."
+        },
+        "criterion_scale": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "const": 1
+            },
+            "max": {
+              "const": 5
+            }
+          }
+        },
+        "max_score": {
+          "type": "number",
+          "description": "Derived: 5 \u00d7 sum of weights. Kept in sync by the settings page."
         },
         "winning_bar": {
           "type": "number",
           "minimum": 0,
-          "maximum": 25,
-          "description": "Bar out of 25 at 1\u00d7 weights; scaled to the weighted max."
+          "maximum": 25
         },
         "near_miss_band": {
           "type": "object",
@@ -245,59 +219,49 @@
           ],
           "properties": {
             "min": {
-              "type": "integer",
+              "type": "number",
               "minimum": 0,
               "maximum": 25
             },
             "max": {
-              "type": "integer",
+              "type": "number",
               "minimum": 0,
               "maximum": 25
             }
-          },
-          "description": "Out of 25 at 1\u00d7 weights; scaled like the bar."
+          }
         },
         "competitor_veto": {
-          "type": "boolean",
-          "description": "A separate check, not a gate."
+          "type": "boolean"
         },
         "gates": {
           "type": "object",
           "additionalProperties": false,
           "required": [
             "consumer_subscription",
-            "buildable_2wk",
-            "us_entry",
-            "plc_fit"
+            "buildable_2_weeks",
+            "us_entry_point",
+            "plc_decline_kills",
+            "simplest_way_flag"
           ],
           "properties": {
             "consumer_subscription": {
               "type": "boolean"
             },
-            "buildable_2wk": {
+            "buildable_2_weeks": {
               "type": "boolean"
             },
-            "us_entry": {
+            "us_entry_point": {
               "type": "boolean"
             },
-            "plc_fit": {
+            "plc_decline_kills": {
               "type": "boolean"
-            }
-          },
-          "description": "Gate ids must match lib/gates.ts."
-        },
-        "principles": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "simplest_way"
-          ],
-          "properties": {
-            "simplest_way": {
+            },
+            "simplest_way_flag": {
               "type": "boolean",
               "description": "Build principle (flag only), not a gate."
             }
-          }
+          },
+          "description": "Maps onto the gate ids in lib/gates.ts."
         }
       }
     },
@@ -306,9 +270,8 @@
       "additionalProperties": false,
       "required": [
         "ideas_per_brief",
-        "never_repeat",
-        "near_tie_prefers_plc",
-        "fallback_enabled",
+        "no_repeats",
+        "prefer_stronger_plc_on_tie",
         "fallback"
       ],
       "properties": {
@@ -317,29 +280,27 @@
           "minimum": 1,
           "maximum": 10
         },
-        "never_repeat": {
-          "const": true,
-          "description": "Locked on."
+        "no_repeats": {
+          "const": true
         },
-        "near_tie_prefers_plc": {
+        "prefer_stronger_plc_on_tie": {
           "type": "boolean"
-        },
-        "fallback_enabled": {
-          "type": "boolean",
-          "description": "Always build at least one demo: if nothing clears the bar, build the best unique idea with real evidence, labelled 'Fallback (below bar)'."
         },
         "fallback": {
           "type": "object",
           "additionalProperties": false,
           "required": [
+            "enabled",
             "min_score",
             "allow_vetoed",
-            "allow_plc_maybe",
-            "allow_plc_no"
+            "allow_plc_maybe"
           ],
           "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
             "min_score": {
-              "type": "integer",
+              "type": "number",
               "minimum": 0,
               "maximum": 25
             },
@@ -348,12 +309,9 @@
             },
             "allow_plc_maybe": {
               "type": "boolean"
-            },
-            "allow_plc_no": {
-              "const": false,
-              "description": "Locked: a PLC 'no' is never allowed."
             }
-          }
+          },
+          "description": "Always build at least one demo, labelled 'Fallback (below bar)'. A PLC 'no' is never allowed."
         }
       }
     },
@@ -361,16 +319,16 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "nightly",
-        "max_builds_per_night",
+        "enabled",
+        "max_per_night",
         "ready_by",
         "private_only"
       ],
       "properties": {
-        "nightly": {
+        "enabled": {
           "type": "boolean"
         },
-        "max_builds_per_night": {
+        "max_per_night": {
           "type": "integer",
           "minimum": 0,
           "maximum": 3
@@ -380,8 +338,7 @@
           "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
         },
         "private_only": {
-          "const": true,
-          "description": "Locked: no launch, sign-ups, payments or emails."
+          "const": true
         }
       }
     },
@@ -413,13 +370,11 @@
           "properties": {
             "min": {
               "type": "integer",
-              "minimum": 0,
-              "maximum": 1000
+              "minimum": 0
             },
             "max": {
               "type": "integer",
-              "minimum": 0,
-              "maximum": 1000
+              "minimum": 0
             }
           }
         },
@@ -447,18 +402,18 @@
       "additionalProperties": false,
       "required": [
         "timezone",
-        "scout",
+        "us_scout",
         "analyst",
         "builder",
         "brief",
         "weekly",
-        "note"
+        "read_only"
       ],
       "properties": {
         "timezone": {
           "const": "Europe/Berlin"
         },
-        "scout": {
+        "us_scout": {
           "type": "string",
           "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
         },
@@ -477,11 +432,10 @@
         "weekly": {
           "type": "string"
         },
-        "note": {
-          "type": "string"
+        "read_only": {
+          "const": true
         }
-      },
-      "description": "Read-only on the page; time changes go through App ideas."
+      }
     }
   }
 }
