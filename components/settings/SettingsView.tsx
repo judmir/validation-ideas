@@ -35,6 +35,7 @@ export const SECTIONS = [
   { id: "winner", title: "Ideas & winner" },
   { id: "poc", title: "POC build" },
   { id: "validation", title: "Validation" },
+  { id: "report", title: "Report / Run video" },
   { id: "schedule", title: "Schedule" },
   { id: "history", title: "History" },
 ] as const;
@@ -159,6 +160,7 @@ export default function SettingsView() {
         <Winner />
         <Poc />
         <Validation />
+        <Report />
         <Schedule />
         <History versions={versions} />
       </div>
@@ -382,6 +384,30 @@ function Validation() {
       <Num path="validation.strong_price_click_pct" label="Strong signal: price clicks above" min={0} max={100} step={0.5} suffix="%" />
       <Num path="validation.kill_price_click_pct" label="Kill: price clicks below" min={0} max={100} step={0.5} suffix="%" />
       <Toggle path="validation.two_button_page" label="Two-button page" help="Priced fake-door checkout + Join waitlist." />
+    </Section>
+  );
+}
+
+function Report() {
+  const { draft, changed } = useS();
+  const on = draft.report.run_video.enabled;
+  const hl = changed.has("report.run_video.enabled");
+  return (
+    <Section id="report" title="Report / Run video" line="The narrated video of each scout night.">
+      <div className={`rounded-2xl p-4 ring-1 ring-inset transition-colors ${hl ? "bg-[#fbbf24]/[0.08] ring-[#fbbf24]/50" : "bg-accent/[0.1] ring-accent/40"}`} data-path="report.run_video.enabled" data-changed={hl || undefined}>
+        <div className="flex items-start gap-3">
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2"><span className="text-[15px] font-semibold text-zinc-50">Make a narrated run video each night</span><span className={`rounded-full px-2 py-px text-[11px] font-semibold ${on ? "bg-accent text-accent-ink" : "bg-white/[0.1] text-zinc-300"}`} data-run-video-state={on ? "on" : "off"}>{on ? "On" : "Off"}</span>{hl && <Was path="report.run_video.enabled" />}</div>
+            <p className="mt-1 text-[13px] leading-relaxed text-zinc-300">Built around 07:00 after the demo build, ready by 07:30; shows on that night&apos;s scout run and winner page. Off = the step skips.</p>
+          </div>
+          <Switch path="report.run_video.enabled" label="Make a narrated run video each night" />
+        </div>
+        <div className={`mt-3 space-y-1 border-t border-white/[0.08] pt-3 ${on ? "" : "opacity-60"}`}>
+          <Toggle path="report.run_video.voiceover" label="Voiceover" help="Narration over the walk-through." />
+          <Toggle path="report.run_video.subtitles" label="Subtitles" help="Burned-in captions." />
+          <Time path="report.run_video.ready_by" label="Ready by" />
+        </div>
+      </div>
     </Section>
   );
 }
