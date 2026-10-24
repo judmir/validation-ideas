@@ -120,6 +120,20 @@ export const CHANGELOG: ChangeEntry[] = [
     before: ["Rules hard-coded in the routine prompts"],
     after: ["Rules in Supabase pipeline_settings_versions (append-only)", "Edited on /settings by an admin, with a diff and history"],
   },
+  {
+    id: "settings-v2",
+    date: "2026-10-24",
+    version: "Settings v2",
+    title: "Always one demo per night + competition as demand signal (settings v2)",
+    description:
+      "Two rule changes, saved as settings version 2. The builder now always builds one demo per night: if nothing clears the bar it takes the best unique idea with real evidence and labels it “Fallback (below bar)”. And competition became a demand signal: 1–3 strong US competitors proves demand and adds +1 when the idea names a wedge; the veto applies only at 4+ competitors or when a funded leader already solves it well. Older vetoes are shown as “Vetoed (old rule)”.",
+    affected: ["analyst", "builder"],
+    typeById: { analyst: "changed", builder: "changed" },
+    type: "changed",
+    status: "live",
+    before: ["Any strong overlap with an existing app → veto", "No demo on a night without a winner"],
+    after: ["1–3 strong US competitors = demand signal (+1 with a wedge)", "Veto only at 4+ or a funded leader solving it well", "Always one demo per night: “Fallback (below bar)”"],
+  },
 ];
 
 export const LATEST = CHANGELOG[CHANGELOG.length - 1];

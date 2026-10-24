@@ -91,9 +91,9 @@ export const NODES: ArchNode[] = [
       "Writes pains.json. Scores US entries out of 25; the bar is 18.",
       // The gates come from lib/gates.ts, the one shared definition.
       ...GATES.map((g) => `Gate · ${g.label}: ${g.description}`),
-      "Competitor veto (a separate check, not a gate): overlap with an existing app kills the idea.",
+      "Competition (settings v2): 1–3 strong US competitors proves demand, +1 with a named wedge. The veto (a separate check, not a gate) applies only at 4+ competitors or when a funded leader already solves it well.",
       `Winner: 18+, all ${GATES.length} gates pass and no veto. A gate with no data shows “Not checked”, never a pass.`,
-      "Near-miss: 15–17, or killed only by the veto or a gate (tagged “Vetoed” or “Fails gate: …”).",
+      "Near-miss: 15–17, or killed only by the veto or a gate (tagged “Vetoed”, “Vetoed (old rule)” or “Fails gate: …”).",
       "Below bar: under 15.",
     ],
     outputs: ["pains.json"],
@@ -107,9 +107,9 @@ export const NODES: ArchNode[] = [
     schedule: "Nightly 04:30",
     status: "active",
     since: "2026-10-19",
-    summary: "Builds at most one pre-approved, private POC per night.",
+    summary: "Builds one private POC demo per night.",
     details: [
-      "Only for a winner that is already approved.",
+      "The night's winner; if nothing clears the bar, the best unique idea with real evidence, labelled “Fallback (below bar)” (settings v2). A PLC “no” is never built.",
       "Private only: no public launch, no sign-ups, no payments, no emails.",
       "Demos are shown through a cloudflared tunnel on Judi's Mac (the box blocks port 7844).",
     ],
