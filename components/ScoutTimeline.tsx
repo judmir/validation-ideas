@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
 import type { PipelineVerdict } from "@/lib/types";
 import { RULES } from "@/lib/types";
+import { VETOED_TITLE } from "@/lib/verdict";
 import { eur0, int, shortDate, weekday } from "@/lib/format";
 import { usePersistedMany, valKey, type ValidationState } from "@/lib/store";
 import { stageOf, testNumbers } from "@/lib/status";
@@ -165,7 +166,13 @@ function NightBlock({ line, all, shown, t, loaded, expandAll }: { line: string; 
 }
 
 const passed = (r: PainRow) => r.demo || r.verdict === "winner";
+/** ≥18 but stopped only by the competitor veto: shown as a near-miss with a "Vetoed" tag, never as passed. */
+const vetoedNear = (r: PainRow) => r.verdict === "near-miss" && r.veto;
+function VetoedTag() {
+  return <span title={VETOED_TITLE} aria-label={`Vetoed: ${VETOED_TITLE}`} className="shrink-0 cursor-help rounded-full border border-[#fbbf24]/40 px-2 py-px text-[11px] font-semibold text-[#fcd34d]">Vetoed</span>;
+}
 function reasonOf(r: PainRow) {
+  if (vetoedNear(r)) return `Near-miss · ${r.score} ≥ bar ${RULES.passBar}`;
   if (r.verdict === "killed") return r.veto ? "Killed · competitor veto" : "Killed";
   if (r.verdict === "near-miss") return `Near-miss · below bar ${RULES.passBar}`;
   return `Below bar ${RULES.passBar}`;
@@ -191,7 +198,8 @@ function TopCard({ row, t, loaded }: { row: PainRow; t: { v: ValidationState; bu
             ) : (
               <>
                 {row.pitched && <span className="rounded-full bg-warm px-2.5 py-0.5 text-[11px] font-semibold text-[#431407]">Pitched</span>}
-                <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${row.verdict === "killed" ? "bg-[#f87171]/15 text-[#fca5a5]" : "bg-white/[0.09] text-zinc-300"}`}>{reasonOf(row)}</span>
+                <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${row.verdict === "killed" ? "bg-[#f87171]/15 text-[#fca5a5]" : vetoedNear(row) ? "bg-[#fbbf24]/15 text-[#fcd34d]" : "bg-white/[0.09] text-zinc-300"}`}>{reasonOf(row)}</span>
+                {vetoedNear(row) && <VetoedTag />}
                 <StageMeter stage="ready" dim />
               </>
             )}
@@ -206,7 +214,7 @@ function TopCard({ row, t, loaded }: { row: PainRow; t: { v: ValidationState; bu
       </div>
       <div className="mt-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-2.5 border-t border-white/[0.06] pt-3">
         <div className="min-w-0 text-[12px] text-zinc-400">
-          {ok && t ? (loaded ? <>{testLine(t.v, t.budget)}</> : "\u00a0") : row.pitched ? "Pitched as the night's winner, later killed by its stress test" : `No demo · did not pass the bar (${RULES.passBar}, gates, veto)`}
+          {ok && t ? (loaded ? <>{testLine(t.v, t.budget)}</> : "\u00a0") : row.pitched ? "Pitched as the night's winner, later killed by its stress test" : vetoedNear(row) ? `No demo · scored over the bar but ${VETOED_TITLE}` : `No demo · did not pass the bar (${RULES.passBar}, gates, veto)`}
         </div>
         {row.linkable && (
           <div className="flex shrink-0 gap-2">
@@ -230,7 +238,7 @@ function RunnerUp({ row }: { row: PainRow }) {
     <>
       <span className="w-5 shrink-0 text-[12px] font-semibold tabular-nums text-zinc-400">#{row.rank}</span>
       <div className="min-w-0 flex-1">
-        <div className="truncate text-[14px] font-semibold text-zinc-200">{row.title}</div>
+        <div className="flex min-w-0 items-center gap-2"><span className="truncate text-[14px] font-semibold text-zinc-200">{row.title}</span>{vetoedNear(row) && <VetoedTag />}</div>
         <div className="truncate text-[12px] text-zinc-400">{row.sub}</div>
       </div>
       <span className="shrink-0 text-[15px] font-semibold tabular-nums text-zinc-300">{row.score}</span>

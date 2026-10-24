@@ -179,7 +179,7 @@ export function ScoreMini({ score, verdict, size = "md" }: { score: number; verd
 
 const VERDICT_BADGE: Record<PipelineVerdict, string> = { winner: "indigo", "near-miss": "amber", killed: "red", "below-bar": "slate" };
 export function VerdictBadge({ verdict, veto }: { verdict: PipelineVerdict; veto?: boolean }) {
-  const label = verdict === "winner" ? "Winner" : verdict === "near-miss" ? "Near-miss" : verdict === "killed" ? (veto ? "Killed by veto" : "Killed") : "Below bar";
+  const label = verdict === "winner" ? "Winner" : verdict === "near-miss" ? (veto ? "Near-miss · vetoed" : "Near-miss") : verdict === "killed" ? (veto ? "Killed by veto" : "Killed") : "Below bar";
   return <Badge color={VERDICT_BADGE[verdict]}>{label}</Badge>;
 }
 

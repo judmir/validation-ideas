@@ -9,7 +9,7 @@ export { PITCHED } from "./pitched";
 export { LEGACY };
 
 const DEMO_ID = "p-072";
-export const DEMO_BANNER = "Simulated — this idea was actually killed. DinnerList (p-072) lost to the competitor check; it stands in as a winner so you can see the Validate and Report flow. No real ads, payments or emails.";
+export const DEMO_BANNER = "Simulated — this idea did not pass. DinnerList (p-072) scored 19/25 but was vetoed by competitors (a near-miss); it stands in as a winner so you can see the Validate and Report flow. No real ads, payments or emails.";
 
 /** All US ideas, with the display verdict recomputed and the DinnerList demo kit attached. */
 export const ALL_IDEAS: Idea[] = IDEAS.map((i) => {
@@ -40,7 +40,7 @@ const shortDesc = (s: string) => {
 
 export function toRow(i: Idea): BoardRow {
   const veto = i.competitor_veto;
-  const note = i.verdict === "killed" ? (i.kill_reason ?? i.borderline_note) : i.verdict === "near-miss" ? i.borderline_note : null;
+  const note = i.verdict === "killed" ? (i.kill_reason ?? i.borderline_note) : i.verdict === "near-miss" ? (i.borderline_note ?? (veto ? i.kill_reason : null)) : null;
   return {
     painId: i.painId, night: i.night, market: "US", niche: i.niche,
     title: i.name ?? i.label ?? shortDesc(i.description), named: !!i.name,

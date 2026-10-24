@@ -9,19 +9,27 @@ export function parseGate(text: string | null | undefined): GateResult {
 
 /**
  * Display verdict, derived from score + gates + veto (pains.json `status` is not trusted):
- * veto or PLC decline → killed; ≥18 with a failed gate → killed; ≥18 → winner; 15–17 → near-miss; else below bar.
+ * PLC decline → killed; ≥18, gates passed, killed ONLY by the competitor veto → near-miss ("Vetoed", never a winner);
+ * other veto → killed; ≥18 with a failed gate → killed; ≥18 → winner; 15–17 → near-miss; else below bar.
  */
 export function pipelineVerdict(idea: Pick<Idea, "scores" | "gates" | "competitor_veto" | "plc">): PipelineVerdict {
   const t = idea.scores.total;
-  if (idea.competitor_veto || idea.plc?.stage === "decline") return "killed";
+  if (idea.plc?.stage === "decline") return "killed";
+  if (isVetoNearMiss(idea)) return "near-miss";
+  if (idea.competitor_veto) return "killed";
   if (t >= RULES.passBar) return Object.values(idea.gates).some((g) => g.result === "fail") ? "killed" : "winner";
   return t >= RULES.nearMissMin ? "near-miss" : "below-bar";
 }
+/** ≥18/25 with no failed gate and no PLC decline, stopped only by the competitor veto: a near-miss, not a kill (and not passed). */
+export function isVetoNearMiss(idea: Pick<Idea, "scores" | "gates" | "competitor_veto" | "plc">): boolean {
+  return idea.competitor_veto && idea.scores.total >= RULES.passBar && idea.plc?.stage !== "decline" && !Object.values(idea.gates).some((g) => g.result === "fail");
+}
+export const VETOED_TITLE = "vetoed by competitors";
 export const legacyVerdict = (p: LegacyPain): PipelineVerdict => p.verdict;
 
 export const VERDICT_LABEL: Record<PipelineVerdict, string> = { winner: "Winner", "near-miss": "Near-miss", killed: "Killed", "below-bar": "Below bar" };
 export function verdictLabel(v: PipelineVerdict, veto?: boolean) {
-  return v === "killed" && veto ? "Killed by veto" : VERDICT_LABEL[v];
+  return v === "killed" && veto ? "Killed by veto" : v === "near-miss" && veto ? "Near-miss · vetoed" : VERDICT_LABEL[v];
 }
 
 export type ValidationCall = "not-enough-traffic" | "strong" | "inconclusive" | "kill";

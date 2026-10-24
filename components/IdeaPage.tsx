@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useEffect, type ReactNode } from "react";
 import { RULES, type Complaint, type Idea } from "@/lib/types";
+import { VETOED_TITLE } from "@/lib/verdict";
 import { eur0, formatDate, int, shortDate, wk } from "@/lib/format";
 import { useValidation, type ValidationState } from "@/lib/store";
 import { stageOf, testNumbers } from "@/lib/status";
@@ -49,6 +50,7 @@ export default function IdeaPage({ idea, run }: { idea: Idea; run: RunInfo }) {
           <p className="mt-1.5 max-w-2xl text-[15px] leading-relaxed text-zinc-300">{idea.pitch ?? idea.who}</p>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {idea.demo ? <Tag warm>Simulated winner</Tag> : idea.verdict === "winner" ? <Tag warm>Winner</Tag> : null}
+            {idea.verdict === "near-miss" && idea.competitor_veto && <span title={VETOED_TITLE}><Tag>Vetoed · {VETOED_TITLE}</Tag></span>}
             <Tag>{idea.painId}</Tag>
             <Tag>Night {shortDate(idea.night)}</Tag>
           </div>
@@ -87,7 +89,7 @@ function Metrics({ idea, run, v, loaded, validates }: { idea: Idea; run: RunInfo
   const verdictTone = idea.verdict === "killed" ? "text-[#fca5a5]" : idea.verdict === "near-miss" ? "text-[#fcd34d]" : idea.verdict === "winner" ? "text-[#86efac]" : "";
   const verdict = (
     <Metric label="Pipeline verdict" value={<span className={`text-[24px] sm:text-[26px] ${verdictTone}`}>{VERDICT_WORD[idea.verdict]}</span>}>
-      <div className="text-[12px] text-zinc-400">{idea.competitor_veto ? "Competitor veto" : idea.verdict === "near-miss" ? `${RULES.passBar - t} below the bar` : idea.verdict === "below-bar" ? `Under ${RULES.nearMissMin}` : "Score, gates and veto"}</div>
+      <div className="text-[12px] text-zinc-400">{idea.competitor_veto ? (idea.verdict === "near-miss" ? `Over the bar, ${VETOED_TITLE}` : "Competitor veto") : idea.verdict === "near-miss" ? `${RULES.passBar - t} below the bar` : idea.verdict === "below-bar" ? `Under ${RULES.nearMissMin}` : "Score, gates and veto"}</div>
     </Metric>
   );
   if (!validates || !idea.validation) {
@@ -135,7 +137,7 @@ function Locked({ idea }: { idea: Idea }) {
 
 /** Evidence: verdict, score breakdown and a quotes summary beside the night report; everything else collapsed. */
 function Evidence({ idea, run }: { idea: Idea; run: RunInfo }) {
-  const note = idea.verdict === "killed" ? idea.kill_reason ?? idea.borderline_note : idea.borderline_note;
+  const note = idea.verdict === "killed" ? idea.kill_reason ?? idea.borderline_note : idea.borderline_note ?? (idea.competitor_veto ? idea.kill_reason : null);
   const linked = idea.quotes.filter((q) => /^https?:\/\//.test(q.link));
   return (
     <>
@@ -143,7 +145,7 @@ function Evidence({ idea, run }: { idea: Idea; run: RunInfo }) {
         <Card className="min-w-0">
           <h3 className="label">Verdict</h3>
           <p className={`mt-2 text-[17px] font-semibold ${idea.verdict === "killed" ? "text-[#fca5a5]" : idea.verdict === "near-miss" ? "text-[#fcd34d]" : "text-zinc-50"}`}>
-            {VERDICT_WORD[idea.verdict]}{idea.competitor_veto ? " · competitor veto" : ""}
+            {VERDICT_WORD[idea.verdict]}{idea.competitor_veto ? (idea.verdict === "near-miss" ? ` · ${VETOED_TITLE}` : " · competitor veto") : ""}
           </p>
           {note ? <p className="mt-1.5 text-[14px] leading-relaxed text-zinc-300">{note}</p> : <p className="mt-1.5 text-[13px] text-zinc-400">Score {idea.scores.total}/{RULES.maxScore}, under the {RULES.nearMissMin}–{RULES.passBar - 1} near-miss band.</p>}
 

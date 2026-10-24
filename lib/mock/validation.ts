@@ -1,7 +1,7 @@
 import type { Validation } from "../types";
 
 /**
- * Simulated validation kit for DinnerList (p-072). DinnerList was actually killed by the competitor
+ * Simulated validation kit for DinnerList (p-072). DinnerList was actually vetoed by the competitor
  * check; it stands in as a demo winner so the Validate and Report tabs have something to show.
  * Nothing here is live: no ads, payments, checkout or emails.
  */
