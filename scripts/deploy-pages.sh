@@ -21,7 +21,7 @@ touch out/.nojekyll
 scripts/sync-run-videos.sh
 scripts/sync-demo-shots.sh
 n=$( (grep -o '"date"' out/videos/manifest.json || true) | wc -l)
-s=$(find out/demo -type f 2>/dev/null | wc -l)
+s=$(find out/demo -type f \( -name '*.png' -o -name '*.jpg' -o -name '*.webp' \) 2>/dev/null | wc -l)
 WT=$(mktemp -d /tmp/ghp-XXXX)
 git worktree add -q --detach "$WT" origin/gh-pages
 trap 'git worktree remove --force "$WT" >/dev/null 2>&1 || true' EXIT
