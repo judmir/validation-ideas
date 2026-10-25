@@ -80,13 +80,17 @@ cd /workspace/validation-ideas && scripts/nightly-publish.sh 2026-10-25 # a give
 ```
 
 It runs, in order:
+0. `scripts/publish-scout-apps.sh <date>`: publishes the night's **standalone apps** to the public repo
+   [judmir/scout-apps](https://github.com/judmir/scout-apps) (GitHub Pages from its `gh-pages` branch; no Actions) — see
+   "Standalone demo + validation page" below. Writes `apps.json` there and checks both URLs are live.
 1. `scripts/import-night.sh <date>`: checks out `main` at `origin/main` (fast-forward only), runs `scripts/gen-data.py`, type-checks,
    and commits **only** `lib/mock/{ideas,legacy,imported}.ts` as "Data: import night <date> …". `scripts/check-secrets.sh` checks the
    staged diff (and the push range) for key-like strings and refuses if anything secret-looking is in it; then it pushes `main`.
    Nothing changed → no commit. (`--no-push` commits locally only.)
 2. `git checkout --detach origin/main` and `scripts/deploy-pages.sh`: build, `sync-run-videos.sh`, `sync-demo-shots.sh`, one gh-pages commit.
 3. Live checks (skip with `VI_SKIP_VERIFY=1`): `/nights/` lists the date; the winner's idea page, `/demo/<date>/`, `/validation/<date>/`
-   and `videos/<date>.mp4` (video/mp4) return 200 when the night has them.
+   and `videos/<date>.mp4` (video/mp4) return 200 when the night has them; `/nights/` links the standalone demo and landing URLs and
+   both answer 200.
 
 What `scripts/gen-data.py` reads (from `/workspace/startup-research`, or `VI_RESEARCH_DIR`):
 - `pains.json` + `us/complaints.jsonl` + `us/proven-models.jsonl` → `lib/mock/ideas.ts` (one entry per pain id) and `legacy.ts` (Germany).
@@ -107,6 +111,35 @@ Demo screenshots (~15 MB a night) are handled like the run videos: **never commi
 `scripts/sync-demo-shots.sh /workspace/startup-research/poc public`.
 
 Buttons: the night's big card (home and `/nights/`) and the winner's idea page (right under the title) show **▶ Watch run video**
-(only when `videos/manifest.json` lists the date; it scrolls to the night's player and plays it), **Open demo** (`/demo/<date>/`) and
-**Validation page** (`/validation/<date>/`). A night without a video, POC or proposal shows that pill disabled with a short reason;
-nights without a brief (before 25 Oct) are unchanged.
+(only when `videos/manifest.json` lists the date; it scrolls to the night's player and plays it), **Open demo ↗** and **Validation
+page ↗**. The last two open the night's standalone apps in a new tab (`target=_blank rel=noopener`); their URLs come from the night's
+data (`BRIEFS[].apps.demo_url` / `landing_url`, read from scout-apps' `apps.json`), never hard-coded. Without a standalone app the
+pill falls back to the in-app page (`/demo/<date>/` screenshots, `/validation/<date>/` proposal), and without either it is disabled
+with the reason (e.g. "The POC has no static demo"). The in-app pages stay: they keep the screenshot walkthrough, the real-vs-mocked
+table and the full proposal + test plan, and link to the standalone apps. Nights without a brief (before 25 Oct) are unchanged.
+
+## Standalone demo + validation page (judmir/scout-apps)
+
+```
+https://judmir.github.io/scout-apps/<date>-<slug>/demo/      e.g. 2026-10-25-cardbox
+https://judmir.github.io/scout-apps/<date>-<slug>/landing/
+https://judmir.github.io/scout-apps/                          noindex list of all apps (robots.txt: Disallow: /)
+```
+
+`scripts/publish-scout-apps.sh <date> [--no-push]` takes the winner from `briefs/<date>.md` (`**Winner: p-XXX, Name …`), slug = the
+name in kebab case, then:
+
+- **Demo**: the POC at `startup-research/poc/<slug>-<date>/` opts in with an npm script **`demo:static`**. Contract:
+  `DEMO_BASE_PATH=/scout-apps/<date>-<slug>/demo DEMO_OUT=<dir> npm run demo:static` writes a static export into `DEMO_OUT` that
+  works under that base path, has **no API routes, no AI calls and no key**, replays recorded real results labelled
+  "Mocked: sample import", keeps payments/invites as DEMO, shows a "Demo · mocked data" banner and sets
+  `<meta name="robots" content="noindex,nofollow">`. No POC or no `demo:static` → no demo; the pill falls back / is disabled with
+  the reason (`demo_reason` in `apps.json`). Checklist for builders: `startup-research/poc/STATIC-DEMO.md`; reference
+  implementation: `poc/cardbox-2026-10-25` (`scripts/build-static-demo.mjs`, `components/demo.js`).
+- **Landing**: `scout-apps/tools/make-landing.py` fills `scout-apps/templates/landing/index.html` from the brief's
+  "## Validation page proposal (winner p-XXX …)" section and the idea's "Cheapest test". Self-contained (CSP `default-src 'none'`,
+  system fonts, no requests), noindex, "Preview, not launched" tag; buttons only record a click in `localStorage` and show
+  "Not launched yet". No ads, sign-up, email capture, payments or analytics.
+- **Push**: the built tree is scanned with `scripts/check-secrets.sh --tree` (keys, tokens, JWTs, private keys, `sk-ant`, `ANTHROPIC`,
+  `x-api-key` …) and refused on a hit; one new commit on scout-apps `gh-pages` (worktree, never forced), scanned again as a range.
+  The POC repos stay private; only built output is published.

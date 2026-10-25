@@ -190,6 +190,20 @@ export const CHANGELOG: ChangeEntry[] = [
     before: ["Nights copied into the app by hand (last: 24 Oct)", "Run video only as a player under the night", "No way to see the POC or the proposed validation page in the app"],
     after: ["scripts/nightly-publish.sh <date>: import → commit data → sync video + screenshots → deploy → live checks", "▶ Watch run video · Open demo · Validation page on the night's big card and under the winner's title", "Demo = captioned 390/1280 screenshots; validation = 'Proposal, not built'"],
   },
+  {
+    id: "standalone-apps",
+    date: "2026-10-25",
+    version: "App",
+    title: "Open demo and Validation page open standalone apps (scout-apps on GitHub Pages)",
+    description:
+      "The winner's demo and validation page are now their own apps, published nightly to judmir/scout-apps on GitHub Pages and opened in a new tab. The demo is a static, clickable copy of the private POC: imports replay the POC's real results ('Mocked: sample import'), the library, search, tags, editing and export work in the browser, and payments and invites stay DEMO. The validation page is a preview built from the brief: its buttons only say 'Not launched yet'. No ads, sign-ups, payments, analytics or keys. First night: 25 Oct, Cardbox.",
+    affected: ["builder-brief", "landing"],
+    typeById: { "builder-brief": "changed", landing: "changed" },
+    type: "changed",
+    status: "live",
+    before: ["Open demo → in-app screenshot walkthrough", "Validation page → in-app 'Proposal, not built' page", "The POC itself only ran privately on the build box"],
+    after: ["Open demo ↗ → judmir.github.io/scout-apps/<date>-<slug>/demo/ (static, mocked data, noindex)", "Validation page ↗ → …/<date>-<slug>/landing/ ('Preview, not launched'; clicks stay in the browser)", "scripts/publish-scout-apps.sh runs first in nightly-publish; POCs opt in with npm run demo:static; URLs come from apps.json"],
+  },
 ];
 
 export const LATEST = CHANGELOG[CHANGELOG.length - 1];
