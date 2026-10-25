@@ -3,8 +3,8 @@
 Dashboard for the nightly startup-research pipeline (scout 00:30 → analyst 03:00 → builder 04:30 → brief 07:30).
 Next.js 15 (App Router) + TypeScript + Tailwind v4, static export.
 
-**100% mock data.** `lib/mock/*` is reshaped from real pipeline output (pains.json, us/*.jsonl, the briefs) but the app never
-reads the pipeline at build or run time. No real ads, payments, checkout or emails: "Start for $X/month" and "Join waitlist"
+**Static data.** `lib/mock/*` is reshaped from real pipeline output (pains.json, us/*.jsonl, the briefs, the POC notes) by
+`scripts/gen-data.py` (see "Nightly import" below); the app never reads the pipeline at build or run time. No real ads, payments, checkout or emails: "Start for $X/month" and "Join waitlist"
 are previews, the ad kit is copy-and-paste, and validation results are simulated. State lives in localStorage (`vi:*` keys);
 use "Reset demo" in the footer to clear it.
 
@@ -19,6 +19,8 @@ Routes:
 - `/` Ideas board: last-night card, stats, ideas **By night** (timeline, default) or **By outcome** (winner / near-miss / killed / below bar). Old Germany pains p-001–p-071 sit behind a filter.
 - `/idea/[painId]/` tabs `#evidence | #validate | #report` (`#scout` → `#evidence`, `#page` → Validate's landing preview). Validate/Report are for winners only; DinnerList (p-072) is a clearly labelled simulated winner.
 - `/nights/` night runs, week-over-week cluster growth, pitched ideas.
+- `/demo/<date>/` the night's private POC as a captioned screenshot walkthrough (390 + 1280px); the app itself is never launched publicly.
+- `/validation/<date>/` the brief's proposed validation page, shown as "Proposal, not built" (no page, ad or signup is published).
 - `/architecture/` animated pipeline diagram and change history.
 - `/settings/` pipeline rules, versioned in Supabase (see below).
 
@@ -67,3 +69,44 @@ scripts/deploy-pages.sh
 
 It refuses to run unless HEAD is origin/main with a clean tree, sources `/workspace/.vi-supabase.env` in a subshell for the
 build, runs `NEXT_PUBLIC_BASE_PATH=/validation-ideas npm run build`, adds `.nojekyll`, syncs the videos and pushes one new gh-pages commit.
+
+## Nightly import (one command per night)
+
+After the final report (~05:05, ready by 06:00), run on the box:
+
+```bash
+cd /workspace/validation-ideas && scripts/nightly-publish.sh            # today (Europe/Berlin)
+cd /workspace/validation-ideas && scripts/nightly-publish.sh 2026-10-25 # a given night
+```
+
+It runs, in order:
+1. `scripts/import-night.sh <date>`: checks out `main` at `origin/main` (fast-forward only), runs `scripts/gen-data.py`, type-checks,
+   and commits **only** `lib/mock/{ideas,legacy,imported}.ts` as "Data: import night <date> …". `scripts/check-secrets.sh` checks the
+   staged diff (and the push range) for key-like strings and refuses if anything secret-looking is in it; then it pushes `main`.
+   Nothing changed → no commit. (`--no-push` commits locally only.)
+2. `git checkout --detach origin/main` and `scripts/deploy-pages.sh`: build, `sync-run-videos.sh`, `sync-demo-shots.sh`, one gh-pages commit.
+3. Live checks (skip with `VI_SKIP_VERIFY=1`): `/nights/` lists the date; the winner's idea page, `/demo/<date>/`, `/validation/<date>/`
+   and `videos/<date>.mp4` (video/mp4) return 200 when the night has them.
+
+What `scripts/gen-data.py` reads (from `/workspace/startup-research`, or `VI_RESEARCH_DIR`):
+- `pains.json` + `us/complaints.jsonl` + `us/proven-models.jsonl` → `lib/mock/ideas.ts` (one entry per pain id) and `legacy.ts` (Germany).
+  A pain's night is the first scout night it was seen (`runs_seen[0]`), so pains merged into later runs stay on their own night.
+- `briefs/<date>.md` (25 Oct on) → `lib/mock/imported.ts` `BRIEFS`: the "## Idea N … : Name (p-XXX)" sections (name, pitch, price, MVP,
+  kill list, quote order), the winner ("WINNER" / "Fallback (below bar)"), the "Validation page proposal" section and the winner's
+  "Cheapest test this week" (budget, visitors, kill/strong thresholds). The latest brief wins: a pain pitched again on a later night keeps
+  its id and is updated in place; earlier brief names stay as `aka` (p-073 was "ReelRecipe" on 22 Oct and is "Cardbox" from 25 Oct; the
+  22 Oct night still lists it as ReelRecipe → "Now Cardbox", and its page says so).
+- `log.md`, `us/*.jsonl`, `pitched.json` → `IMPORTED_NIGHTS` (counts by source, blocked sources, steps, new/updated pains, winner) and
+  `PITCHED_IMPORTED`. Nights before 25 Oct stay hand-written in `lib/mock/nights.ts`.
+- `poc/<date>.md` + `poc/<date>-shots/NN-slug-{390,1280}.png` → the demo walkthrough (captions from the file names, real/mocked chips
+  matched against the note's "Real vs mocked" table, and the label, e.g. "Demo screenshots · app runs privately · checkout and household
+  invite are mocked").
+
+Demo screenshots (~15 MB a night) are handled like the run videos: **never committed to main** (`public/demo/` is git-ignored);
+`scripts/sync-demo-shots.sh` copies `poc/<date>-shots/` into `out/demo/<date>/` at deploy, so they live only in gh-pages. For local dev:
+`scripts/sync-demo-shots.sh /workspace/startup-research/poc public`.
+
+Buttons: the night's big card (home and `/nights/`) and the winner's idea page (right under the title) show **▶ Watch run video**
+(only when `videos/manifest.json` lists the date; it scrolls to the night's player and plays it), **Open demo** (`/demo/<date>/`) and
+**Validation page** (`/validation/<date>/`). A night without a video, POC or proposal shows that pill disabled with a short reason;
+nights without a brief (before 25 Oct) are unchanged.
