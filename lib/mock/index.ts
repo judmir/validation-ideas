@@ -4,7 +4,10 @@ import { IDEAS } from "./ideas";
 import { LEGACY } from "./legacy";
 import { DINNERLIST_VALIDATION } from "./validation";
 
+import { NIGHTS } from "./nights";
+import { BRIEFS } from "./imported";
 export { NIGHTS, LEGACY_NIGHTS, LAST_WINNER, STEP_ORDER, STEP_TIMES } from "./nights";
+export { BRIEFS };
 export { PITCHED } from "./pitched";
 export { LEGACY };
 
@@ -19,6 +22,23 @@ export const ALL_IDEAS: Idea[] = IDEAS.map((i) => {
 });
 export const findIdea = (id: string) => ALL_IDEAS.find((x) => x.painId === id);
 export const ideasOfNight = (date: string) => ALL_IDEAS.filter((x) => x.night === date).sort((a, b) => b.scores.total - a.scores.total);
+/** The night's brief (25 Oct on), or undefined for older nights. */
+export const briefOf = (date: string) => BRIEFS.find((b) => b.date === date);
+/** Ideas shown for a night: the brief's pitched ideas first (top = big card), then the pains found or re-scored that night, by score. */
+export function nightIdeas(date: string): Idea[] {
+  const b = briefOf(date);
+  const n = NIGHTS.find((x) => x.date === date);
+  const pitched = (b?.ideas ?? []).map((x) => findIdea(x.painId)).filter((x): x is Idea => !!x);
+  const rest = [...ideasOfNight(date), ...(n?.analyst.updatedPainIds ?? []).map(findIdea).filter((x): x is Idea => !!x)]
+    .filter((i, k, a) => !pitched.includes(i) && a.indexOf(i) === k)
+    .sort((x, y) => y.scores.total - x.scores.total);
+  return [...pitched, ...rest];
+}
+/** The night an idea's page is about: the latest brief that pitched it, else the night it was found. */
+export const homeNight = (i: Idea) => i.pitchedOn?.at(-1) ?? i.night;
+/** Title of an idea as of a given night (an older brief may have used another name). */
+export const titleOn = (i: Idea, date: string) => i.aka?.find((a) => a.night === date)?.name ?? i.name ?? i.label ?? null;
+
 /** Winners get Validate; the simulated demo does too. */
 export const canValidate = (i: Idea) => i.verdict === "winner" || !!i.demo;
 

@@ -35,7 +35,7 @@ export type ProvenModel = {
 };
 
 export type ScoreKey = "frequency" | "intensity" | "willingness_to_pay" | "reachability" | "buildability";
-export type Scores = Record<ScoreKey, number> & { total: number };
+export type Scores = Record<ScoreKey, number> & { total: number; base_total?: number; competition_bonus?: number };
 export type ScoreNotes = Partial<Record<ScoreKey | "method", string>>;
 
 /** Gate text fields present in pains.json. The 4 gates themselves are defined in lib/gates.ts. */
@@ -53,7 +53,7 @@ export type Plc = { stage: PlcStage; stageText?: string; evidence: string[]; ver
 /** Display verdict, derived by lib/verdict.ts:pipelineVerdict(), never read from pains.json `status`. */
 export type PipelineVerdict = "winner" | "near-miss" | "killed" | "below-bar";
 
-export type WeekOverWeek = { this_week_iso: string; this_week: number; last_week_iso: string; last_week: number; partial_week_W43?: number; new_complaints_this_run?: number; note: string };
+export type WeekOverWeek = { this_week_iso: string; this_week: number; last_week_iso: string; last_week: number; partial_week_W43?: number; two_weeks_ago_W41?: number; new_complaints_this_run?: number; note: string };
 
 export type Idea = {
   painId: string;
@@ -102,6 +102,12 @@ export type Idea = {
   verdict: PipelineVerdict; // precomputed in mocks, recomputed by pipelineVerdict()
   validation?: Validation; // winners (and the simulated demo) only
   demo?: { simulatedWinner: true; banner: string };
+  /** Scout nights this pain was seen on (pains.json runs_seen). */
+  nights?: string[];
+  /** Brief nights that pitched this pain (lib/mock/imported.ts BRIEFS), oldest first. */
+  pitchedOn?: string[];
+  /** Earlier names from older briefs: the pain id is reused and updated when a later night pitches it again. */
+  aka?: { name: string; night: string }[];
 };
 
 /** Old Germany-market pains p-001…p-071: board rows only, no detail page. */
@@ -137,11 +143,27 @@ export type SourceKey = "google_play" | "app_store" | "reddit" | "x" | "hn" | "t
 export type NightRun = {
   date: string; label?: string; market: "US"; niches: string[];
   steps: Record<StepKey, StepStatus>; // times of that night (until 24 Oct: 00:30 / 03:00 / 04:30 / 07:30)
+  /** Step times of that night when they differ from STEP_TIMES (25 Oct on: 00:30 / 01:30 / 02:30 / 05:05). */
+  times?: Record<StepKey, string>;
   scout: { complaints: number; provenModels: number; bySource: Record<SourceKey, number>; blocked: { source: string; reason: string }[] };
-  analyst: { newPainIds: string[]; survivors: number };
+  analyst: { newPainIds: string[]; updatedPainIds?: string[]; survivors: number };
   builder: { winnerPainId: string | null; poc: string | null };
   briefPath: string; note?: string;
 };
 
 /** pitched.json entry (verbatim) + current status for display. */
 export type Pitched = { date: string; name: string; pain_id: string; core_feature: string; user: string; winner: boolean; poc: string; laterStatus?: string };
+
+/** Per-night brief, parsed by scripts/gen-data.py (25 Oct 2026 on). */
+export type ShotStatus = "real" | "mock" | "fake" | "note" | "none";
+export type DemoShot = { n: string; slug: string; caption: string; src390: string; src1280: string; pieces: { piece: string; status: ShotStatus }[] };
+export type NightBrief = {
+  date: string; briefPath: string;
+  winnerPainId: string | null; winnerRole: "winner" | "fallback" | null;
+  /** Pitched ideas, top first (the brief's Idea 1, 2, 3). */
+  ideas: { painId: string; name: string; role: "winner" | "fallback" | "pitched" }[];
+  /** The winner's private POC as screenshots (images synced into out/demo/<date>/ at deploy). Null = no POC this night. */
+  demo: null | { title: string; label: string; private: boolean; pocPath: string; intro: string | null; rows: { piece: string; status: ShotStatus; text: string }[]; shots: DemoShot[] };
+  /** The validation page is only proposed in the brief, never built or published. */
+  validation: null | { status: "proposal"; heading: string; markdown: string; test: string | null; budgetEur: { min: number; max: number } | null; minVisitors: number | null; killPct: number | null; strongPct: number | null };
+};

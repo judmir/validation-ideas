@@ -1,11 +1,12 @@
 import type { NightRun, StepKey } from "../types";
+import { IMPORTED_NIGHTS } from "./imported";
 
 /** Fixed nightly schedule (Europe/Berlin). */
 export const STEP_TIMES: Record<StepKey, string> = { scout: "00:30", analyst: "03:00", builder: "04:30", brief: "07:30" };
 export const STEP_ORDER: StepKey[] = ["scout", "analyst", "builder", "brief"];
 
-/** US runs, real counts from log.md and the briefs. Newest first. */
-export const NIGHTS: NightRun[] = [
+/** US runs up to 24 Oct, hand-written from log.md and the briefs. Newest first. */
+const HAND_NIGHTS: NightRun[] = [
   {
     date: "2026-10-24",
     market: "US",
@@ -73,6 +74,9 @@ export const NIGHTS: NightRun[] = [
     note: "One-off US test: scout, analyst and brief only; the builder did not run",
   },
 ];
+
+/** All US runs, newest first: nights parsed by scripts/gen-data.py (25 Oct on) plus the hand-written ones. */
+export const NIGHTS: NightRun[] = [...IMPORTED_NIGHTS.filter((n) => !HAND_NIGHTS.some((h) => h.date === n.date)), ...HAND_NIGHTS].sort((a, b) => b.date.localeCompare(a.date));
 
 /** Older Germany-market runs (light timeline nodes; shown with the Germany filter). */
 export const LEGACY_NIGHTS: { date: string; label: string; complaints: number | null; briefPath: string; winner: string | null; note: string }[] = [
