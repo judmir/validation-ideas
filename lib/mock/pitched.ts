@@ -1,7 +1,8 @@
 import type { Pitched } from "../types";
+import { PITCHED_IMPORTED } from "./imported";
 
 /** pitched.json, verbatim, plus the current status for display. */
-export const PITCHED: Pitched[] = [
+const PITCHED_HAND: Pitched[] = [
   {
     date: "2026-10-19",
     name: "Fristly",
@@ -13,3 +14,6 @@ export const PITCHED: Pitched[] = [
     laterStatus: "killed by stress test (stress-tests/fristly-2026-10-19.md)",
   },
 ];
+
+/** Newest night first; within a night the winner first. */
+export const PITCHED: Pitched[] = [...PITCHED_IMPORTED, ...PITCHED_HAND].sort((a, b) => b.date.localeCompare(a.date) || Number(b.winner) - Number(a.winner));
