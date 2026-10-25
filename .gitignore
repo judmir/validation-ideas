@@ -9,3 +9,6 @@ next-env.d.ts
 
 # Run videos are deployed to gh-pages only (scripts/sync-run-videos.sh), never committed
 public/videos/
+
+# POC demo screenshots are deployed to gh-pages only (scripts/sync-demo-shots.sh), never committed
+public/demo/

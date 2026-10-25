@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Build the GitHub Pages site from origin/main, add the run videos, and push one new gh-pages commit.
+# Build the GitHub Pages site from origin/main, add the run videos and POC demo screenshots, and push one new gh-pages commit.
 # No main commit is needed to publish a new night's video: drop it in /workspace/run-videos/<date>/ and run this.
+# A new night's data (ideas, brief, demo walkthrough) does need one: use scripts/nightly-publish.sh, which imports, commits and calls this.
 #   scripts/deploy-pages.sh
 # Env: /workspace/.vi-supabase.env (NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY) is sourced in a
 # subshell for the build only; values are never printed. NEXT_PUBLIC_SETTINGS_LOCAL is always unset here.
@@ -18,7 +19,9 @@ SHA=$(git rev-parse --short HEAD)
 ) || { echo "deploy: build failed, see /tmp/vi-pages-build.log" >&2; exit 1; }
 touch out/.nojekyll
 scripts/sync-run-videos.sh
+scripts/sync-demo-shots.sh
 n=$( (grep -o '"date"' out/videos/manifest.json || true) | wc -l)
+s=$(find out/demo -type f 2>/dev/null | wc -l)
 WT=$(mktemp -d /tmp/ghp-XXXX)
 git worktree add -q --detach "$WT" origin/gh-pages
 trap 'git worktree remove --force "$WT" >/dev/null 2>&1 || true' EXIT
@@ -27,6 +30,6 @@ cp -a out/. "$WT"/
 cd "$WT"
 git add -A
 if git diff --cached --quiet; then echo "deploy: nothing changed"; exit 0; fi
-git commit -qm "Deploy $SHA ($n run video(s))"
+git commit -qm "Deploy $SHA ($n run video(s), $s demo screenshot(s))"
 git push -q origin HEAD:gh-pages
-echo "deploy: gh-pages $(git rev-parse --short HEAD) = main $SHA + $n run video(s)"
+echo "deploy: gh-pages $(git rev-parse --short HEAD) = main $SHA + $n run video(s) + $s demo screenshot(s)"
