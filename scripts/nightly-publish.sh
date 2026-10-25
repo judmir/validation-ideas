@@ -36,7 +36,11 @@ PY
   for i in $(seq 1 20); do
     sleep 15
     curl -fsS -o /tmp/vi-live-nights.html "$SITE/nights/?v=$RANDOM" 2>/dev/null || continue
-    grep -q "$DATE" /tmp/vi-live-nights.html && { ok=1; break; }
+    # Wait for this deploy, not an older cached one: the date and (when published) the standalone links must be there.
+    grep -q "$DATE" /tmp/vi-live-nights.html || continue
+    [ "$DEMO_URL" = "-" ] || grep -qF "href=\"$DEMO_URL\"" /tmp/vi-live-nights.html || continue
+    [ "$LANDING_URL" = "-" ] || grep -qF "href=\"$LANDING_URL\"" /tmp/vi-live-nights.html || continue
+    ok=1; break
   done
   [ $ok -eq 1 ] || { echo "nightly-publish: /nights/ does not list $DATE after 5 min" >&2; exit 1; }
   echo "nightly-publish: /nights/ lists $DATE"
