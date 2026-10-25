@@ -127,9 +127,10 @@ export const NODES: ArchNode[] = [
     details: [
       "Winner (if any, incl. a “Fallback (below bar)” demo), near-misses with their tags, and the POC the builder made by 05:00.",
       "Last step, if settings.report.run_video.enabled: render the narrated video as scout-run-<date>.mp4.tmp, check it with ffprobe, rename it to .mp4, then ping dev to deploy. Off = the step skips.",
+      "Then dev publishes the night with scripts/nightly-publish.sh: import into the app, sync the video and POC screenshots, deploy. The app shows ▶ Watch run video · Open demo · Validation page on the night's card.",
       "Will include validation results once the proposed loop is approved.",
     ],
-    outputs: ["briefs/<date>.md", "/workspace/run-videos/<date>/scout-run-<date>.mp4", "ping to dev to deploy"],
+    outputs: ["briefs/<date>.md", "/workspace/run-videos/<date>/scout-run-<date>.mp4", "ping to dev to deploy", "the night in the app (nightly-publish.sh)"],
     desk: { x: 755, y: 95 },
     mob: { x: 82, y: 560 },
   },
@@ -170,6 +171,7 @@ export const NODES: ArchNode[] = [
       "“Join waitlist”: a plain waitlist link.",
       "Tracks three signals: price clicks, checkout starts, waitlist sign-ups.",
       "Hosting: cloudflared tunnel on Judi's Mac for now; Cloudflare/Wrangler later, once there is a token and a domain.",
+      "Until then the app shows each winner's proposed page as 'Proposal, not built' (/validation/<date>/); nothing is published.",
     ],
     desk: { x: 535, y: 345 },
     mob: { x: 258, y: 365 },
@@ -233,7 +235,7 @@ export const NIGHT_STEPS: NightStep[] = [
   { time: "00:30", node: "us-scout", title: "US scout", short: "Scout", caption: "Collects US complaints, then proven subscription models, and hands both files to the analyst.", edges: ["us-analyst"] },
   { time: "01:30", node: "analyst", title: "Analyst", short: "Analyst", caption: "Scores each US entry out of 25 (bar 18), applies the gates and the competition rule, and files to GBrain.", edges: ["analyst-builder", "analyst-gbrain"] },
   { time: "02:30", node: "builder", title: "Builder", short: "Builder", caption: "Builds one private POC demo by 05:00 (a fallback below the bar if nothing clears it). The proposed loop would hand it to a validation page and ads.", edges: ["builder-brief", "builder-gbrain", "builder-landing", "landing-meta", "meta-report"] },
-  { time: "05:05", node: "brief", title: "Final report + run video", short: "Report", caption: "The final report, then the narrated run video as its last step (.mp4.tmp, ffprobe check, rename, ping dev). Everything is ready by 06:00; on Sundays it rolls up into the weekly.", edges: ["report-brief", "brief-weekly"] },
+  { time: "05:05", node: "brief", title: "Final report + run video", short: "Report", caption: "The final report, then the narrated run video as its last step (.mp4.tmp, ffprobe check, rename, ping dev). Everything is ready by 06:00, then dev publishes the night to the app (video, demo, validation proposal); on Sundays it rolls up into the weekly.", edges: ["report-brief", "brief-weekly"] },
 ];
 
 export const nodeById = (id: string) => NODES.find((n) => n.id === id);

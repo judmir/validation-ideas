@@ -176,6 +176,20 @@ export const CHANGELOG: ChangeEntry[] = [
     before: ["Analyst 03:00, builder 04:30, POC ready by 07:20", "Separate run-video step ~07:00", "Morning brief 07:30"],
     after: ["Analyst ~01:30, builder ~02:30, POC due by 05:00", "Final report + run video ~05:05 (video last: .mp4.tmp → ffprobe → .mp4 → ping dev)", "Everything ready by 06:00"],
   },
+  {
+    id: "nightly-import",
+    date: "2026-10-25",
+    version: "App",
+    title: "Nightly import + Watch video / Open demo / Validation page buttons",
+    description:
+      "After the final report, dev runs one command (scripts/nightly-publish.sh) that imports the night from startup-research (pains, brief, POC note), commits only the data files to main, syncs the run video and the POC screenshots into the site and deploys. The night's big card and the winner's page now carry three buttons: ▶ Watch run video, Open demo (the private POC as a screenshot walkthrough; the app itself is never launched publicly) and Validation page (shown as 'Proposal, not built' until the validation loop is approved). First night: 25 Oct, Cardbox.",
+    affected: ["brief", "builder-brief", "landing"],
+    typeById: { brief: "changed", "builder-brief": "changed", landing: "changed" },
+    type: "added",
+    status: "live",
+    before: ["Nights copied into the app by hand (last: 24 Oct)", "Run video only as a player under the night", "No way to see the POC or the proposed validation page in the app"],
+    after: ["scripts/nightly-publish.sh <date>: import → commit data → sync video + screenshots → deploy → live checks", "▶ Watch run video · Open demo · Validation page on the night's big card and under the winner's title", "Demo = captioned 390/1280 screenshots; validation = 'Proposal, not built'"],
+  },
 ];
 
 export const LATEST = CHANGELOG[CHANGELOG.length - 1];
