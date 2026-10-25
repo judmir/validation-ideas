@@ -141,10 +141,10 @@ export const CHANGELOG: ChangeEntry[] = [
     version: "Run video",
     title: "Run video per night",
     description:
-      "Each scout night can get a short narrated video (2–4 minutes) made by App ideas. The player appears on that night's scout run and on its winning idea page, including a fallback winner. Videos are published with the site to gh-pages only, never committed to main; a night without a video shows nothing. Building until the first video is deployed.",
+      "Each scout night can get a short narrated video (2–4 minutes) made by App ideas. The player appears on that night's scout run and on its winning idea page, including a fallback winner. Videos are published with the site to gh-pages only, never committed to main; a night without a video shows nothing. First video deployed for the 2026-10-25 night.",
     affected: ["report"],
     type: "added",
-    status: "building",
+    status: "live",
     before: ["Night results only as text: the brief and the Ideas board"],
     after: ["Narrated MP4 per night, listed in videos/manifest.json", "'Watch run video' on the night and its winner page"],
   },
