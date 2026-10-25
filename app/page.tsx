@@ -1,6 +1,6 @@
 import { vetoTag } from "@/lib/competition";
 import ScoutTimeline, { type LegacyNight, type NightMeta } from "@/components/ScoutTimeline";
-import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, NIGHTS, ideasOfNight } from "@/lib/mock";
+import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, NIGHTS, briefOf, findIdea, nightIdeas, titleOn } from "@/lib/mock";
 import { BEST_THIS_WEEK, NIGHTS_SINCE_WINNER, US_COMPLAINTS, US_WINNER_NOTE } from "@/lib/mock/derived";
 import { TESTS } from "@/lib/mock/tests";
 import { shortDate } from "@/lib/format";
@@ -13,17 +13,25 @@ const shortDesc = (s: string) => {
 
 export default function Home() {
   const nights: NightMeta[] = NIGHTS.map((n) => {
-    const ideas = ideasOfNight(n.date);
-    // DinnerList (simulated winner) leads its night so its demo is the top card.
-    const ordered = [...ideas.filter((i) => i.demo || i.verdict === "winner"), ...ideas.filter((i) => !i.demo && i.verdict !== "winner")];
+    const brief = briefOf(n.date);
+    const ideas = nightIdeas(n.date);
+    // A night with a brief (25 Oct on) shows the brief's pitched ideas first, its winner as the big card.
+    // Older nights: DinnerList (simulated winner) leads its night so its demo is the top card.
+    const ordered = brief ? ideas : [...ideas.filter((i) => i.demo || i.verdict === "winner"), ...ideas.filter((i) => !i.demo && i.verdict !== "winner")];
+    const win = brief?.winnerPainId ? findIdea(brief.winnerPainId) : null;
     return {
       date: n.date, label: n.label ?? null,
-      line: `${n.scout.complaints} complaints + ${n.scout.provenModels} proven models · ${n.niches.join(" + ")}${n.builder.winnerPainId ? "" : " · no winner"}.`,
-      pains: ordered.map((i, k) => ({
-        id: i.painId, title: i.name ?? i.label ?? shortDesc(i.description), sub: i.pitch ?? i.who,
+      line: `${n.scout.complaints} complaints + ${n.scout.provenModels} proven models · ${n.niches.join(" + ")}${win ? ` · ${brief!.winnerRole === "fallback" ? "fallback winner" : "winner"} ${win.name ?? win.painId}` : n.builder.winnerPainId ? "" : " · no winner"}.`,
+      actions: brief?.winnerPainId ? { date: n.date, demo: !!brief.demo, validation: !!brief.validation, winnerId: brief.winnerPainId } : null,
+      pains: ordered.map((i, k) => {
+        const then = titleOn(i, n.date);
+        const renamed = !!then && then !== i.name;
+        return {
+        id: i.painId, title: then ?? shortDesc(i.description), sub: renamed ? `Now ${i.name}${i.pitchedOn?.length ? `, pitched again ${shortDate(i.pitchedOn.at(-1)!)}` : ""} · same pain ${i.painId}` : i.pitch ?? i.who,
         score: i.scores.total, verdict: i.verdict, veto: i.competitor_veto, vetoTag: vetoTag(i), demandSignal: i.competition.demand_signal, fallback: i.fallback, demo: !!i.demo, rank: k + 1, linkable: true,
         failedGates: failedGates(i).map((g) => ({ label: gateDef(g.id).label, text: g.text })),
-      })),
+      };
+      }),
     };
   });
   const legacy: LegacyNight[] = LEGACY_NIGHTS.map((n) => ({
@@ -36,7 +44,7 @@ export default function Home() {
   }));
   const dates = [...new Set([...NIGHTS.map((n) => n.date), ...LEGACY_NIGHTS.map((n) => n.date)])].sort();
   const chart = dates.map((d) => {
-    const us = ideasOfNight(d)[0];
+    const us = [...nightIdeas(d)].sort((a, b) => b.scores.total - a.scores.total)[0];
     const de = LEGACY.filter((p) => p.night === d).sort((a, b) => b.scores.total - a.scores.total)[0];
     const useUs = us && (!de || us.scores.total >= de.scores.total);
     return { date: d, score: useUs ? us.scores.total : de.scores.total, id: useUs ? us.painId : null };

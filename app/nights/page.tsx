@@ -4,7 +4,7 @@ import NightCard from "@/components/NightCard";
 import { Timeline, TimelineNode } from "@/components/Timeline";
 import { StatCell } from "@/components/ui";
 import { IconChevronRight } from "@/components/icons";
-import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, NIGHTS, PITCHED, findIdea, ideasOfNight } from "@/lib/mock";
+import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, NIGHTS, PITCHED, briefOf, findIdea, ideasOfNight } from "@/lib/mock";
 import { NIGHTS_SINCE_WINNER, US_COMPLAINTS, US_WINNER_NOTE } from "@/lib/mock/derived";
 import { formatDate, shortDate, weekday, wk } from "@/lib/format";
 
@@ -41,9 +41,10 @@ export default function NightsPage() {
         <Timeline>
           {NIGHTS.map((n, i) => {
             const winner = n.builder.winnerPainId ? findIdea(n.builder.winnerPainId) ?? null : null;
+            const b = briefOf(n.date);
             return (
               <TimelineNode key={n.date} date={shortDate(n.date)} sub={weekday(n.date)} dot={i === 0 ? "latest" : "past"} last={false}>
-                <NightCard night={n} ideas={ideasOfNight(n.date)} winner={winner} />
+                <NightCard night={n} ideas={ideasOfNight(n.date)} winner={winner} fallback={b?.winnerRole === "fallback"} actions={b?.winnerPainId ? { date: n.date, demo: !!b.demo, validation: !!b.validation } : null} />
               </TimelineNode>
             );
           })}
@@ -81,11 +82,11 @@ export default function NightsPage() {
           <More title={`Pitched ideas (${PITCHED.length})`}>
             <ul className="space-y-3">
               {PITCHED.map((p) => (
-                <li key={p.pain_id} className="rounded-2xl bg-tile-2 p-4 text-[13px]">
-                  <div className="font-semibold text-zinc-50">{p.name} <span className="font-medium text-zinc-400">· {p.pain_id} · winner {shortDate(p.date)}</span></div>
+                <li key={`${p.date}-${p.pain_id}`} className="rounded-2xl bg-tile-2 p-4 text-[13px]">
+                  <div className="font-semibold text-zinc-50">{p.name} <span className="font-medium text-zinc-400">· {p.pain_id} · {p.winner ? "winner" : "pitched"} {shortDate(p.date)}</span></div>
                   <p className="mt-1.5 leading-relaxed text-zinc-300">{p.core_feature}</p>
-                  <p className="mt-1.5 text-zinc-400">{p.user} · <span className="font-mono text-[12px]">{p.poc}</span></p>
-                  <p className="mt-1.5 text-[#fca5a5]">{p.laterStatus ?? "pitched"}</p>
+                  <p className="mt-1.5 text-zinc-400">{p.user}{p.poc ? <> · <span className="font-mono text-[12px]">{p.poc}</span></> : null}</p>
+                  {p.laterStatus ? <p className="mt-1.5 text-[#fca5a5]">{p.laterStatus}</p> : <p className="mt-1.5 text-zinc-400">{p.winner ? "Winner, private POC built" : "Pitched in the brief"}</p>}
                 </li>
               ))}
             </ul>

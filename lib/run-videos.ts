@@ -17,14 +17,29 @@ function load() {
 
 export const videoUrl = (v: RunVideo) => `${BASE}/videos/${encodeURIComponent(v.src)}`;
 
-/** The night's video, or null (also while loading). */
-export function useRunVideo(date: string | null | undefined): RunVideo | null {
-  const [v, setV] = useState<RunVideo | null>(null);
+/** The night's video: undefined while the manifest loads, null when the manifest doesn't list the date. */
+export function useRunVideoStatus(date: string | null | undefined): RunVideo | null | undefined {
+  const [v, setV] = useState<RunVideo | null | undefined>(undefined);
   useEffect(() => {
-    if (!date) return;
+    if (!date) { setV(null); return; }
     let live = true;
     load().then((m) => live && setV(m.get(date) ?? null));
     return () => { live = false; };
   }, [date]);
   return v;
+}
+
+/** The night's video, or null (also while loading). */
+export function useRunVideo(date: string | null | undefined): RunVideo | null {
+  return useRunVideoStatus(date) ?? null;
+}
+
+/** Scroll to the night's run-video player on this page and start it. False when the page has no player for that date. */
+export function playRunVideo(date: string): boolean {
+  const el = document.querySelector<HTMLElement>(`[data-run-video="${date}"]`);
+  const video = el?.querySelector("video");
+  if (!el || !video) return false;
+  el.scrollIntoView({ behavior: "smooth", block: "center" });
+  video.play().catch(() => video.focus());
+  return true;
 }

@@ -32,9 +32,14 @@ import ValidateTab from "./validate/ValidateTab";
 import ReportTab from "./validate/ReportTab";
 import { IconArrowLeft, IconChevronRight, IconExternal, IconLock } from "./icons";
 import MockedPill from "./MockedPill";
+import NightActions, { type NightActionsData } from "./night/NightActions";
 
 /** winner: this idea is the night's winner (incl. a fallback winner), so its page shows the run video. */
-export type RunInfo = { date: string; label: string | null; line: string; note: string | null; winner: boolean; ideas: { id: string; title: string; score: number }[] };
+export type RunInfo = { date: string; label: string | null; line: string; note: string | null; winner: boolean; ideas: { id: string; title: string; score: number }[];
+  /** Video / demo / validation pills, only on the page of that night's winner. */
+  actions?: NightActionsData | null;
+  /** Role in that night's brief (25 Oct on). */
+  role?: "winner" | "fallback" | "pitched" | null };
 
 const TABS = ["evidence", "validate", "report"];
 const VERDICT_WORD = { winner: "Winner", "near-miss": "Near-miss", killed: "Killed", "below-bar": "Below the bar" } as const;
@@ -63,6 +68,7 @@ export default function IdeaPage({ idea, run }: { idea: Idea; run: RunInfo }) {
             <h1 className="min-w-0 break-words text-[28px] font-semibold leading-tight tracking-tight text-zinc-50 sm:text-[34px]">{title}</h1>
             {validates && (loaded ? <StatusPill stage={stageOf(v)} /> : <span className="h-5 w-16 animate-pulse rounded-full bg-white/[0.06]" />)}
           </div>
+          {run.actions && <NightActions a={run.actions} size="md" className="mt-3" />}
           <p className="mt-1.5 max-w-2xl text-[15px] leading-relaxed text-zinc-300">{idea.pitch ?? idea.who}</p>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {idea.demo ? <MockedPill label="Mocked winner" /> : idea.verdict === "winner" ? <Tag warm>Winner</Tag> : null}
@@ -71,8 +77,13 @@ export default function IdeaPage({ idea, run }: { idea: Idea; run: RunInfo }) {
             {idea.verdict === "near-miss" && vetoTag(idea) && <span title={vetoTag(idea)!.title} className="cursor-help"><Tag>{vetoTag(idea)!.text}</Tag></span>}
             {idea.verdict === "near-miss" && failedGates(idea).map((g) => <span key={g.id} title={g.text}><Tag>Fails gate: {gateDef(g.id).label}</Tag></span>)}
             <Tag>{idea.painId}</Tag>
-            <Tag>Night {shortDate(idea.night)}</Tag>
+            {run.date !== idea.night ? <><Tag>{run.role === "pitched" ? "Pitched" : run.role ? "Built" : "Night"} {shortDate(run.date)}</Tag><Tag>Found {shortDate(idea.night)}</Tag></> : <Tag>Night {shortDate(idea.night)}</Tag>}
           </div>
+          {idea.aka?.length ? (
+            <p className="mt-2.5 text-[12.5px] text-zinc-400" data-aka>
+              Same pain, re-scored and pitched again: {idea.aka.map((a, k) => <span key={a.name}>{k ? ", " : ""}<span className="font-semibold text-zinc-300">{a.name}</span> in the {shortDate(a.night)} brief</span>)}. Its {shortDate(idea.night)} night still lists it under that name.
+            </p>
+          ) : null}
         </div>
         <Metrics idea={idea} run={run} v={v} loaded={loaded} validates={validates} />
       </div>
@@ -87,8 +98,8 @@ export default function IdeaPage({ idea, run }: { idea: Idea; run: RunInfo }) {
       <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`} className="space-y-4">
         {tab !== "evidence" && idea.demo && <Callout tone="amber" title={<span className="inline-flex flex-wrap items-center gap-2"><MockedPill />This idea did not pass</span>}>{idea.demo.banner.replace(/^Mocked: this idea did not pass\. /, "")}</Callout>}
         {tab === "evidence" && <Evidence idea={idea} run={run} />}
-        {tab === "validate" && (validates ? <ValidateTab idea={idea} v={v} setV={setV} loaded={loaded} goReport={() => select("report")} /> : <Locked idea={idea} />)}
-        {tab === "report" && (validates ? <ReportTab idea={idea} v={v} loaded={loaded} goValidate={() => select("validate")} /> : <Locked idea={idea} />)}
+        {tab === "validate" && (validates ? <ValidateTab idea={idea} v={v} setV={setV} loaded={loaded} goReport={() => select("report")} /> : <Locked idea={idea} run={run} />)}
+        {tab === "report" && (validates ? <ReportTab idea={idea} v={v} loaded={loaded} goValidate={() => select("validate")} /> : <Locked idea={idea} run={run} />)}
       </div>
     </div>
   );
@@ -144,14 +155,19 @@ function Metrics({ idea, run, v, loaded, validates }: { idea: Idea; run: RunInfo
   );
 }
 
-function Locked({ idea }: { idea: Idea }) {
+function Locked({ idea, run }: { idea: Idea; run: RunInfo }) {
   return (
     <Card className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
       <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-tile-2 text-zinc-300"><IconLock size={18} /></div>
       <div className="min-w-0 flex-1">
         <h3 className="text-[15px] font-semibold text-zinc-50">Only the night&apos;s winner is validated</h3>
-        <p className="mt-0.5 text-[13px] text-zinc-400">This pain is {VERDICT_WORD[idea.verdict].toLowerCase()} ({idea.scores.total}/{RULES.maxScore}). The pipeline never builds a landing page or ad kit for it.</p>
+        {run.actions?.validation ? (
+          <p className="mt-0.5 text-[13px] text-zinc-400">This pain is the {shortDate(run.date)} fallback ({idea.scores.total}/{RULES.maxScore}, below the bar). The brief proposes a validation page, but it is not built and nothing is live.</p>
+        ) : (
+          <p className="mt-0.5 text-[13px] text-zinc-400">This pain is {VERDICT_WORD[idea.verdict].toLowerCase()} ({idea.scores.total}/{RULES.maxScore}). The pipeline never builds a landing page or ad kit for it.</p>
+        )}
       </div>
+      {run.actions?.validation && <Link href={`/validation/${run.date}/`} className="inline-flex h-9 shrink-0 items-center rounded-full bg-accent-pale px-4 text-[13px] font-semibold text-[#2a1f6b] transition-colors hover:bg-white">See the proposal</Link>}
     </Card>
   );
 }

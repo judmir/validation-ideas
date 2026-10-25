@@ -10,7 +10,7 @@ const STATUS_CLS: Record<StepStatus, string> = {
 };
 
 /** The 4 nightly steps with fixed times and done/skipped/failed state. */
-export function StepPills({ steps }: { steps: NightRun["steps"] }) {
+export function StepPills({ steps, times = STEP_TIMES }: { steps: NightRun["steps"]; times?: NightRun["times"] }) {
   return (
     <ol className="grid grid-cols-2 gap-1.5 sm:grid-cols-4" aria-label="Night steps">
       {STEP_ORDER.map((k) => {
@@ -24,7 +24,7 @@ export function StepPills({ steps }: { steps: NightRun["steps"] }) {
               <span className="truncate text-[12px] font-semibold text-zinc-100">{STEP_LABEL[k]}</span>
             </div>
             <div className="mt-1 flex items-baseline gap-1.5 text-[11px]">
-              <span className="font-semibold tabular-nums text-zinc-300">{STEP_TIMES[k]}</span>
+              <span className="font-semibold tabular-nums text-zinc-300">{(times ?? STEP_TIMES)[k]}</span>
               <span className={s === "failed" ? "text-[#fca5a5]" : "text-zinc-400"}>{s}</span>
             </div>
           </li>

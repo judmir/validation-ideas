@@ -13,11 +13,12 @@ import { useSearch } from "./Search";
 import { StageMeter, StatCell, StatusPill } from "./ui";
 import { IconChevronRight } from "./icons";
 import MockedPill from "./MockedPill";
+import NightActions, { type NightActionsData } from "./night/NightActions";
 
 export type PainRow = { id: string; title: string; sub: string; score: number; verdict: PipelineVerdict; veto: boolean; vetoTag?: { text: string; title: string } | null; demandSignal?: boolean; fallback?: boolean; demo: boolean; rank: number; linkable: boolean; pitched?: boolean;
   /** Failed gates (label + raw pains.json text), shown as a "Fails gate" tag on near-misses. */
   failedGates: { label: string; text: string }[] };
-export type NightMeta = { date: string; label: string | null; line: string; pains: PainRow[] };
+export type NightMeta = { date: string; label: string | null; line: string; pains: PainRow[]; actions?: (NightActionsData & { winnerId: string }) | null };
 export type LegacyNight = { date: string; label: string; note: string; pains: PainRow[] };
 export type TestMeta = { id: string; initial: ValidationState; budgetEur: number };
 export type Stats = { pains: number; runs: number; sinceWinner: number; usWinnerNote: string | null; best: { score: number; id: string }; complaints: number; lastWinner: string };
@@ -66,7 +67,7 @@ export default function ScoutTimeline({ nights, legacy, tests, stats, chart }: {
               const sub = n.date === today ? "Today" : weekday(n.date);
               return (
                 <Node key={n.date} date={shortDate(n.date)} sub={live ? `${sub} · live` : n.label ? `${sub} · ${n.label}` : sub} accent={live || sub === "Today"} dot={live ? "running" : i === 0 && !query ? "latest" : "past"} last={i === shown.length - 1 && !legacyShown.length}>
-                  <NightBlock line={n.line} all={n.pains} shown={pains} t={t} loaded={loaded} expandAll={!!query} />
+                  <NightBlock line={n.line} all={n.pains} shown={pains} t={t} loaded={loaded} expandAll={!!query} actions={n.actions && n.actions.winnerId === top.id ? n.actions : null} />
                   <RunVideo date={n.date} className="mt-3" />
                 </Node>
               );
@@ -136,7 +137,7 @@ function testLine(v: ValidationState, budget: number): ReactNode {
 }
 
 /** Night body, same shape everywhere: header + summary, #1 as the TOP PICK card, #2 and #3 as quiet rows, the rest behind "+N more". */
-function NightBlock({ line, all, shown, t, loaded, expandAll }: { line: string; all: PainRow[]; shown: PainRow[]; t: { v: ValidationState; budget: number } | null; loaded: boolean; expandAll: boolean }) {
+function NightBlock({ line, all, shown, t, loaded, expandAll, actions = null }: { line: string; all: PainRow[]; shown: PainRow[]; t: { v: ValidationState; budget: number } | null; loaded: boolean; expandAll: boolean; actions?: NightActionsData | null }) {
   const top = all[0];
   const rest = shown.filter((x) => x !== top);
   const near = rest.filter((x) => x.rank <= 3);
@@ -148,7 +149,7 @@ function NightBlock({ line, all, shown, t, loaded, expandAll }: { line: string; 
         <p className="mt-0.5 line-clamp-2 text-[13px] leading-snug text-zinc-400">{line}</p>
       </div>
       <div className="mt-3 space-y-2">
-        {shown.includes(top) && <TopCard row={top} t={t} loaded={loaded} />}
+        {shown.includes(top) && <TopCard row={top} t={t} loaded={loaded} actions={actions} />}
         {(near.length > 0 || more.length > 0) && (
           <ul className="divide-y divide-white/[0.06] overflow-hidden rounded-2xl border border-white/[0.07]">
             {near.map((p) => <li key={p.id}><RunnerUp row={p} /></li>)}
@@ -209,7 +210,7 @@ function reasonOf(r: PainRow) {
 
 /** #1 of the night. Passed (or the DinnerList simulated winner): status pill + step meter, Demo + Validation/Report.
  *  Not passed: identical layout, a quiet reason chip in the pill slot and an Evidence pill. */
-function TopCard({ row, t, loaded }: { row: PainRow; t: { v: ValidationState; budget: number } | null; loaded: boolean }) {
+function TopCard({ row, t, loaded, actions = null }: { row: PainRow; t: { v: ValidationState; budget: number } | null; loaded: boolean; actions?: NightActionsData | null }) {
   const href = `/idea/${row.id}/`;
   const ok = passed(row) && !!t;
   const stage = ok && t ? stageOf(t.v) : null;
@@ -243,9 +244,10 @@ function TopCard({ row, t, loaded }: { row: PainRow; t: { v: ValidationState; bu
           <div className="mt-1 text-[11px] text-zinc-400">/ {RULES.maxScore}</div>
         </div>
       </div>
+      {actions && <NightActions a={actions} className="mt-3.5" />}
       <div className="mt-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-2.5 border-t border-white/[0.06] pt-3">
         <div className="min-w-0 text-[12px] text-zinc-400">
-          {ok && t ? (loaded ? <>{testLine(t.v, t.budget)}</> : "\u00a0") : row.pitched ? "Pitched as the night's winner, later killed by its stress test" : vetoedNear(row) && row.score >= RULES.passBar && !gateNear(row) ? `No demo · scored over the bar but ${VETOED_TITLE}` : `No demo · did not pass the bar (${RULES.passBar}, gates, veto)`}
+          {ok && t ? (loaded ? <>{testLine(t.v, t.budget)}</> : "\u00a0") : actions ? (row.fallback ? `Built as the night's private POC · nothing cleared the bar (${RULES.passBar})` : "Built as the night's private POC") : row.pitched ? "Pitched as the night's winner, later killed by its stress test" : vetoedNear(row) && row.score >= RULES.passBar && !gateNear(row) ? `No demo · scored over the bar but ${VETOED_TITLE}` : `No demo · did not pass the bar (${RULES.passBar}, gates, veto)`}
         </div>
         {!row.linkable && <ArchivedNote />}
         {row.linkable && (
