@@ -11,6 +11,16 @@ import json, os, re, sys
 from collections import Counter
 R=os.environ.get('VI_RESEARCH_DIR','/workspace/startup-research')
 REPO=os.environ.get('VI_REPO',os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Standalone apps (judmir/scout-apps gh-pages apps.json, written by scripts/publish-scout-apps.sh). A file path in
+# VI_SCOUT_APPS_JSON wins; otherwise the published apps.json from the local clone's origin/gh-pages; else none.
+def load_scout_apps():
+    import subprocess
+    f=os.environ.get('VI_SCOUT_APPS_JSON')
+    try:
+        txt=open(f).read() if f else subprocess.run(['git','-C',os.environ.get('SCOUT_APPS_DIR','/workspace/scout-apps'),'show','origin/gh-pages:apps.json'],capture_output=True,text=True,check=True).stdout
+        return {a['date']:a for a in json.loads(txt)['apps']}
+    except Exception: return {}
+SCOUT_APPS=load_scout_apps()
 # Nights before this are hand-written in lib/mock/nights.ts; from here on everything is parsed.
 IMPORT_FROM='2026-10-25'
 WANT=None
@@ -276,7 +286,8 @@ for f in sorted(glob.glob(f'{R}/briefs/*.md')):
                   intro=intro,rows=rows,shots=shots)
     BRIEFS.append(dict(date=date,briefPath=f'briefs/{date}.md',winnerPainId=winner['painId'] if winner else None,
                        winnerRole=winner['role'] if winner else None,
-                       ideas=[dict(painId=x['painId'],name=x['name'],role=x['role']) for x in pitched],demo=demo,validation=val))
+                       ideas=[dict(painId=x['painId'],name=x['name'],role=x['role']) for x in pitched],demo=demo,validation=val,
+                       apps=(lambda a: {k:a.get(k) for k in ('demo_url','landing_url','demo_reason','landing_reason')} if a else None)(SCOUT_APPS.get(date))))
 
 ideas=[]
 for p in pains:

@@ -376,6 +376,12 @@ export const BRIEFS: NightBrief[] = [
    "minVisitors": 100,
    "killPct": 1,
    "strongPct": 3
+  },
+  "apps": {
+   "demo_url": "https://judmir.github.io/scout-apps/2026-10-25-cardbox/demo/",
+   "landing_url": "https://judmir.github.io/scout-apps/2026-10-25-cardbox/landing/",
+   "demo_reason": null,
+   "landing_reason": null
   }
  }
 ];

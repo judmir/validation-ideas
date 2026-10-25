@@ -166,4 +166,6 @@ export type NightBrief = {
   demo: null | { title: string; label: string; private: boolean; pocPath: string; intro: string | null; rows: { piece: string; status: ShotStatus; text: string }[]; shots: DemoShot[] };
   /** The validation page is only proposed in the brief, never built or published. */
   validation: null | { status: "proposal"; heading: string; markdown: string; test: string | null; budgetEur: { min: number; max: number } | null; minVisitors: number | null; killPct: number | null; strongPct: number | null };
+  /** Standalone apps on judmir/scout-apps (GitHub Pages), from its apps.json. A null URL comes with the reason. Null = not published. */
+  apps?: null | { demo_url: string | null; landing_url: string | null; demo_reason: string | null; landing_reason: string | null };
 };
