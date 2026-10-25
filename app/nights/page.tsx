@@ -4,7 +4,7 @@ import NightCard from "@/components/NightCard";
 import { Timeline, TimelineNode } from "@/components/Timeline";
 import { StatCell } from "@/components/ui";
 import { IconChevronRight } from "@/components/icons";
-import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, NIGHTS, PITCHED, briefOf, findIdea, ideasOfNight } from "@/lib/mock";
+import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, NIGHTS, PITCHED, actionsOf, briefOf, findIdea, ideasOfNight } from "@/lib/mock";
 import { NIGHTS_SINCE_WINNER, US_COMPLAINTS, US_WINNER_NOTE } from "@/lib/mock/derived";
 import { formatDate, shortDate, weekday, wk } from "@/lib/format";
 
@@ -44,7 +44,7 @@ export default function NightsPage() {
             const b = briefOf(n.date);
             return (
               <TimelineNode key={n.date} date={shortDate(n.date)} sub={weekday(n.date)} dot={i === 0 ? "latest" : "past"} last={false}>
-                <NightCard night={n} ideas={ideasOfNight(n.date)} winner={winner} fallback={b?.winnerRole === "fallback"} actions={b?.winnerPainId ? { date: n.date, demo: !!b.demo, validation: !!b.validation } : null} />
+                <NightCard night={n} ideas={ideasOfNight(n.date)} winner={winner} fallback={b?.winnerRole === "fallback"} actions={actionsOf(n.date)} />
               </TimelineNode>
             );
           })}

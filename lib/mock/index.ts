@@ -24,6 +24,18 @@ export const findIdea = (id: string) => ALL_IDEAS.find((x) => x.painId === id);
 export const ideasOfNight = (date: string) => ALL_IDEAS.filter((x) => x.night === date).sort((a, b) => b.scores.total - a.scores.total);
 /** The night's brief (25 Oct on), or undefined for older nights. */
 export const briefOf = (date: string) => BRIEFS.find((b) => b.date === date);
+
+/** The winner's pills: standalone apps on scout-apps (from apps.json, via gen-data) first, in-app pages as fallback. */
+export const actionsOf = (date: string) => {
+  const b = briefOf(date);
+  if (!b?.winnerPainId) return null;
+  const a = b.apps ?? null;
+  return {
+    date, demo: !!b.demo, validation: !!b.validation,
+    demoUrl: a?.demo_url ?? null, landingUrl: a?.landing_url ?? null,
+    demoReason: a?.demo_reason ?? null, landingReason: a?.landing_reason ?? null,
+  };
+};
 /** Ideas shown for a night: the brief's pitched ideas first (top = big card), then the pains found or re-scored that night, by score. */
 export function nightIdeas(date: string): Idea[] {
   const b = briefOf(date);

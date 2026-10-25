@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { ALL_IDEAS, NIGHTS, briefOf, findIdea, homeNight, nightIdeas } from "@/lib/mock";
+import { ALL_IDEAS, NIGHTS, actionsOf, briefOf, findIdea, homeNight, nightIdeas } from "@/lib/mock";
 import IdeaPage, { type RunInfo } from "@/components/IdeaPage";
 
 export const dynamicParams = false;
@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     winner: !idea.demo && (n.builder.winnerPainId === idea.painId || idea.verdict === "winner" || idea.fallback),
     line: `${n.scout.complaints} complaints + ${n.scout.provenModels} proven models · ${n.niches.join(" + ")} · ${n.analyst.survivors} survivors${n.builder.winnerPainId ? "" : ", no winner"}.`,
     ideas: nightIdeas(n.date).map((i) => ({ id: i.painId, title: i.name ?? i.label ?? i.painId, score: i.scores.total })),
-    actions: b?.winnerPainId === idea.painId ? { date: n.date, demo: !!b.demo, validation: !!b.validation } : null,
+    actions: b?.winnerPainId === idea.painId ? actionsOf(n.date) : null,
     role: b?.ideas.find((x) => x.painId === idea.painId)?.role ?? null,
   };
   return <IdeaPage idea={idea} run={run} />;

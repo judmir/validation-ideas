@@ -1,6 +1,6 @@
 import { vetoTag } from "@/lib/competition";
 import ScoutTimeline, { type LegacyNight, type NightMeta } from "@/components/ScoutTimeline";
-import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, NIGHTS, briefOf, findIdea, nightIdeas, titleOn } from "@/lib/mock";
+import { ALL_IDEAS, LAST_WINNER, LEGACY, LEGACY_NIGHTS, NIGHTS, actionsOf, briefOf, findIdea, nightIdeas, titleOn } from "@/lib/mock";
 import { BEST_THIS_WEEK, NIGHTS_SINCE_WINNER, US_COMPLAINTS, US_WINNER_NOTE } from "@/lib/mock/derived";
 import { TESTS } from "@/lib/mock/tests";
 import { shortDate } from "@/lib/format";
@@ -22,7 +22,7 @@ export default function Home() {
     return {
       date: n.date, label: n.label ?? null,
       line: `${n.scout.complaints} complaints + ${n.scout.provenModels} proven models · ${n.niches.join(" + ")}${win ? ` · ${brief!.winnerRole === "fallback" ? "fallback winner" : "winner"} ${win.name ?? win.painId}` : n.builder.winnerPainId ? "" : " · no winner"}.`,
-      actions: brief?.winnerPainId ? { date: n.date, demo: !!brief.demo, validation: !!brief.validation, winnerId: brief.winnerPainId } : null,
+      actions: brief?.winnerPainId ? { ...actionsOf(n.date)!, winnerId: brief.winnerPainId } : null,
       pains: ordered.map((i, k) => {
         const then = titleOn(i, n.date);
         const renamed = !!then && then !== i.name;

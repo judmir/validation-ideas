@@ -45,11 +45,14 @@ export default async function ValidationPage({ params }: { params: Promise<{ dat
         <Link href={`/idea/${b.winnerPainId}/`} className="inline-flex items-center gap-1.5 rounded-full text-[13px] font-semibold text-zinc-300 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-light"><IconArrowLeft size={14} /> {name}</Link>
         <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
           <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-zinc-50 sm:text-[34px]">{name} validation page</h1>
-          <span data-proposal-state className="inline-flex items-center gap-1.5 rounded-full bg-warm/15 px-3 py-1 text-[12.5px] font-semibold text-[#fdba74] ring-1 ring-inset ring-warm/35"><span className="h-1.5 w-1.5 rounded-full bg-warm" aria-hidden />Proposal, not built</span>
+          <span data-proposal-state className="inline-flex items-center gap-1.5 rounded-full bg-warm/15 px-3 py-1 text-[12.5px] font-semibold text-[#fdba74] ring-1 ring-inset ring-warm/35"><span className="h-1.5 w-1.5 rounded-full bg-warm" aria-hidden />{b.apps?.landing_url ? "Preview, not launched" : "Proposal, not built"}</span>
         </div>
         <p className="mt-1.5 max-w-2xl text-[15px] leading-relaxed text-zinc-300">
-          The two-button test page the {formatDate(date)} brief proposes for {name}. It is content only: no page is built, no ad runs, no signup or checkout exists, and nothing here is live.
+          {b.apps?.landing_url
+            ? <>The two-button test page the {formatDate(date)} brief proposes for {name}. A standalone preview is up (not launched: no ads, no sign-up or checkout, clicks stay in your browser); this page keeps the full proposal and test plan.</>
+            : <>The two-button test page the {formatDate(date)} brief proposes for {name}. It is content only: no page is built, no ad runs, no signup or checkout exists, and nothing here is live.</>}
         </p>
+        {b.apps?.landing_url && <a href={b.apps.landing_url} target="_blank" rel="noopener" data-standalone="landing" className="mt-3 inline-flex h-9 items-center gap-1.5 rounded-full bg-accent-pale px-4 text-[13px] font-semibold text-[#2a1f6b] transition-colors hover:bg-white">Open the standalone preview <span aria-hidden className="opacity-70">↗</span></a>}
       </div>
 
       <section aria-label="Proposed test" className="grid grid-cols-2 gap-3 lg:grid-cols-4">

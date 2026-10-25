@@ -45,11 +45,12 @@ export default async function DemoPage({ params }: { params: Promise<{ date: str
         <h1 className="mt-5 text-[28px] font-semibold leading-tight tracking-tight text-zinc-50 sm:text-[34px]">{name} demo</h1>
         <p className="mt-1.5 max-w-2xl text-[15px] leading-relaxed text-zinc-300">
           The {formatDate(date)} POC as a walkthrough: {d.shots.length} screens, each at 390px (phone) and 1280px (desktop), dark mode.
-          {d.private ? " The app itself is in a private repo and runs only on the build box; it is not launched publicly." : ""}
+          {d.private ? (b.apps?.demo_url ? " The full app stays in a private repo; a static, mocked copy is clickable as the demo app (new tab)." : " The app itself is in a private repo and runs only on the build box; it is not launched publicly.") : ""}
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
+          {b.apps?.demo_url && <a href={b.apps.demo_url} target="_blank" rel="noopener" data-standalone="demo" className="inline-flex h-8 items-center gap-1.5 rounded-full bg-accent px-3.5 text-[12.5px] font-semibold text-accent-ink transition-colors hover:bg-accent-light">Open the demo app <span aria-hidden className="opacity-70">↗</span></a>}
           <Link href={`/idea/${b.winnerPainId}/`} className="inline-flex h-8 items-center rounded-full bg-white/[0.09] px-3.5 text-[12.5px] font-semibold text-zinc-50 ring-1 ring-inset ring-white/[0.08] transition-colors hover:bg-white/[0.15]">Idea page</Link>
-          {b.validation && <Link href={`/validation/${date}/`} className="inline-flex h-8 items-center rounded-full bg-accent-pale px-3.5 text-[12.5px] font-semibold text-[#2a1f6b] transition-colors hover:bg-white">Validation page (proposal)</Link>}
+          {b.apps?.landing_url ? <a href={b.apps.landing_url} target="_blank" rel="noopener" className="inline-flex h-8 items-center gap-1.5 rounded-full bg-accent-pale px-3.5 text-[12.5px] font-semibold text-[#2a1f6b] transition-colors hover:bg-white">Validation page <span aria-hidden className="opacity-70">↗</span></a> : b.validation && <Link href={`/validation/${date}/`} className="inline-flex h-8 items-center rounded-full bg-accent-pale px-3.5 text-[12.5px] font-semibold text-[#2a1f6b] transition-colors hover:bg-white">Validation page (proposal)</Link>}
           <span className="inline-flex h-8 items-center rounded-full px-1 text-[12px] text-zinc-400">Night {shortDate(date)} · {d.pocPath}</span>
         </div>
       </div>

@@ -161,13 +161,17 @@ function Locked({ idea, run }: { idea: Idea; run: RunInfo }) {
       <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-tile-2 text-zinc-300"><IconLock size={18} /></div>
       <div className="min-w-0 flex-1">
         <h3 className="text-[15px] font-semibold text-zinc-50">Only the night&apos;s winner is validated</h3>
-        {run.actions?.validation ? (
+        {run.actions?.landingUrl ? (
+          <p className="mt-0.5 text-[13px] text-zinc-400">This pain is the {shortDate(run.date)} fallback ({idea.scores.total}/{RULES.maxScore}, below the bar). The brief&apos;s validation page exists as a standalone preview only: not launched, no ads, no sign-ups.</p>
+        ) : run.actions?.validation ? (
           <p className="mt-0.5 text-[13px] text-zinc-400">This pain is the {shortDate(run.date)} fallback ({idea.scores.total}/{RULES.maxScore}, below the bar). The brief proposes a validation page, but it is not built and nothing is live.</p>
         ) : (
           <p className="mt-0.5 text-[13px] text-zinc-400">This pain is {VERDICT_WORD[idea.verdict].toLowerCase()} ({idea.scores.total}/{RULES.maxScore}). The pipeline never builds a landing page or ad kit for it.</p>
         )}
       </div>
-      {run.actions?.validation && <Link href={`/validation/${run.date}/`} className="inline-flex h-9 shrink-0 items-center rounded-full bg-accent-pale px-4 text-[13px] font-semibold text-[#2a1f6b] transition-colors hover:bg-white">See the proposal</Link>}
+      {run.actions?.landingUrl ? (
+        <a href={run.actions.landingUrl} target="_blank" rel="noopener" className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-accent-pale px-4 text-[13px] font-semibold text-[#2a1f6b] transition-colors hover:bg-white">Open the preview <span aria-hidden className="opacity-70">↗</span></a>
+      ) : run.actions?.validation && <Link href={`/validation/${run.date}/`} className="inline-flex h-9 shrink-0 items-center rounded-full bg-accent-pale px-4 text-[13px] font-semibold text-[#2a1f6b] transition-colors hover:bg-white">See the proposal</Link>}
     </Card>
   );
 }
