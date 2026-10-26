@@ -44,7 +44,7 @@ export type GateKey = "consumer_subscription" | "us_entry";
 export type GateResult = { result: "pass" | "weak-pass" | "borderline" | "fail" | "not-assessed"; text: string };
 
 export type QuoteRef = { quote: string; who: string; link: string };
-export type Competitor = { name: string; url: string | null; price: string; price_source: string | null; loves: QuoteRef[]; hates: QuoteRef[]; loves_hates_note?: string; user_reviews?: string; ratings?: string; funding: string };
+export type Competitor = { name: string; url: string | null; price: string; price_source: string | null; loves: QuoteRef[]; hates: QuoteRef[]; loves_hates_note?: string; user_reviews?: string; ratings?: string; note?: string; funding: string; [extra: string]: unknown };
 
 export type PlcStage = "introduction" | "growth" | "maturity" | "decline";
 export type PlcVerdict = "yes" | "maybe" | "no";
